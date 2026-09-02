@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import Product from '../models/Product.js';
 
 // Get all products (with filters)
@@ -8,7 +9,7 @@ export const getProducts = async (req, res) => {
     let query = {};
 
     // Category filter
-    if (category) {
+    if (category && category !== 'All') {
       query.category = category;
     }
 
@@ -52,6 +53,13 @@ export const getProducts = async (req, res) => {
 // Get single product
 export const getProductById = async (req, res) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(404).json({
+        success: false,
+        message: 'Product not found'
+      });
+    }
+
     const product = await Product.findById(req.params.id);
 
     if (!product) {
@@ -94,6 +102,13 @@ export const createProduct = async (req, res) => {
 // Update product (Admin only)
 export const updateProduct = async (req, res) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(404).json({
+        success: false,
+        message: 'Product not found'
+      });
+    }
+
     const product = await Product.findById(req.params.id);
 
     if (!product) {
@@ -125,6 +140,13 @@ export const updateProduct = async (req, res) => {
 // Delete product (Admin only)
 export const deleteProduct = async (req, res) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(404).json({
+        success: false,
+        message: 'Product not found'
+      });
+    }
+
     const product = await Product.findById(req.params.id);
 
     if (!product) {

@@ -1,4 +1,4 @@
-// Product Images - Tumhari assets se import
+// Product Images
 import necklace1 from '../assets/images/products/necklace-1.jpg';
 import necklace2 from '../assets/images/products/necklace-2.jpg';
 import earring1 from '../assets/images/products/earring-1.jpg';
@@ -21,7 +21,7 @@ import heroBg from '../assets/images/hero-bg.jpg';
 
 export const productsData = [
   {
-    _id: '1',
+    _id: '65f2a1b2c3d4e5f600000001',
     name: 'Solitaire Pendant Necklace',
     description: 'Elegant solitaire diamond pendant set in 22K gold. Perfect for special occasions and everyday luxury.',
     price: 12900,
@@ -38,7 +38,7 @@ export const productsData = [
     createdAt: '2026-01-15'
   },
   {
-    _id: '2',
+    _id: '65f2a1b2c3d4e5f600000002',
     name: 'Classic Hoop Earrings',
     description: 'Timeless gold hoop earrings with a sleek finish. Lightweight and comfortable for all-day wear.',
     price: 8900,
@@ -55,7 +55,7 @@ export const productsData = [
     createdAt: '2026-01-18'
   },
   {
-    _id: '3',
+    _id: '65f2a1b2c3d4e5f600000003',
     name: 'Dainty Stack Ring',
     description: 'Minimalist gold stacking ring with a delicate design. Perfect for everyday wear or special occasions.',
     price: 5900,
@@ -73,7 +73,7 @@ export const productsData = [
     createdAt: '2026-01-20'
   },
   {
-    _id: '4',
+    _id: '65f2a1b2c3d4e5f600000004',
     name: 'Tennis Bracelet',
     description: 'Stunning tennis bracelet with sparkling diamonds set in 22K gold. A true statement piece.',
     price: 14900,
@@ -90,7 +90,7 @@ export const productsData = [
     createdAt: '2026-01-22'
   },
   {
-    _id: '5',
+    _id: '65f2a1b2c3d4e5f600000005',
     name: 'Infinity Knot Ring',
     description: 'Beautiful infinity knot ring crafted in 22K gold. Symbolizes eternal love and commitment.',
     price: 7900,
@@ -108,7 +108,7 @@ export const productsData = [
     createdAt: '2026-01-25'
   },
   {
-    _id: '6',
+    _id: '65f2a1b2c3d4e5f600000006',
     name: 'Pearl Drop Earrings',
     description: 'Elegant pearl drop earrings with a gold setting. Perfect for bridal wear and formal events.',
     price: 9900,
@@ -125,7 +125,7 @@ export const productsData = [
     createdAt: '2026-01-28'
   },
   {
-    _id: '7',
+    _id: '65f2a1b2c3d4e5f600000007',
     name: 'Gold Chain Necklace',
     description: 'Classic gold chain necklace with a delicate link design. A versatile piece for any jewelry collection.',
     price: 4500,
@@ -142,7 +142,7 @@ export const productsData = [
     createdAt: '2026-02-01'
   },
   {
-    _id: '8',
+    _id: '65f2a1b2c3d4e5f600000008',
     name: 'Diamond Stud Earrings',
     description: 'Classic diamond stud earrings in 22K gold setting. Timeless elegance for any occasion.',
     price: 19900,
@@ -159,7 +159,7 @@ export const productsData = [
     createdAt: '2026-02-05'
   },
   {
-    _id: '9',
+    _id: '65f2a1b2c3d4e5f600000009',
     name: 'Gold Bangles Set',
     description: 'Set of 3 elegant gold bangles with a traditional design. Perfect for weddings and festive occasions.',
     price: 15900,
@@ -176,7 +176,7 @@ export const productsData = [
     createdAt: '2026-02-10'
   },
   {
-    _id: '10',
+    _id: '65f2a1b2c3d4e5f600000010',
     name: 'Ruby Pendant Necklace',
     description: 'Exquisite ruby pendant surrounded by diamonds in a 22K gold setting. A true treasure.',
     price: 24900,
@@ -193,7 +193,7 @@ export const productsData = [
     createdAt: '2026-02-15'
   },
   {
-    _id: '11',
+    _id: '65f2a1b2c3d4e5f600000011',
     name: 'Gold Cuff Bracelet',
     description: 'Modern gold cuff bracelet with a sleek, minimalist design. Adds sophistication to any outfit.',
     price: 6900,
@@ -210,7 +210,7 @@ export const productsData = [
     createdAt: '2026-02-20'
   },
   {
-    _id: '12',
+    _id: '65f2a1b2c3d4e5f600000012',
     name: 'Emerald Drop Earrings',
     description: 'Stunning emerald drop earrings with a gold finish. Perfect for making a statement.',
     price: 17900,

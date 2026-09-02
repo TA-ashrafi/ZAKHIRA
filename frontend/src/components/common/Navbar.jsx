@@ -64,6 +64,7 @@ const Navbar = () => {
               </Link>
             )}
             <Link to="/shop" className="hover:text-zakhira-gold transition">HELP & FAQ</Link>
+            <Link to="/track-order" className="hover:text-zakhira-gold transition">TRACK ORDER</Link>
             <Link to={isAuthenticated ? "/profile" : "/login"} className="hover:text-zakhira-gold transition">
               {isAuthenticated ? "MY ACCOUNT" : "LOGIN"}
             </Link>
