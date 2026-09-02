@@ -11,6 +11,7 @@ import cartRoutes from './routes/cart.routes.js';
 import wishlistRoutes from './routes/wishlist.routes.js';
 import orderRoutes from './routes/order.routes.js';
 import uploadRoutes from './routes/upload.routes.js';
+import couponRoutes from './routes/coupon.routes.js';
 
 dotenv.config();
 
@@ -34,6 +35,7 @@ app.use('/api/cart', cartRoutes);
 app.use('/api/wishlist', wishlistRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/coupons', couponRoutes);
 
 // ========== TEST ROUTE ==========
 app.get('/', (req, res) => {
@@ -69,7 +71,7 @@ app.get('/api', (req, res) => {
         add: 'POST /api/cart/add',
         update: 'PUT /api/cart/update',
         remove: 'DELETE /api/cart/remove/:productId',
-        clear: 'DELETE /api/cart/clear'
+        clear: 'DELETE /api/clear'
       },
       wishlist: {
         get: 'GET /api/wishlist',
@@ -85,6 +87,12 @@ app.get('/api', (req, res) => {
       },
       upload: {
         image: 'POST /api/upload/image (Admin)'
+      },
+      coupons: {
+        create: 'POST /api/coupons (Admin)',
+        all: 'GET /api/coupons (Admin)',
+        apply: 'POST /api/coupons/apply',
+        delete: 'DELETE /api/coupons/:id (Admin)'
       }
     }
   });

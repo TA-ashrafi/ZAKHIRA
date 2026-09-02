@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ShieldCheck, CreditCard, Banknote, Building, QrCode } from 'lucide-react';
+import { ShieldCheck, CreditCard, Banknote, Building, QrCode, Tag, Check, X } from 'lucide-react';
 import useCart from '../hooks/useCart';
 import useAuth from '../hooks/useAuth';
 import orderService from '../services/order.service';
+import couponService from '../services/coupon.service';
 import toast from 'react-hot-toast';
 
 const Checkout = () => {
@@ -25,9 +26,36 @@ const Checkout = () => {
   });
 
   const [paymentMethod, setPaymentMethod] = useState('COD');
+  const [couponCode, setCouponCode] = useState('');
+  const [appliedCoupon, setAppliedCoupon] = useState(null);
+  const [couponLoading, setCouponLoading] = useState(false);
 
+  const discountAmount = appliedCoupon ? Math.round((subtotal * appliedCoupon.discountPercentage) / 100) : 0;
   const shippingFee = subtotal > 999 || subtotal === 0 ? 0 : 150;
-  const grandTotal = subtotal + shippingFee;
+  const grandTotal = Math.max(0, subtotal - discountAmount + shippingFee);
+
+  const handleApplyCoupon = async (e) => {
+    e.preventDefault();
+    if (!couponCode.trim()) return;
+    setCouponLoading(true);
+    try {
+      const res = await couponService.applyCoupon({ code: couponCode, cartTotal: subtotal });
+      if (res.success && res.data) {
+        setAppliedCoupon(res.data);
+        toast.success(`Coupon "${res.data.code}" applied! (${res.data.discountPercentage}% OFF)`);
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Invalid or expired coupon');
+    } finally {
+      setCouponLoading(false);
+    }
+  };
+
+  const handleRemoveCoupon = () => {
+    setAppliedCoupon(null);
+    setCouponCode('');
+    toast.success('Coupon removed');
+  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -273,11 +301,58 @@ const Checkout = () => {
                 })}
               </div>
 
-              <div className="border-t border-gray-100 pt-3 space-y-2 text-xs text-gray-600 mb-6">
+              {/* Promo Coupon Section */}
+              <div className="border-t border-b border-gray-100 py-3 mb-4">
+                <label className="block text-xs font-bold text-gray-700 mb-1 flex items-center gap-1.5">
+                  <Tag className="w-3.5 h-3.5 text-zakhira-gold" /> Promo Code / Coupon
+                </label>
+                {appliedCoupon ? (
+                  <div className="flex items-center justify-between bg-emerald-50 border border-emerald-200 p-2 rounded text-xs">
+                    <div className="flex items-center gap-1.5 text-emerald-800 font-semibold">
+                      <Check className="w-4 h-4 text-emerald-600" />
+                      <span>{appliedCoupon.code}</span>
+                      <span className="text-[10px] text-emerald-600">({appliedCoupon.discountPercentage}% OFF)</span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleRemoveCoupon}
+                      className="text-red-500 hover:text-red-700 text-xs p-1"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex gap-2 text-xs">
+                    <input
+                      type="text"
+                      value={couponCode}
+                      onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                      placeholder="e.g. ZAKHIRA10"
+                      className="flex-1 px-2.5 py-1.5 border border-gray-300 rounded uppercase focus:outline-none focus:ring-1 focus:ring-zakhira-gold"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleApplyCoupon}
+                      disabled={couponLoading || !couponCode.trim()}
+                      className="bg-zakhira-gold text-white px-3 py-1.5 rounded font-semibold hover:bg-opacity-90 disabled:opacity-50 transition"
+                    >
+                      {couponLoading ? 'Checking...' : 'Apply'}
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              <div className="space-y-2 text-xs text-gray-600 mb-6">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
                   <span className="font-semibold text-gray-900">₹{subtotal.toLocaleString()}</span>
                 </div>
+                {appliedCoupon && (
+                  <div className="flex justify-between text-emerald-600 font-medium">
+                    <span>Discount ({appliedCoupon.discountPercentage}%)</span>
+                    <span>-₹{discountAmount.toLocaleString()}</span>
+                  </div>
+                )}
                 <div className="flex justify-between">
                   <span>Insured Shipping</span>
                   <span className="font-semibold text-emerald-600">{shippingFee === 0 ? 'FREE' : `₹${shippingFee}`}</span>

@@ -6,6 +6,7 @@ import {
   PlusCircle, 
   ShoppingBag, 
   Users, 
+  Tag,
   ArrowLeft, 
   LogOut,
   Menu,
@@ -26,6 +27,7 @@ const AdminLayout = () => {
     { name: 'Add Product', path: '/admin/add-product', icon: PlusCircle },
     { name: 'Orders', path: '/admin/orders', icon: ShoppingBag },
     { name: 'Users', path: '/admin/users', icon: Users },
+    { name: 'Coupons', path: '/admin/coupons', icon: Tag },
   ];
 
   return (

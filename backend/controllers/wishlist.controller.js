@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import Wishlist from '../models/Wishlist.js';
 import Product from '../models/Product.js';
 
@@ -26,6 +27,13 @@ export const getWishlist = async (req, res) => {
 export const addToWishlist = async (req, res) => {
   try {
     const { productId } = req.body;
+
+    if (!productId || !mongoose.Types.ObjectId.isValid(productId)) {
+      return res.status(404).json({
+        success: false,
+        message: 'Invalid product ID'
+      });
+    }
 
     const product = await Product.findById(productId);
     if (!product) {
@@ -70,6 +78,13 @@ export const addToWishlist = async (req, res) => {
 export const removeFromWishlist = async (req, res) => {
   try {
     const { productId } = req.params;
+
+    if (!productId || !mongoose.Types.ObjectId.isValid(productId)) {
+      return res.status(404).json({
+        success: false,
+        message: 'Invalid product ID'
+      });
+    }
 
     let wishlist = await Wishlist.findOne({ user: req.user.id });
 

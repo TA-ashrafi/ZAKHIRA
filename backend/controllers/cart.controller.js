@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import Cart from '../models/Cart.js';
 import Product from '../models/Product.js';
 
@@ -26,6 +27,13 @@ export const getCart = async (req, res) => {
 export const addToCart = async (req, res) => {
   try {
     const { productId, quantity = 1 } = req.body;
+
+    if (!productId || !mongoose.Types.ObjectId.isValid(productId)) {
+      return res.status(404).json({
+        success: false,
+        message: 'Invalid product ID'
+      });
+    }
 
     // Check if product exists
     const product = await Product.findById(productId);
@@ -82,6 +90,13 @@ export const updateCartItem = async (req, res) => {
   try {
     const { productId, quantity } = req.body;
 
+    if (!productId || !mongoose.Types.ObjectId.isValid(productId)) {
+      return res.status(404).json({
+        success: false,
+        message: 'Invalid product ID'
+      });
+    }
+
     if (quantity < 1) {
       return res.status(400).json({
         success: false,
@@ -130,6 +145,13 @@ export const updateCartItem = async (req, res) => {
 export const removeFromCart = async (req, res) => {
   try {
     const { productId } = req.params;
+
+    if (!productId || !mongoose.Types.ObjectId.isValid(productId)) {
+      return res.status(404).json({
+        success: false,
+        message: 'Invalid product ID'
+      });
+    }
 
     let cart = await Cart.findOne({ user: req.user.id });
 

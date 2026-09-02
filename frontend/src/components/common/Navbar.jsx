@@ -64,6 +64,7 @@ const Navbar = () => {
               </Link>
             )}
             <Link to="/shop" className="hover:text-zakhira-gold transition">HELP & FAQ</Link>
+            <Link to="/track-order" className="hover:text-zakhira-gold transition">TRACK ORDER</Link>
             <Link to={isAuthenticated ? "/profile" : "/login"} className="hover:text-zakhira-gold transition">
               {isAuthenticated ? "MY ACCOUNT" : "LOGIN"}
             </Link>
@@ -247,6 +248,13 @@ const Navbar = () => {
                     👑 ADMIN PANEL
                   </Link>
                 )}
+                <Link 
+                  to="/track-order" 
+                  className="text-xs font-medium text-gray-700 py-1"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  📦 TRACK ORDER
+                </Link>
                 <Link 
                   to="/wishlist" 
                   className="text-xs font-medium text-gray-700 py-1"
