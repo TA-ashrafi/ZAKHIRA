@@ -19,6 +19,12 @@ import Register from './pages/Register';
 import Profile from './pages/Profile';
 import Wishlist from './pages/Wishlist';
 import TrackOrder from './pages/TrackOrder';
+import About from './pages/About';
+import OurStory from './pages/OurStory';
+import Craftsmanship from './pages/Craftsmanship';
+import Sustainability from './pages/Sustainability';
+import StoreLocator from './pages/StoreLocator';
+import Careers from './pages/Careers';
 
 // Admin Components & Pages
 import AdminLayout from './components/admin/AdminLayout';
@@ -95,6 +101,12 @@ function App() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/wishlist" element={<Wishlist />} />
                 <Route path="/track-order" element={<TrackOrder />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/our-story" element={<OurStory />} />
+                <Route path="/craftsmanship" element={<Craftsmanship />} />
+                <Route path="/sustainability" element={<Sustainability />} />
+                <Route path="/store-locator" element={<StoreLocator />} />
+                <Route path="/careers" element={<Careers />} />
 
                 {/* Protected User Routes */}
                 <Route element={<ProtectedRoute />}>
