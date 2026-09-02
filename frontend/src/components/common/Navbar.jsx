@@ -97,13 +97,8 @@ const Navbar = () => {
                   key={link.name}
                   to={link.path}
                   className={`text-xs font-semibold tracking-[0.18em] uppercase hover:text-zakhira-gold transition ${
-<<<<<<< HEAD
-                    location.pathname + location.search === link.path 
-                      ? 'text-zakhira-gold border-b-2 border-zakhira-gold pb-1' 
-=======
                     location.pathname + location.search === link.path
                       ? 'text-zakhira-gold border-b-2 border-zakhira-gold pb-1'
->>>>>>> d5b6f8adeec5372282876a05334f56b752e3f245
                       : 'text-zakhira-dark'
                   }`}
                 >
@@ -151,7 +146,7 @@ const Navbar = () => {
                     className="flex items-center space-x-1.5 p-1 rounded-full hover:bg-gray-100 transition"
                   >
                     <div className="w-7 h-7 bg-zakhira-gold/20 border border-zakhira-gold text-zakhira-gold rounded-full flex items-center justify-center font-semibold text-xs uppercase">
-                      {user.name ? user.name[0] : 'U'}
+                      {user?.name ? user.name[0] : 'U'}
                     </div>
                   </button>
                 ) : (
@@ -162,17 +157,13 @@ const Navbar = () => {
 
                 {/* Dropdown Menu */}
                 {isAuthenticated && showUserDropdown && (
-<<<<<<< HEAD
-                  <div 
-=======
                   <div
->>>>>>> d5b6f8adeec5372282876a05334f56b752e3f245
                     className="absolute right-0 mt-2 w-48 bg-white border border-gray-100 rounded-md shadow-xl py-2 z-50 text-sm"
                     onMouseLeave={() => setShowUserDropdown(false)}
                   >
                     <div className="px-4 py-2 border-b border-gray-100">
-                      <p className="font-semibold text-gray-800 truncate">{user.name}</p>
-                      <p className="text-xs text-gray-400 truncate">{user.email}</p>
+                      <p className="font-semibold text-gray-800 truncate">{user?.name}</p>
+                      <p className="text-xs text-gray-400 truncate">{user?.email}</p>
                     </div>
 
                     {isAdmin && (
@@ -248,64 +239,39 @@ const Navbar = () => {
 
               <div className="border-t border-gray-100 pt-3 flex flex-col space-y-2">
                 {isAdmin && (
-<<<<<<< HEAD
                   <Link 
                     to="/admin" 
-=======
-                  <Link
-                    to="/admin"
->>>>>>> d5b6f8adeec5372282876a05334f56b752e3f245
                     className="text-xs font-bold text-zakhira-gold py-1"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     👑 ADMIN PANEL
                   </Link>
                 )}
-<<<<<<< HEAD
                 <Link 
                   to="/wishlist" 
-=======
-                <Link
-                  to="/wishlist"
->>>>>>> d5b6f8adeec5372282876a05334f56b752e3f245
                   className="text-xs font-medium text-gray-700 py-1"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   ❤️ WISHLIST ({wishlistCount})
                 </Link>
-<<<<<<< HEAD
                 <Link 
                   to="/cart" 
-=======
-                <Link
-                  to="/cart"
->>>>>>> d5b6f8adeec5372282876a05334f56b752e3f245
                   className="text-xs font-medium text-gray-700 py-1"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   🛍️ CART ({cartCount})
                 </Link>
                 {isAuthenticated ? (
-<<<<<<< HEAD
                   <Link 
                     to="/profile" 
-=======
-                  <Link
-                    to="/profile"
->>>>>>> d5b6f8adeec5372282876a05334f56b752e3f245
                     className="text-xs font-medium text-gray-700 py-1"
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    👤 MY ACCOUNT ({user.name})
+                    👤 MY ACCOUNT ({user?.name})
                   </Link>
                 ) : (
-<<<<<<< HEAD
                   <Link 
                     to="/login" 
-=======
-                  <Link
-                    to="/login"
->>>>>>> d5b6f8adeec5372282876a05334f56b752e3f245
                     className="text-xs font-medium text-zakhira-gold py-1"
                     onClick={() => setIsMenuOpen(false)}
                   >
