@@ -4,7 +4,8 @@ import {
   login, 
   getMe, 
   updateProfile,
-  getUsers
+  getUsers,
+  updateUserRole
 } from '../controllers/auth.controller.js';
 import { protect } from '../middleware/auth.middleware.js';
 import { admin } from '../middleware/admin.middleware.js';
@@ -16,5 +17,6 @@ router.post('/login', login);
 router.get('/me', protect, getMe);
 router.put('/profile', protect, updateProfile);
 router.get('/users', protect, admin, getUsers);
+router.put('/users/:id/role', protect, admin, updateUserRole);
 
 export default router;

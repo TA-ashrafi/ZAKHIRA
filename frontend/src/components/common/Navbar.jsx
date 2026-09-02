@@ -50,12 +50,17 @@ const Navbar = () => {
   return (
     <>
       {/* ===== TOP BAR ===== */}
-      <div className="bg-zakhira-dark text-white/80 text-xs py-2 hidden md:block">
+      <div className="bg-gradient-to-r from-zakhira-dark via-black to-zakhira-dark text-white/80 text-xs py-2 hidden md:block border-b border-zakhira-gold/20">
         <div className="container mx-auto px-4 flex justify-between items-center">
           <div className="flex items-center space-x-6">
-            <span className="tracking-wider font-light">FREE SHIPPING ON ORDERS OVER ₹999</span>
-            <span className="text-zakhira-gold">|</span>
-            <span className="text-zakhira-gold font-medium">10% OFF FIRST ORDER | CODE: ZAKHIRA10</span>
+            <span className="tracking-wider font-light flex items-center gap-1.5 text-[11px]">
+              <span className="w-1.5 h-1.5 rounded-full bg-zakhira-gold animate-pulse"></span>
+              LIVE GOLD RATE 24K: ₹7,450/g
+            </span>
+            <span className="text-zakhira-gold/40">|</span>
+            <span className="tracking-wider font-light">INSURED EXPRESS SHIPPING</span>
+            <span className="text-zakhira-gold/40">|</span>
+            <span className="text-zakhira-gold font-semibold tracking-wider">10% OFF FIRST ORDER: ZAKHIRA10</span>
           </div>
           <div className="flex items-center space-x-6 text-[11px] tracking-wider uppercase">
             {isAdmin && (
@@ -73,7 +78,7 @@ const Navbar = () => {
       </div>
 
       {/* ===== MAIN NAVBAR ===== */}
-      <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b shadow-sm">
+      <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-lg border-b border-zakhira-gold/20 shadow-md">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-20">
             {/* Mobile Menu Button */}
@@ -98,8 +103,8 @@ const Navbar = () => {
                   key={link.name}
                   to={link.path}
                   className={`text-xs font-semibold tracking-[0.18em] uppercase hover:text-zakhira-gold transition ${
-                    location.pathname + location.search === link.path 
-                      ? 'text-zakhira-gold border-b-2 border-zakhira-gold pb-1' 
+                    location.pathname + location.search === link.path
+                      ? 'text-zakhira-gold border-b-2 border-zakhira-gold pb-1'
                       : 'text-zakhira-dark'
                   }`}
                 >
@@ -158,7 +163,7 @@ const Navbar = () => {
 
                 {/* Dropdown Menu */}
                 {isAuthenticated && showUserDropdown && (
-                  <div 
+                  <div
                     className="absolute right-0 mt-2 w-48 bg-white border border-gray-100 rounded-md shadow-xl py-2 z-50 text-sm"
                     onMouseLeave={() => setShowUserDropdown(false)}
                   >
@@ -240,39 +245,46 @@ const Navbar = () => {
 
               <div className="border-t border-gray-100 pt-3 flex flex-col space-y-2">
                 {isAdmin && (
-                  <Link 
-                    to="/admin" 
+                  <Link
+                    to="/admin"
                     className="text-xs font-bold text-zakhira-gold py-1"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     👑 ADMIN PANEL
                   </Link>
                 )}
-                <Link 
-                  to="/wishlist" 
+                <Link
+                  to="/track-order"
+                  className="text-xs font-medium text-gray-700 py-1"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  📦 TRACK ORDER
+                </Link>
+                <Link
+                  to="/wishlist"
                   className="text-xs font-medium text-gray-700 py-1"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   ❤️ WISHLIST ({wishlistCount})
                 </Link>
-                <Link 
-                  to="/cart" 
+                <Link
+                  to="/cart"
                   className="text-xs font-medium text-gray-700 py-1"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   🛍️ CART ({cartCount})
                 </Link>
                 {isAuthenticated ? (
-                  <Link 
-                    to="/profile" 
+                  <Link
+                    to="/profile"
                     className="text-xs font-medium text-gray-700 py-1"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     👤 MY ACCOUNT ({user.name})
                   </Link>
                 ) : (
-                  <Link 
-                    to="/login" 
+                  <Link
+                    to="/login"
                     className="text-xs font-medium text-zakhira-gold py-1"
                     onClick={() => setIsMenuOpen(false)}
                   >

@@ -31,7 +31,7 @@ const OrderCard = ({ order }) => {
         <div className="flex flex-wrap items-center gap-6 text-xs text-gray-600">
           <div>
             <span className="text-gray-400 block uppercase font-medium text-[10px]">Order ID</span>
-            <span className="font-mono font-semibold text-gray-800">#{order._id?.slice(-8).toUpperCase()}</span>
+            <span className="font-mono font-semibold text-gray-800">#{String(order._id || '').slice(-8).toUpperCase()}</span>
           </div>
           <div>
             <span className="text-gray-400 block uppercase font-medium text-[10px]">Date</span>

@@ -12,7 +12,9 @@ export const createCoupon = async (req, res) => {
       });
     }
 
-    const existing = await Coupon.findOne({ code: code.toUpperCase() });
+    const formattedCode = String(code || '').trim().toUpperCase();
+
+    const existing = await Coupon.findOne({ code: formattedCode });
     if (existing) {
       return res.status(400).json({
         success: false,
@@ -21,7 +23,7 @@ export const createCoupon = async (req, res) => {
     }
 
     const coupon = await Coupon.create({
-      code: code.toUpperCase(),
+      code: formattedCode,
       discountPercentage: Number(discountPercentage),
       minPurchase: minPurchase ? Number(minPurchase) : 0,
       expiresAt: expiresAt ? new Date(expiresAt) : undefined,
@@ -69,8 +71,10 @@ export const applyCoupon = async (req, res) => {
       });
     }
 
+    const formattedCode = String(code || '').trim().toUpperCase();
+
     const coupon = await Coupon.findOne({
-      code: code.toUpperCase(),
+      code: formattedCode,
       isActive: true
     });
 
