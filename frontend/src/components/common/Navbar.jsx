@@ -103,8 +103,8 @@ const Navbar = () => {
                   key={link.name}
                   to={link.path}
                   className={`text-xs font-semibold tracking-[0.18em] uppercase hover:text-zakhira-gold transition ${
-                    location.pathname + location.search === link.path 
-                      ? 'text-zakhira-gold border-b-2 border-zakhira-gold pb-1' 
+                    location.pathname + location.search === link.path
+                      ? 'text-zakhira-gold border-b-2 border-zakhira-gold pb-1'
                       : 'text-zakhira-dark'
                   }`}
                 >
@@ -163,7 +163,7 @@ const Navbar = () => {
 
                 {/* Dropdown Menu */}
                 {isAuthenticated && showUserDropdown && (
-                  <div 
+                  <div
                     className="absolute right-0 mt-2 w-48 bg-white border border-gray-100 rounded-md shadow-xl py-2 z-50 text-sm"
                     onMouseLeave={() => setShowUserDropdown(false)}
                   >
@@ -245,8 +245,8 @@ const Navbar = () => {
 
               <div className="border-t border-gray-100 pt-3 flex flex-col space-y-2">
                 {isAdmin && (
-                  <Link 
-                    to="/admin" 
+                  <Link
+                    to="/admin"
                     className="text-xs font-bold text-zakhira-gold py-1"
                     onClick={() => setIsMenuOpen(false)}
                   >
@@ -267,24 +267,24 @@ const Navbar = () => {
                 >
                   ❤️ WISHLIST ({wishlistCount})
                 </Link>
-                <Link 
-                  to="/cart" 
+                <Link
+                  to="/cart"
                   className="text-xs font-medium text-gray-700 py-1"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   🛍️ CART ({cartCount})
                 </Link>
                 {isAuthenticated ? (
-                  <Link 
-                    to="/profile" 
+                  <Link
+                    to="/profile"
                     className="text-xs font-medium text-gray-700 py-1"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     👤 MY ACCOUNT ({user.name})
                   </Link>
                 ) : (
-                  <Link 
-                    to="/login" 
+                  <Link
+                    to="/login"
                     className="text-xs font-medium text-zakhira-gold py-1"
                     onClick={() => setIsMenuOpen(false)}
                   >

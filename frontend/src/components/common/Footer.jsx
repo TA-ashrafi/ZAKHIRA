@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import { 
-  Globe, 
-  Share2, 
-  MessageCircle, 
+  Globe,
+  Share2,
+  MessageCircle,
   Mail, 
   Phone, 
   MapPin,
@@ -64,11 +64,11 @@ const Footer = () => {
                 Customer Care
               </h4>
               <ul className="space-y-2 text-sm">
-                <li><Link to="/shop" className="hover:text-zakhira-gold transition">Contact Us</Link></li>
-                <li><Link to="/shop" className="hover:text-zakhira-gold transition">Shipping Info</Link></li>
-                <li><Link to="/shop" className="hover:text-zakhira-gold transition">Returns & Exchanges</Link></li>
-                <li><Link to="/shop" className="hover:text-zakhira-gold transition">FAQ</Link></li>
-                <li><Link to="/shop" className="hover:text-zakhira-gold transition">Track Order</Link></li>
+                <li><Link to="/about" className="hover:text-zakhira-gold transition">Contact Us</Link></li>
+                <li><Link to="/about" className="hover:text-zakhira-gold transition">Shipping Info</Link></li>
+                <li><Link to="/about" className="hover:text-zakhira-gold transition">Returns & Exchanges</Link></li>
+                <li><Link to="/about" className="hover:text-zakhira-gold transition">FAQ</Link></li>
+                <li><Link to="/track-order" className="hover:text-zakhira-gold transition">Track Order</Link></li>
               </ul>
             </div>
 
@@ -78,11 +78,11 @@ const Footer = () => {
                 About
               </h4>
               <ul className="space-y-2 text-sm">
-                <li><Link to="/shop" className="hover:text-zakhira-gold transition">Our Story</Link></li>
-                <li><Link to="/shop" className="hover:text-zakhira-gold transition">Craftsmanship</Link></li>
-                <li><Link to="/shop" className="hover:text-zakhira-gold transition">Sustainability</Link></li>
-                <li><Link to="/shop" className="hover:text-zakhira-gold transition">Store Locator</Link></li>
-                <li><Link to="/shop" className="hover:text-zakhira-gold transition">Careers</Link></li>
+                <li><Link to="/our-story" className="hover:text-zakhira-gold transition">Our Story</Link></li>
+                <li><Link to="/craftsmanship" className="hover:text-zakhira-gold transition">Craftsmanship</Link></li>
+                <li><Link to="/sustainability" className="hover:text-zakhira-gold transition">Sustainability</Link></li>
+                <li><Link to="/store-locator" className="hover:text-zakhira-gold transition">Store Locator</Link></li>
+                <li><Link to="/careers" className="hover:text-zakhira-gold transition">Careers</Link></li>
               </ul>
             </div>
 
@@ -93,15 +93,27 @@ const Footer = () => {
               </h4>
               <ul className="space-y-3 text-sm">
                 <li className="flex items-start gap-3">
-                  <Mail className="w-4 h-4 text-zakhira-gold mt-0.5" />
-                  <span>hello@zakhira.com</span>
+                  <Mail className="w-4 h-4 text-zakhira-gold mt-0.5 flex-shrink-0" />
+                  <a
+                    href="mailto:tahseenashrafi29@gmail.com"
+                    className="hover:text-zakhira-gold transition text-white/90 break-all"
+                  >
+                    tahseenashrafi29@gmail.com
+                  </a>
                 </li>
                 <li className="flex items-start gap-3">
-                  <Phone className="w-4 h-4 text-zakhira-gold mt-0.5" />
-                  <span>+91 98765 43210</span>
+                  <Phone className="w-4 h-4 text-zakhira-gold mt-0.5 flex-shrink-0" />
+                  <a
+                    href="https://wa.me/918527580809"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-zakhira-gold transition text-white/90"
+                  >
+                    +91 8527580809
+                  </a>
                 </li>
                 <li className="flex items-start gap-3">
-                  <MapPin className="w-4 h-4 text-zakhira-gold mt-0.5" />
+                  <MapPin className="w-4 h-4 text-zakhira-gold mt-0.5 flex-shrink-0" />
                   <span className="text-white/60">
                     Jaipur, Rajasthan, India
                   </span>

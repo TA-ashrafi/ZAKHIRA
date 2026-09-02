@@ -1,5 +1,6 @@
 import User from '../models/User.js';
 import jwt from 'jsonwebtoken';
+import { sendEmail, getWelcomeEmailTemplate } from '../utils/sendEmail.js';
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
