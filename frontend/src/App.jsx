@@ -1,4 +1,14 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
+
+import { AuthProvider } from './contexts/AuthContext';
+import { CartProvider } from './contexts/CartContext';
+import { WishlistProvider } from './contexts/WishlistContext';
+
+import Navbar from './components/common/Navbar';
+import Footer from './components/common/Footer';
+
+// User Pages
 import Home from './pages/Home';
 import Shop from './pages/Shop';
 import ProductDetail from './pages/ProductDetail';
@@ -6,20 +16,107 @@ import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Profile from './pages/Profile';
+import Wishlist from './pages/Wishlist';
+
+// Admin Components & Pages
+import AdminLayout from './components/admin/AdminLayout';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminProducts from './pages/admin/AdminProducts';
+import AdminAddProduct from './pages/admin/AdminAddProduct';
+import AdminOrders from './pages/admin/AdminOrders';
+import AdminUsers from './pages/admin/AdminUsers';
+
+import useAuth from './hooks/useAuth';
+
+// Public Layout Wrapper with Navbar & Footer
+const PublicLayout = () => {
+  return (
+    <div className="min-h-screen flex flex-col font-inter bg-white text-zakhira-dark">
+      <Navbar />
+      <main className="flex-1">
+        <Outlet />
+      </main>
+      <Footer />
+    </div>
+  );
+};
+
+// Protected User Route Guard
+const ProtectedRoute = () => {
+  const { isAuthenticated, loading } = useAuth();
+  if (loading) return null;
+  return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
+};
+
+// Admin Route Guard
+const AdminRoute = () => {
+  const { isAuthenticated, isAdmin, loading } = useAuth();
+  if (loading) return null;
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
+  if (!isAdmin) return <Navigate to="/" replace />;
+  return <AdminLayout />;
+};
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/shop" element={<Shop />} />
-        <Route path="/product/:id" element={<ProductDetail />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/checkout" element={<Checkout />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <CartProvider>
+        <WishlistProvider>
+          <BrowserRouter>
+            <Toaster
+              position="top-right"
+              toastOptions={{
+                style: {
+                  background: '#1A1A1A',
+                  color: '#FFFFFF',
+                  fontSize: '12px',
+                  borderRadius: '6px',
+                },
+                success: {
+                  iconTheme: {
+                    primary: '#C9A86C',
+                    secondary: '#FFFFFF',
+                  },
+                },
+              }}
+            />
+
+            <Routes>
+              {/* Public Routes with Navbar & Footer */}
+              <Route element={<PublicLayout />}>
+                <Route path="/" element={<Home />} />
+                <Route path="/shop" element={<Shop />} />
+                <Route path="/product/:id" element={<ProductDetail />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/wishlist" element={<Wishlist />} />
+
+                {/* Protected User Routes */}
+                <Route element={<ProtectedRoute />}>
+                  <Route path="/checkout" element={<Checkout />} />
+                  <Route path="/profile" element={<Profile />} />
+                </Route>
+              </Route>
+
+              {/* Admin Portal Routes */}
+              <Route element={<AdminRoute />}>
+                <Route path="/admin" element={<AdminDashboard />} />
+                <Route path="/admin/products" element={<AdminProducts />} />
+                <Route path="/admin/add-product" element={<AdminAddProduct />} />
+                <Route path="/admin/edit-product/:id" element={<AdminAddProduct />} />
+                <Route path="/admin/orders" element={<AdminOrders />} />
+                <Route path="/admin/users" element={<AdminUsers />} />
+              </Route>
+
+              {/* Fallback redirect */}
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </BrowserRouter>
+        </WishlistProvider>
+      </CartProvider>
+    </AuthProvider>
   );
 }
 

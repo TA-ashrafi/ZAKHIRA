@@ -1,9 +1,8 @@
 import { Link } from 'react-router-dom';
 import { 
-  Facebook, 
-  Instagram, 
-  Youtube, 
-  Twitter, 
+  Globe, 
+  Share2, 
+  MessageCircle, 
   Mail, 
   Phone, 
   MapPin,
@@ -31,18 +30,15 @@ const Footer = () => {
                 Timeless jewellery crafted with precision, passion, and the finest materials. 
                 Made for every moment of your life.
               </p>
-              <div className="flex space-x-4 mt-6">
-                <a href="#" className="hover:text-zakhira-gold transition">
-                  <Instagram className="w-5 h-5" />
+              <div className="flex space-x-4 mt-6 text-zakhira-gold">
+                <a href="#" className="hover:text-white transition" title="Global">
+                  <Globe className="w-5 h-5" />
                 </a>
-                <a href="#" className="hover:text-zakhira-gold transition">
-                  <Facebook className="w-5 h-5" />
+                <a href="#" className="hover:text-white transition" title="Social">
+                  <Share2 className="w-5 h-5" />
                 </a>
-                <a href="#" className="hover:text-zakhira-gold transition">
-                  <Youtube className="w-5 h-5" />
-                </a>
-                <a href="#" className="hover:text-zakhira-gold transition">
-                  <Twitter className="w-5 h-5" />
+                <a href="#" className="hover:text-white transition" title="Community">
+                  <MessageCircle className="w-5 h-5" />
                 </a>
               </div>
             </div>
@@ -68,12 +64,11 @@ const Footer = () => {
                 Customer Care
               </h4>
               <ul className="space-y-2 text-sm">
-                <li><Link to="/contact" className="hover:text-zakhira-gold transition">Contact Us</Link></li>
-                <li><Link to="/shipping" className="hover:text-zakhira-gold transition">Shipping Info</Link></li>
-                <li><Link to="/returns" className="hover:text-zakhira-gold transition">Returns & Exchanges</Link></li>
-                <li><Link to="/faq" className="hover:text-zakhira-gold transition">FAQ</Link></li>
-                <li><Link to="/size-guide" className="hover:text-zakhira-gold transition">Size Guide</Link></li>
-                <li><Link to="/track-order" className="hover:text-zakhira-gold transition">Track Order</Link></li>
+                <li><Link to="/shop" className="hover:text-zakhira-gold transition">Contact Us</Link></li>
+                <li><Link to="/shop" className="hover:text-zakhira-gold transition">Shipping Info</Link></li>
+                <li><Link to="/shop" className="hover:text-zakhira-gold transition">Returns & Exchanges</Link></li>
+                <li><Link to="/shop" className="hover:text-zakhira-gold transition">FAQ</Link></li>
+                <li><Link to="/shop" className="hover:text-zakhira-gold transition">Track Order</Link></li>
               </ul>
             </div>
 
@@ -83,11 +78,11 @@ const Footer = () => {
                 About
               </h4>
               <ul className="space-y-2 text-sm">
-                <li><Link to="/our-story" className="hover:text-zakhira-gold transition">Our Story</Link></li>
-                <li><Link to="/craftsmanship" className="hover:text-zakhira-gold transition">Craftsmanship</Link></li>
-                <li><Link to="/sustainability" className="hover:text-zakhira-gold transition">Sustainability</Link></li>
-                <li><Link to="/store-locator" className="hover:text-zakhira-gold transition">Store Locator</Link></li>
-                <li><Link to="/careers" className="hover:text-zakhira-gold transition">Careers</Link></li>
+                <li><Link to="/shop" className="hover:text-zakhira-gold transition">Our Story</Link></li>
+                <li><Link to="/shop" className="hover:text-zakhira-gold transition">Craftsmanship</Link></li>
+                <li><Link to="/shop" className="hover:text-zakhira-gold transition">Sustainability</Link></li>
+                <li><Link to="/shop" className="hover:text-zakhira-gold transition">Store Locator</Link></li>
+                <li><Link to="/shop" className="hover:text-zakhira-gold transition">Careers</Link></li>
               </ul>
             </div>
 
@@ -158,8 +153,8 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-6 text-xs">
             <span>© {currentYear} ZAKHIRA. All rights reserved.</span>
-            <Link to="/privacy" className="hover:text-zakhira-gold transition">Privacy Policy</Link>
-            <Link to="/terms" className="hover:text-zakhira-gold transition">Terms of Service</Link>
+            <Link to="/shop" className="hover:text-zakhira-gold transition">Privacy Policy</Link>
+            <Link to="/shop" className="hover:text-zakhira-gold transition">Terms of Service</Link>
           </div>
           <div className="flex items-center gap-3">
             <span className="text-xs text-white/60">Secure payments by</span>

@@ -1,53 +1,100 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Lock, Mail, ArrowRight } from 'lucide-react';
+import useAuth from '../hooks/useAuth';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e) => {
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || '/';
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Login:', { email, password });
+    setIsSubmitting(true);
+    const result = await login({ email, password });
+    setIsSubmitting(false);
+
+    if (result && result.success) {
+      if (result.user?.role === 'admin') {
+        navigate('/admin');
+      } else {
+        navigate(from, { replace: true });
+      }
+    }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
-        <h2 className="text-3xl font-playfair text-center mb-6">Welcome Back</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-sm font-medium mb-2">Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-zakhira-gold"
-              required
-            />
+    <div className="min-h-[80vh] flex items-center justify-center bg-gray-50/50 py-12 px-4">
+      <div className="bg-white p-8 md:p-10 rounded-xl shadow-lg border border-gray-100 max-w-md w-full">
+        <div className="text-center mb-8">
+          <span className="text-xs uppercase tracking-[0.3em] font-semibold text-zakhira-gold block mb-1">
+            WELCOME BACK
+          </span>
+          <h2 className="text-3xl font-playfair font-bold text-zakhira-dark">
+            Account Login
+          </h2>
+          <p className="text-gray-500 text-xs mt-1">
+            Sign in to access your orders, wishlist and VIP privileges.
+          </p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-4 text-xs">
+          <div>
+            <label className="block font-semibold text-gray-700 mb-1">Email Address</label>
+            <div className="relative">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                placeholder="name@example.com"
+                className="w-full pl-9 pr-3 py-2.5 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-zakhira-gold"
+              />
+              <Mail className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            </div>
           </div>
-          <div className="mb-6">
-            <label className="block text-sm font-medium mb-2">Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-zakhira-gold"
-              required
-            />
+
+          <div>
+            <div className="flex justify-between items-center mb-1">
+              <label className="font-semibold text-gray-700">Password</label>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-zakhira-gold text-[11px] hover:underline">
+                Forgot password?
+              </a>
+            </div>
+            <div className="relative">
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                placeholder="••••••••"
+                className="w-full pl-9 pr-3 py-2.5 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-zakhira-gold"
+              />
+              <Lock className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            </div>
           </div>
+
           <button
             type="submit"
-            className="w-full bg-zakhira-gold text-white py-3 rounded hover:bg-opacity-90 transition"
+            disabled={isSubmitting}
+            className="w-full bg-zakhira-gold text-white py-3.5 rounded font-semibold text-xs tracking-widest uppercase hover:bg-opacity-90 transition shadow-md disabled:opacity-50 mt-2 flex items-center justify-center gap-2"
           >
-            Login
+            {isSubmitting ? 'Signing In...' : 'Sign In'} <ArrowRight className="w-4 h-4" />
           </button>
         </form>
-        <p className="text-center mt-4 text-sm">
-          Don't have an account?{' '}
-          <Link to="/register" className="text-zakhira-gold hover:underline">
-            Register
+
+        <div className="mt-8 border-t border-gray-100 pt-6 text-center text-xs text-gray-500">
+          Don't have a ZAKHIRA account yet?{' '}
+          <Link to="/register" className="text-zakhira-gold font-bold hover:underline">
+            Register Now
           </Link>
-        </p>
+        </div>
       </div>
     </div>
   );
