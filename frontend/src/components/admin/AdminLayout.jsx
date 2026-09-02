@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { 
-  LayoutDashboard, 
-  Package, 
-  PlusCircle, 
-  ShoppingBag, 
-  Users, 
+import {
+  LayoutDashboard,
+  Package,
+  PlusCircle,
+  ShoppingBag,
+  Users,
   Tag,
-  ArrowLeft, 
+  ArrowLeft,
   LogOut,
   Menu,
   X,

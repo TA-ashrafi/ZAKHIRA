@@ -253,15 +253,15 @@ const Navbar = () => {
                     👑 ADMIN PANEL
                   </Link>
                 )}
-                <Link 
-                  to="/track-order" 
+                <Link
+                  to="/track-order"
                   className="text-xs font-medium text-gray-700 py-1"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   📦 TRACK ORDER
                 </Link>
-                <Link 
-                  to="/wishlist" 
+                <Link
+                  to="/wishlist"
                   className="text-xs font-medium text-gray-700 py-1"
                   onClick={() => setIsMenuOpen(false)}
                 >
