@@ -253,6 +253,38 @@ const Home = () => {
         </div>
       </section>
 
+      {/* ===== ROYAL BRAND STORY ===== */}
+      <section className="py-24 bg-gradient-to-b from-white via-zakhira-light/50 to-white relative">
+        <div className="container mx-auto px-4 max-w-5xl text-center">
+          <span className="text-zakhira-gold text-xs tracking-[0.4em] font-bold uppercase block mb-3">
+            HERITAGE & CRAFTSMANSHIP
+          </span>
+          <h2 className="text-3xl md:text-5xl font-playfair font-bold text-zakhira-dark mb-6 leading-tight">
+            Centuries of Royal Legacy,<br />Sculpted in Pure Gold & Precious Gems
+          </h2>
+          <p className="text-gray-600 text-sm md:text-base leading-relaxed max-w-3xl mx-auto mb-12">
+            Every ZAKHIRA creation is handcrafted by master artisans using ethically sourced 22K/24K BIS-hallmarked gold and certified conflict-free diamonds. From intricate royal Polki settings to sleek modern silhouettes, we preserve timeless elegance for generations to come.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left border-t border-zakhira-gold/20 pt-10">
+            <div>
+              <span className="font-playfair text-3xl font-bold text-zakhira-gold block mb-1">100%</span>
+              <h4 className="font-bold text-xs uppercase tracking-wider text-zakhira-dark mb-1">BIS Hallmarked Gold</h4>
+              <p className="text-xs text-gray-500">Every single gram is certified for purity with laser hallmark laser etching.</p>
+            </div>
+            <div>
+              <span className="font-playfair text-3xl font-bold text-zakhira-gold block mb-1">GIA / IGI</span>
+              <h4 className="font-bold text-xs uppercase tracking-wider text-zakhira-dark mb-1">Certified Diamonds</h4>
+              <p className="text-xs text-gray-500">Includes international diamond certificates guaranteeing cut, clarity and color.</p>
+            </div>
+            <div>
+              <span className="font-playfair text-3xl font-bold text-zakhira-gold block mb-1">Lifetime</span>
+              <h4 className="font-bold text-xs uppercase tracking-wider text-zakhira-dark mb-1">Buyback & Exchange</h4>
+              <p className="text-xs text-gray-500">Full value buyback guarantees and complimentary annual cleaning & polishing.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ===== ZAKHIRA CLUB BANNER ===== */}
       <section className="relative py-24 overflow-hidden bg-zakhira-dark text-white">
         <div className="container mx-auto px-4 relative z-10 text-center max-w-3xl">

@@ -68,6 +68,7 @@ const AdminUsers = () => {
                   <th className="px-4 py-3">Phone</th>
                   <th className="px-4 py-3">Role</th>
                   <th className="px-4 py-3">Joined Date</th>
+                  <th className="px-4 py-3 text-center">Action / Toggle Role</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -92,6 +93,33 @@ const AdminUsers = () => {
                     </td>
                     <td className="px-4 py-3 text-gray-400">
                       {new Date(u.createdAt).toLocaleDateString()}
+                    </td>
+                    <td className="px-4 py-3 text-center">
+                      <button
+                        onClick={async () => {
+                          const newRole = u.role === 'admin' ? 'user' : 'admin';
+                          if (window.confirm(`Change ${u.name}'s role to ${newRole.toUpperCase()}?`)) {
+                            try {
+                              const res = await authService.updateUserRole(u._id, newRole);
+                              if (res.success) {
+                                toast.success(res.message);
+                                setUsers((prev) =>
+                                  prev.map((item) => (item._id === u._id ? { ...item, role: newRole } : item))
+                                );
+                              }
+                            } catch (err) {
+                              toast.error('Failed to change user role');
+                            }
+                          }
+                        }}
+                        className={`px-3 py-1 rounded text-[11px] font-bold transition ${
+                          u.role === 'admin'
+                            ? 'bg-amber-100 text-amber-800 hover:bg-amber-200'
+                            : 'bg-zakhira-gold text-white hover:bg-opacity-90'
+                        }`}
+                      >
+                        {u.role === 'admin' ? 'Demote to User' : 'Make Admin 👑'}
+                      </button>
                     </td>
                   </tr>
                 ))}

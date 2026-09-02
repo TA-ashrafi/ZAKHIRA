@@ -50,12 +50,17 @@ const Navbar = () => {
   return (
     <>
       {/* ===== TOP BAR ===== */}
-      <div className="bg-zakhira-dark text-white/80 text-xs py-2 hidden md:block">
+      <div className="bg-gradient-to-r from-zakhira-dark via-black to-zakhira-dark text-white/80 text-xs py-2 hidden md:block border-b border-zakhira-gold/20">
         <div className="container mx-auto px-4 flex justify-between items-center">
           <div className="flex items-center space-x-6">
-            <span className="tracking-wider font-light">FREE SHIPPING ON ORDERS OVER ₹999</span>
-            <span className="text-zakhira-gold">|</span>
-            <span className="text-zakhira-gold font-medium">10% OFF FIRST ORDER | CODE: ZAKHIRA10</span>
+            <span className="tracking-wider font-light flex items-center gap-1.5 text-[11px]">
+              <span className="w-1.5 h-1.5 rounded-full bg-zakhira-gold animate-pulse"></span>
+              LIVE GOLD RATE 24K: ₹7,450/g
+            </span>
+            <span className="text-zakhira-gold/40">|</span>
+            <span className="tracking-wider font-light">INSURED EXPRESS SHIPPING</span>
+            <span className="text-zakhira-gold/40">|</span>
+            <span className="text-zakhira-gold font-semibold tracking-wider">10% OFF FIRST ORDER: ZAKHIRA10</span>
           </div>
           <div className="flex items-center space-x-6 text-[11px] tracking-wider uppercase">
             {isAdmin && (
@@ -73,7 +78,7 @@ const Navbar = () => {
       </div>
 
       {/* ===== MAIN NAVBAR ===== */}
-      <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b shadow-sm">
+      <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-lg border-b border-zakhira-gold/20 shadow-md">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-20">
             {/* Mobile Menu Button */}

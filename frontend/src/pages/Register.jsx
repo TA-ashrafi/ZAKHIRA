@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Lock, Mail, User, Phone, ArrowRight } from 'lucide-react';
+import { Lock, Mail, User, Phone, ArrowRight, Shield } from 'lucide-react';
 import useAuth from '../hooks/useAuth';
 
 const Register = () => {
@@ -9,7 +9,10 @@ const Register = () => {
     email: '',
     password: '',
     phone: '',
+    role: 'user',
+    adminSecret: '',
   });
+  const [isAdminRegister, setIsAdminRegister] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { register } = useAuth();
@@ -22,11 +25,19 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    const result = await register(formData);
+    const payload = {
+      ...formData,
+      role: isAdminRegister ? 'admin' : 'user',
+    };
+    const result = await register(payload);
     setIsSubmitting(false);
 
     if (result && result.success) {
-      navigate('/');
+      if (payload.role === 'admin') {
+        navigate('/admin');
+      } else {
+        navigate('/');
+      }
     }
   };
 
@@ -110,12 +121,50 @@ const Register = () => {
             </div>
           </div>
 
+          {/* Admin Role Toggle Option */}
+          <div className="pt-2 border-t border-gray-100">
+            <label className="flex items-center gap-2 cursor-pointer text-xs font-semibold text-gray-700">
+              <input
+                type="checkbox"
+                checked={isAdminRegister}
+                onChange={(e) => {
+                  setIsAdminRegister(e.target.checked);
+                  if (e.target.checked) {
+                    setFormData((prev) => ({ ...prev, adminSecret: 'zakhira_admin_2026' }));
+                  }
+                }}
+                className="rounded border-gray-300 text-zakhira-gold focus:ring-zakhira-gold"
+              />
+              <span className="flex items-center gap-1">
+                <Shield className="w-3.5 h-3.5 text-zakhira-gold" /> Register as Administrator
+              </span>
+            </label>
+
+            {isAdminRegister && (
+              <div className="mt-3 bg-amber-50 p-3 rounded border border-amber-200">
+                <label className="block text-[11px] font-bold text-amber-900 mb-1">
+                  Admin Secret Key *
+                </label>
+                <input
+                  type="password"
+                  name="adminSecret"
+                  value={formData.adminSecret}
+                  onChange={handleChange}
+                  placeholder="zakhira_admin_2026"
+                  required={isAdminRegister}
+                  className="w-full px-2.5 py-1.5 border border-amber-300 rounded text-xs bg-white focus:outline-none focus:ring-1 focus:ring-zakhira-gold"
+                />
+                <p className="text-[10px] text-amber-700 mt-1">Default Key: <code>zakhira_admin_2026</code></p>
+              </div>
+            )}
+          </div>
+
           <button
             type="submit"
             disabled={isSubmitting}
             className="w-full bg-zakhira-gold text-white py-3.5 rounded font-semibold text-xs tracking-widest uppercase hover:bg-opacity-90 transition shadow-md disabled:opacity-50 mt-2 flex items-center justify-center gap-2"
           >
-            {isSubmitting ? 'Creating Account...' : 'Register Account'} <ArrowRight className="w-4 h-4" />
+            {isSubmitting ? 'Creating Account...' : isAdminRegister ? 'Register Admin Account' : 'Register Account'} <ArrowRight className="w-4 h-4" />
           </button>
         </form>
 

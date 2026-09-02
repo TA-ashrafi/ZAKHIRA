@@ -136,7 +136,7 @@ const AdminDashboard = () => {
                 {recentOrders.map((order) => (
                   <tr key={order._id} className="hover:bg-gray-50/50 transition">
                     <td className="px-4 py-3 font-mono font-semibold text-gray-800">
-                      #{order._id?.slice(-6).toUpperCase()}
+                      #{String(order._id || '').slice(-6).toUpperCase()}
                     </td>
                     <td className="px-4 py-3 font-medium text-gray-900">
                       {order.user?.name || 'Guest User'}

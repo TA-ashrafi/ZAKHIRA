@@ -25,6 +25,11 @@ export const authService = {
     const response = await api.get('/auth/users');
     return response.data;
   },
+
+  updateUserRole: async (id, role) => {
+    const response = await api.put(`/auth/users/${id}/role`, { role });
+    return response.data;
+  },
 };
 
 export default authService;

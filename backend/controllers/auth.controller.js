@@ -10,7 +10,7 @@ const generateToken = (id) => {
 // Register User
 export const register = async (req, res) => {
   try {
-    const { name, email, password, phone } = req.body;
+    const { name, email, password, phone, role, adminSecret } = req.body;
 
     if (!name || !email || !password) {
       return res.status(400).json({
@@ -27,7 +27,20 @@ export const register = async (req, res) => {
       });
     }
 
-    const user = await User.create({ name, email, password, phone });
+    let userRole = 'user';
+    if (role === 'admin') {
+      const validSecret = process.env.ADMIN_SECRET || 'zakhira_admin_2026';
+      if (adminSecret === validSecret) {
+        userRole = 'admin';
+      } else {
+        return res.status(400).json({
+          success: false,
+          message: 'Invalid Admin Secret Key'
+        });
+      }
+    }
+
+    const user = await User.create({ name, email, password, phone, role: userRole });
 
     res.status(201).json({
       success: true,
@@ -40,6 +53,48 @@ export const register = async (req, res) => {
         phone: user.phone,
         address: user.address,
         token: generateToken(user._id)
+      }
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Server error'
+    });
+  }
+};
+
+// Toggle User Role (Admin only)
+export const updateUserRole = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { role } = req.body;
+
+    if (!['user', 'admin'].includes(role)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid role specified'
+      });
+    }
+
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+
+    user.role = role;
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: `User role updated to ${role}!`,
+      data: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role
       }
     });
   } catch (error) {

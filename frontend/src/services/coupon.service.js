@@ -11,8 +11,14 @@ export const couponService = {
     return response.data;
   },
 
-  applyCoupon: async (code, totalAmount) => {
-    const response = await api.post('/coupons/apply', { code, totalAmount });
+  applyCoupon: async (payload) => {
+    // Accepts either ({ code, totalAmount }) object or (code, totalAmount) arguments
+    const code = typeof payload === 'object' ? payload.code : payload;
+    const totalAmount = typeof payload === 'object' ? (payload.totalAmount || payload.cartTotal) : arguments[1];
+    const response = await api.post('/coupons/apply', {
+      code: String(code || '').trim().toUpperCase(),
+      totalAmount
+    });
     return response.data;
   },
 

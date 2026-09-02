@@ -326,7 +326,7 @@ const Checkout = () => {
                     <input
                       type="text"
                       value={couponCode}
-                      onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                      onChange={(e) => setCouponCode(String(e.target.value || '').toUpperCase())}
                       placeholder="e.g. ZAKHIRA10"
                       className="flex-1 px-2.5 py-1.5 border border-gray-300 rounded uppercase focus:outline-none focus:ring-1 focus:ring-zakhira-gold"
                     />
