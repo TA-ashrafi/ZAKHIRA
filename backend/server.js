@@ -2,6 +2,7 @@ import dns from 'dns';
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import cors from 'cors';
 
 // Routes
 import authRoutes from './routes/auth.routes.js';
@@ -9,6 +10,7 @@ import productRoutes from './routes/product.routes.js';
 import cartRoutes from './routes/cart.routes.js';
 import wishlistRoutes from './routes/wishlist.routes.js';
 import orderRoutes from './routes/order.routes.js';
+import uploadRoutes from './routes/upload.routes.js';
 
 dotenv.config();
 
@@ -18,7 +20,12 @@ const PORT = process.env.PORT || 5000;
 dns.setServers(["1.1.1.1", "8.8.8.8"]);
 
 // Middleware
+app.use(cors({
+  origin: process.env.CLIENT_URL || 'http://localhost:5173',
+  credentials: true
+}));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // ========== ROUTES ==========
 app.use('/api/auth', authRoutes);
@@ -26,6 +33,7 @@ app.use('/api/products', productRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/wishlist', wishlistRoutes);
 app.use('/api/orders', orderRoutes);
+app.use('/api/upload', uploadRoutes);
 
 // ========== TEST ROUTE ==========
 app.get('/', (req, res) => {
@@ -46,7 +54,8 @@ app.get('/api', (req, res) => {
         register: 'POST /api/auth/register',
         login: 'POST /api/auth/login',
         me: 'GET /api/auth/me',
-        profile: 'PUT /api/auth/profile'
+        profile: 'PUT /api/auth/profile',
+        users: 'GET /api/auth/users (Admin)'
       },
       products: {
         all: 'GET /api/products',
@@ -70,23 +79,33 @@ app.get('/api', (req, res) => {
       orders: {
         place: 'POST /api/orders',
         all: 'GET /api/orders',
+        adminAll: 'GET /api/orders/admin/all (Admin)',
         single: 'GET /api/orders/:id',
         status: 'PUT /api/orders/:id/status (Admin)'
+      },
+      upload: {
+        image: 'POST /api/upload/image (Admin)'
       }
     }
   });
 });
 
-// ========== DATABASE ==========
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log('✅ MongoDB Connected Successfully!');
-    console.log(`📊 Database: ${mongoose.connection.name}`);
-  })
-  .catch((err) => {
+// ========== DATABASE CONNECTION ==========
+const connectDB = async () => {
+  try {
+    if (process.env.MONGO_URI) {
+      await mongoose.connect(process.env.MONGO_URI);
+      console.log('✅ MongoDB Connected Successfully!');
+      console.log(`📊 Database: ${mongoose.connection.name}`);
+    } else {
+      console.log('⚠️ MONGO_URI not provided in .env');
+    }
+  } catch (err) {
     console.error('❌ MongoDB Connection Failed:', err.message);
-    process.exit(1);
-  });
+  }
+};
+
+connectDB();
 
 // ========== 404 HANDLER ==========
 app.use((req, res) => {
@@ -97,7 +116,7 @@ app.use((req, res) => {
 });
 
 // ========== GLOBAL ERROR HANDLER ==========
-app.use((err, req, res) => {
+app.use((err, req, res, next) => {
   console.error('❌ Error:', err.message);
   res.status(500).json({
     success: false,
