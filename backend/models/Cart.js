@@ -30,8 +30,8 @@ const cartSchema = new mongoose.Schema({
   }
 });
 
-// Update total price before save
-cartSchema.pre('save', async function(next) {
+// Update total price before save - Async pre hook (no next parameter)
+cartSchema.pre('save', async function() {
   const cart = this;
   const Product = mongoose.model('Product');
   
@@ -43,7 +43,6 @@ cartSchema.pre('save', async function(next) {
     }
   }
   cart.totalPrice = total;
-  next();
 });
 
 export default mongoose.model('Cart', cartSchema);
