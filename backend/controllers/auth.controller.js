@@ -1,5 +1,6 @@
 import User from '../models/User.js';
 import jwt from 'jsonwebtoken';
+import { sendEmail, getWelcomeEmailTemplate } from '../utils/sendEmail.js';
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -41,6 +42,13 @@ export const register = async (req, res) => {
     }
 
     const user = await User.create({ name, email, password, phone, role: userRole });
+
+    // Asynchronously send welcome email without blocking response
+    sendEmail({
+      to: user.email,
+      subject: '✨ Welcome to ZAKHIRA Royal Atelier',
+      html: getWelcomeEmailTemplate(user.name)
+    }).catch(err => console.error('Welcome email dispatch error:', err));
 
     res.status(201).json({
       success: true,

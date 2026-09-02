@@ -8,7 +8,11 @@ import {
   ArrowRight, 
   Star,
   Play,
-  Quote
+  Quote,
+  Sparkles,
+  Crown,
+  Phone,
+  Mail
 } from 'lucide-react';
 import { categoriesData, productsData, heroData } from '../data/products';
 import productService from '../services/product.service';
@@ -32,6 +36,51 @@ const Home = () => {
   }, []);
 
   const bestSellers = products.slice(0, 6);
+
+  // 3D Curved Showcase Items matching Screenshot 2026-09-02 174534.png
+  const curvedGalleryItems = [
+    {
+      id: 1,
+      title: 'THE ROSELINE RING',
+      category: 'Rings',
+      image: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&q=80&w=600',
+      tiltClass: 'rotate-[-10deg] translate-y-6 scale-95 opacity-85 hover:opacity-100 hover:scale-100 hover:rotate-0',
+      link: '/shop?category=Ring'
+    },
+    {
+      id: 2,
+      title: 'THE ZOË EARRINGS',
+      category: 'Earrings',
+      image: 'https://images.unsplash.com/photo-1630019852942-f89202989a59?auto=format&fit=crop&q=80&w=600',
+      tiltClass: 'rotate-[-5deg] translate-y-2 scale-98 hover:scale-105 hover:rotate-0',
+      link: '/shop?category=Earring'
+    },
+    {
+      id: 3,
+      title: 'THE Hibiscus Ring II',
+      category: 'Rings',
+      isCenter: true,
+      image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&q=80&w=800',
+      tiltClass: 'rotate-0 scale-105 z-20 shadow-2xl border-2 border-[#C9A86C]',
+      link: '/shop?category=Ring'
+    },
+    {
+      id: 4,
+      title: 'THE CHUBBY HOOPS',
+      category: 'Earrings',
+      image: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&q=80&w=600',
+      tiltClass: 'rotate-[5deg] translate-y-2 scale-98 hover:scale-105 hover:rotate-0',
+      link: '/shop?category=Earring'
+    },
+    {
+      id: 5,
+      title: 'THE ROYAL CHOKER',
+      category: 'Necklaces',
+      image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&q=80&w=600',
+      tiltClass: 'rotate-[10deg] translate-y-6 scale-95 opacity-85 hover:opacity-100 hover:scale-100 hover:rotate-0',
+      link: '/shop?category=Necklace'
+    }
+  ];
 
   // Testimonials Data
   const testimonials = [
@@ -69,91 +118,156 @@ const Home = () => {
   ];
 
   return (
-    <div className="bg-white">
-      {/* ===== HERO SECTION ===== */}
-      <section className="relative min-h-[85vh] md:min-h-screen flex items-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-zakhira-dark via-zakhira-dark/95 to-zakhira-dark/80">
-          <div 
-            className="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-overlay"
-            style={{ backgroundImage: `url(${heroData.bgImage})` }}
-          ></div>
+    <div className="bg-[#0D0D0D] text-[#F8F6F1]">
+      {/* ===== PORTFOLIO HERO SECTION WITH HUGE TYPOGRAPHY & MODEL PNG ===== */}
+      <section className="relative min-h-screen flex flex-col justify-between items-center overflow-hidden bg-gradient-to-b from-[#0A0A0A] via-[#141414] to-[#0D0D0D] pt-28 pb-12 px-4">
+        {/* Subtle Background Glow & Pattern */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#C9A86C]/10 rounded-full blur-[140px]" />
         </div>
-        <div className="container mx-auto px-4 py-20 relative z-10">
-          <div className="max-w-2xl">
-            <span className="inline-block text-zakhira-gold tracking-[0.3em] text-xs md:text-sm font-semibold uppercase mb-4 animate-fadeIn">
-              ✨ LUXURY FINE JEWELLERY
-            </span>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-playfair text-white leading-[1.1] mb-6 font-bold tracking-tight">
-              {heroData.title}
-              <br />
-              <span className="text-zakhira-gold font-normal italic">{heroData.subtitle}</span>
-            </h1>
-            <p className="text-white/80 text-base md:text-lg font-light max-w-lg mb-8 leading-relaxed">
-              {heroData.description}
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <Link to="/shop">
-                <button className="bg-zakhira-gold text-white px-8 py-3.5 rounded-sm hover:bg-opacity-90 transition font-semibold text-xs tracking-widest uppercase shadow-lg hover:shadow-zakhira-gold/20">
-                  Shop New In
-                </button>
-              </Link>
-              <Link to="/shop">
-                <button className="border border-white/50 text-white px-8 py-3.5 rounded-sm hover:bg-white/10 transition font-semibold text-xs tracking-widest uppercase">
-                  Explore Collections
-                </button>
-              </Link>
+
+        {/* Top Tagline */}
+        <div className="relative z-10 text-center space-y-2">
+          <span className="inline-flex items-center gap-2 text-[#C9A86C] tracking-[0.4em] text-xs uppercase font-semibold border border-[#C9A86C]/30 px-4 py-1.5 rounded-full bg-[#1A1A1A]/60 backdrop-blur-md">
+            <Sparkles className="w-3.5 h-3.5" /> ROYAL HAUTE JOAILLERIE • ATELIER JAIPUR
+          </span>
+        </div>
+
+        {/* Giant Headline Typography with Model Overlay */}
+        <div className="relative w-full max-w-7xl mx-auto flex items-center justify-center my-6 py-8">
+          {/* Giant Background Word */}
+          <h1 className="font-playfair text-[12vw] sm:text-[14vw] md:text-[16vw] font-bold text-center leading-none text-transparent bg-clip-text bg-gradient-to-b from-[#FAF8F5]/20 via-[#C9A86C]/30 to-transparent select-none tracking-tighter">
+            ZAKHIRA
+          </h1>
+
+          {/* Model Image Portrait Overlay */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 sm:w-80 md:w-96 aspect-[3/4] rounded-full overflow-hidden border-2 border-[#C9A86C]/50 shadow-[0_0_50px_rgba(201,168,108,0.25)] z-10 hover:scale-105 transition-transform duration-700">
+            <img
+              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=800"
+              alt="ZAKHIRA Royal Muse"
+              className="w-full h-full object-cover filter brightness-105 contrast-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+            <div className="absolute bottom-4 left-0 right-0 text-center">
+              <span className="text-[10px] tracking-[0.3em] uppercase text-[#C9A86C]">Signature Solitaire Collection</span>
             </div>
+          </div>
+        </div>
+
+        {/* Hero CTA & Subtitle */}
+        <div className="relative z-10 text-center max-w-2xl mx-auto space-y-6">
+          <p className="text-gray-300 font-light text-sm sm:text-base leading-relaxed max-w-lg mx-auto">
+            Sculpted in 18K & 22K hallmarked fine gold and conflict-free natural VVS diamonds. Created for royalty and life's defining milestones.
+          </p>
+
+          <div className="flex flex-wrap justify-center gap-4">
+            <Link
+              to="/shop"
+              className="bg-gradient-to-r from-[#C9A86C] to-[#a38048] text-black font-semibold text-xs tracking-widest uppercase px-8 py-3.5 rounded-full hover:brightness-110 transition shadow-lg shadow-[#C9A86C]/20 flex items-center gap-2"
+            >
+              Explore Royal Atelier <ArrowRight className="w-4 h-4" />
+            </Link>
+            <a
+              href="https://wa.me/918527580809"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="border border-[#C9A86C]/50 text-[#F8F6F1] hover:bg-[#C9A86C]/10 font-semibold text-xs tracking-widest uppercase px-8 py-3.5 rounded-full transition flex items-center gap-2"
+            >
+              <Phone className="w-4 h-4 text-[#C9A86C]" /> VIP WhatsApp Consultation
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== 3D CURVED SHOWCASE GALLERY SECTION (Screenshot 2026-09-02 174534.png) ===== */}
+      <section className="py-24 bg-[#0A0A0A] overflow-hidden border-t border-b border-[#C9A86C]/20">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <span className="text-[#C9A86C] text-xs font-semibold tracking-[0.3em] uppercase block mb-2">CURATED PERSPECTIVE</span>
+            <h2 className="font-playfair text-3xl sm:text-5xl text-white font-normal">
+              High Jewelry <span className="italic text-[#C9A86C]">Masterpieces</span>
+            </h2>
+          </div>
+
+          {/* Curved Card Container Arc */}
+          <div className="flex flex-wrap lg:flex-nowrap justify-center items-center gap-4 sm:gap-6 py-6 px-2">
+            {curvedGalleryItems.map((item) => (
+              <Link
+                key={item.id}
+                to={item.link}
+                className={`relative group w-48 sm:w-56 md:w-64 h-80 sm:h-96 rounded-2xl overflow-hidden bg-[#141414] border border-[#C9A86C]/30 transition-all duration-500 transform ${item.tiltClass}`}
+              >
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+
+                {item.isCenter && (
+                  <span className="absolute top-4 left-4 bg-white/20 backdrop-blur-md text-white text-[10px] font-semibold tracking-wider px-3 py-1 rounded-full uppercase border border-white/30">
+                    {item.category}
+                  </span>
+                )}
+
+                <div className="absolute bottom-6 left-4 right-4 text-left">
+                  <h3 className="font-playfair text-lg sm:text-xl text-white font-medium group-hover:text-[#C9A86C] transition-colors">
+                    {item.title}
+                  </h3>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
 
       {/* ===== FEATURES BAR ===== */}
-      <section className="py-12 border-b border-gray-100 bg-zakhira-light/40">
+      <section className="py-12 border-b border-white/10 bg-[#141414]">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div className="text-center p-2">
-              <Truck className="w-7 h-7 mx-auto text-zakhira-gold mb-2.5" />
-              <h4 className="font-playfair font-semibold text-sm text-zakhira-dark">Free Shipping</h4>
-              <p className="text-xs text-gray-500 mt-0.5">On all orders over ₹999</p>
+              <Truck className="w-7 h-7 mx-auto text-[#C9A86C] mb-2.5" />
+              <h4 className="font-playfair font-semibold text-sm text-white">Insured Free Shipping</h4>
+              <p className="text-xs text-gray-400 mt-0.5">Complimentary worldwide delivery</p>
             </div>
             <div className="text-center p-2">
-              <RotateCcw className="w-7 h-7 mx-auto text-zakhira-gold mb-2.5" />
-              <h4 className="font-playfair font-semibold text-sm text-zakhira-dark">Easy Returns</h4>
-              <p className="text-xs text-gray-500 mt-0.5">30-day hassle free policy</p>
+              <RotateCcw className="w-7 h-7 mx-auto text-[#C9A86C] mb-2.5" />
+              <h4 className="font-playfair font-semibold text-sm text-white">30-Day Privilege Return</h4>
+              <p className="text-xs text-gray-400 mt-0.5">Hassle-free guarantee</p>
             </div>
             <div className="text-center p-2">
-              <Shield className="w-7 h-7 mx-auto text-zakhira-gold mb-2.5" />
-              <h4 className="font-playfair font-semibold text-sm text-zakhira-dark">Hallmarked Gold</h4>
-              <p className="text-xs text-gray-500 mt-0.5">100% certified quality</p>
+              <Shield className="w-7 h-7 mx-auto text-[#C9A86C] mb-2.5" />
+              <h4 className="font-playfair font-semibold text-sm text-white">100% BIS Hallmarked</h4>
+              <p className="text-xs text-gray-400 mt-0.5">Certified purity guaranteed</p>
             </div>
             <div className="text-center p-2">
-              <Headphones className="w-7 h-7 mx-auto text-zakhira-gold mb-2.5" />
-              <h4 className="font-playfair font-semibold text-sm text-zakhira-dark">Customer Support</h4>
-              <p className="text-xs text-gray-500 mt-0.5">Dedicated concierge team</p>
+              <Headphones className="w-7 h-7 mx-auto text-[#C9A86C] mb-2.5" />
+              <h4 className="font-playfair font-semibold text-sm text-white">Private Concierge</h4>
+              <p className="text-xs text-gray-400 mt-0.5">24/7 dedicated support</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* ===== SHOP BY CATEGORY ===== */}
-      <section className="py-20 bg-gray-50/50">
+      <section className="py-20 bg-[#0D0D0D]">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <span className="text-xs text-zakhira-gold uppercase tracking-widest font-semibold block mb-2">CURATED CATEGORIES</span>
-            <h2 className="text-3xl md:text-4xl font-playfair font-bold text-zakhira-dark mb-2">Shop by Category</h2>
-            <p className="text-gray-500 text-sm max-w-md mx-auto">Find the perfect piece tailored for every celebration</p>
+            <span className="text-xs text-[#C9A86C] uppercase tracking-widest font-semibold block mb-2">ROYAL ARCHIVES</span>
+            <h2 className="text-3xl md:text-4xl font-playfair font-bold text-white mb-2">Shop by Category</h2>
+            <p className="text-gray-400 text-sm max-w-md mx-auto">Discover timeless creations tailored for every milestone</p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {categoriesData.map((cat) => (
-              <Link to={cat.link} key={cat.id} className="group relative overflow-hidden rounded-lg aspect-square shadow-sm hover:shadow-xl transition duration-500">
-                <div className="absolute inset-0 bg-gray-200 group-hover:scale-110 transition duration-700">
-                  <img src={cat.image} alt={cat.name} className="w-full h-full object-cover" />
+              <Link to={cat.link} key={cat.id} className="group relative overflow-hidden rounded-xl aspect-square border border-[#C9A86C]/20 shadow-xl hover:border-[#C9A86C] transition duration-500">
+                <div className="absolute inset-0 bg-gray-900 group-hover:scale-110 transition duration-700">
+                  <img src={cat.image} alt={cat.name} className="w-full h-full object-cover filter brightness-90" />
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-6">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent flex items-end p-6">
                   <div className="text-white w-full">
                     <h3 className="text-xl font-playfair font-bold tracking-wider">{cat.name}</h3>
-                    <span className="text-xs text-zakhira-gold mt-1 group-hover:underline flex items-center gap-1 font-medium">
-                      Shop Collection <ArrowRight className="w-3.5 h-3.5" />
+                    <span className="text-xs text-[#C9A86C] mt-1 group-hover:underline flex items-center gap-1 font-medium">
+                      Explore Archives <ArrowRight className="w-3.5 h-3.5" />
                     </span>
                   </div>
                 </div>
@@ -164,16 +278,16 @@ const Home = () => {
       </section>
 
       {/* ===== BEST SELLERS SECTION ===== */}
-      <section className="py-20">
+      <section className="py-20 bg-[#141414]">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center mb-12 gap-4">
             <div>
-              <span className="text-xs text-zakhira-gold uppercase tracking-widest font-semibold block mb-1">MOST LOVED</span>
-              <h2 className="text-3xl md:text-4xl font-playfair font-bold text-zakhira-dark">Best Sellers</h2>
-              <p className="text-gray-500 text-sm mt-1">Handpicked timeless icons chosen by our patrons</p>
+              <span className="text-xs text-[#C9A86C] uppercase tracking-widest font-semibold block mb-1">PATRON FAVORITES</span>
+              <h2 className="text-3xl md:text-4xl font-playfair font-bold text-white">Best Sellers</h2>
+              <p className="text-gray-400 text-sm mt-1">Icons celebrated for superior craftsmanship and timeless beauty</p>
             </div>
-            <Link to="/shop" className="text-zakhira-gold hover:underline flex items-center gap-1 text-xs font-semibold uppercase tracking-wider">
-              View All Collection <ArrowRight className="w-4 h-4" />
+            <Link to="/shop" className="text-[#C9A86C] hover:underline flex items-center gap-1 text-xs font-semibold uppercase tracking-wider">
+              View Entire Collection <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
 
@@ -186,65 +300,65 @@ const Home = () => {
       </section>
 
       {/* ===== FEATURED COLLECTION CARDS ===== */}
-      <section className="py-20 bg-zakhira-light">
+      <section className="py-20 bg-[#0D0D0D]">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <span className="inline-block text-zakhira-gold tracking-[0.3em] text-xs font-semibold uppercase mb-2">
+            <span className="inline-block text-[#C9A86C] tracking-[0.3em] text-xs font-semibold uppercase mb-2">
               ✨ SIGNATURE SERIES
             </span>
-            <h2 className="text-3xl md:text-4xl font-playfair font-bold text-zakhira-dark mb-2">Featured Collections</h2>
-            <p className="text-gray-500 text-sm">Curated jewelry lines crafted for your defining moments</p>
+            <h2 className="text-3xl md:text-4xl font-playfair font-bold text-white mb-2">Featured Collections</h2>
+            <p className="text-gray-400 text-sm">Curated jewelry lines crafted for your defining moments</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="relative group overflow-hidden rounded-lg h-96 shadow-md">
-              <div className="absolute inset-0 bg-gray-200">
+            <div className="relative group overflow-hidden rounded-xl h-96 border border-[#C9A86C]/30 shadow-xl">
+              <div className="absolute inset-0 bg-gray-900">
                 <img
                   src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&q=80&w=800"
                   alt="Royal Wedding"
-                  className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
+                  className="w-full h-full object-cover group-hover:scale-105 transition duration-700 filter brightness-90"
                 />
               </div>
-              <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition flex flex-col items-center justify-center text-white p-6 text-center">
-                <span className="text-xs uppercase tracking-widest text-zakhira-gold font-semibold mb-2">Bridal Edit</span>
+              <div className="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition flex flex-col items-center justify-center text-white p-6 text-center">
+                <span className="text-xs uppercase tracking-widest text-[#C9A86C] font-semibold mb-2">Bridal Edit</span>
                 <h3 className="text-3xl font-playfair font-bold mb-2">Royal Wedding</h3>
-                <p className="text-xs text-white/80 max-w-xs mb-6">Opulent statement necklaces and heritage craftsmanship</p>
-                <Link to="/shop?category=Necklace" className="border border-white/80 px-6 py-2.5 text-xs font-semibold uppercase tracking-wider hover:bg-white hover:text-zakhira-dark transition">
+                <p className="text-xs text-gray-300 max-w-xs mb-6">Opulent statement necklaces and heritage craftsmanship</p>
+                <Link to="/shop?category=Necklace" className="border border-[#C9A86C] text-[#C9A86C] px-6 py-2.5 text-xs font-semibold uppercase tracking-wider hover:bg-[#C9A86C] hover:text-black transition rounded-full">
                   Explore Edit
                 </Link>
               </div>
             </div>
 
-            <div className="relative group overflow-hidden rounded-lg h-96 shadow-md">
-              <div className="absolute inset-0 bg-gray-200">
+            <div className="relative group overflow-hidden rounded-xl h-96 border border-[#C9A86C]/30 shadow-xl">
+              <div className="absolute inset-0 bg-gray-900">
                 <img
                   src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&q=80&w=800"
                   alt="Everyday Minimalist"
-                  className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
+                  className="w-full h-full object-cover group-hover:scale-105 transition duration-700 filter brightness-90"
                 />
               </div>
-              <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition flex flex-col items-center justify-center text-white p-6 text-center">
-                <span className="text-xs uppercase tracking-widest text-zakhira-gold font-semibold mb-2">Modern Luxury</span>
+              <div className="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition flex flex-col items-center justify-center text-white p-6 text-center">
+                <span className="text-xs uppercase tracking-widest text-[#C9A86C] font-semibold mb-2">Modern Luxury</span>
                 <h3 className="text-3xl font-playfair font-bold mb-2">Everyday Minimalist</h3>
-                <p className="text-xs text-white/80 max-w-xs mb-6">Lightweight 18K & 22K gold rings and delicate pendants</p>
-                <Link to="/shop?category=Ring" className="border border-white/80 px-6 py-2.5 text-xs font-semibold uppercase tracking-wider hover:bg-white hover:text-zakhira-dark transition">
+                <p className="text-xs text-gray-300 max-w-xs mb-6">Lightweight 18K & 22K gold rings and delicate pendants</p>
+                <Link to="/shop?category=Ring" className="border border-[#C9A86C] text-[#C9A86C] px-6 py-2.5 text-xs font-semibold uppercase tracking-wider hover:bg-[#C9A86C] hover:text-black transition rounded-full">
                   Explore Edit
                 </Link>
               </div>
             </div>
 
-            <div className="relative group overflow-hidden rounded-lg h-96 shadow-md">
-              <div className="absolute inset-0 bg-gray-200">
+            <div className="relative group overflow-hidden rounded-xl h-96 border border-[#C9A86C]/30 shadow-xl">
+              <div className="absolute inset-0 bg-gray-900">
                 <img
                   src="https://images.unsplash.com/photo-1630019852942-f89202989a59?auto=format&fit=crop&q=80&w=800"
                   alt="Diamond Solitaires"
-                  className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
+                  className="w-full h-full object-cover group-hover:scale-105 transition duration-700 filter brightness-90"
                 />
               </div>
-              <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition flex flex-col items-center justify-center text-white p-6 text-center">
-                <span className="text-xs uppercase tracking-widest text-zakhira-gold font-semibold mb-2">Sparkle Series</span>
+              <div className="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition flex flex-col items-center justify-center text-white p-6 text-center">
+                <span className="text-xs uppercase tracking-widest text-[#C9A86C] font-semibold mb-2">Sparkle Series</span>
                 <h3 className="text-3xl font-playfair font-bold mb-2">Diamond Solitaires</h3>
-                <p className="text-xs text-white/80 max-w-xs mb-6">GIA & IGI certified solitaires mounted in gold</p>
-                <Link to="/shop?category=Earring" className="border border-white/80 px-6 py-2.5 text-xs font-semibold uppercase tracking-wider hover:bg-white hover:text-zakhira-dark transition">
+                <p className="text-xs text-gray-300 max-w-xs mb-6">GIA & IGI certified solitaires mounted in gold</p>
+                <Link to="/shop?category=Earring" className="border border-[#C9A86C] text-[#C9A86C] px-6 py-2.5 text-xs font-semibold uppercase tracking-wider hover:bg-[#C9A86C] hover:text-black transition rounded-full">
                   Explore Edit
                 </Link>
               </div>
@@ -254,91 +368,63 @@ const Home = () => {
       </section>
 
       {/* ===== ROYAL BRAND STORY ===== */}
-      <section className="py-24 bg-gradient-to-b from-white via-zakhira-light/50 to-white relative">
+      <section className="py-24 bg-gradient-to-b from-[#0D0D0D] via-[#1A1814] to-[#0D0D0D] border-t border-b border-[#C9A86C]/20 relative">
         <div className="container mx-auto px-4 max-w-5xl text-center">
-          <span className="text-zakhira-gold text-xs tracking-[0.4em] font-bold uppercase block mb-3">
+          <span className="text-[#C9A86C] text-xs tracking-[0.4em] font-bold uppercase block mb-3">
             HERITAGE & CRAFTSMANSHIP
           </span>
-          <h2 className="text-3xl md:text-5xl font-playfair font-bold text-zakhira-dark mb-6 leading-tight">
+          <h2 className="text-3xl md:text-5xl font-playfair font-bold text-white mb-6 leading-tight">
             Centuries of Royal Legacy,<br />Sculpted in Pure Gold & Precious Gems
           </h2>
-          <p className="text-gray-600 text-sm md:text-base leading-relaxed max-w-3xl mx-auto mb-12">
+          <p className="text-gray-300 text-sm md:text-base leading-relaxed max-w-3xl mx-auto mb-12 font-light">
             Every ZAKHIRA creation is handcrafted by master artisans using ethically sourced 22K/24K BIS-hallmarked gold and certified conflict-free diamonds. From intricate royal Polki settings to sleek modern silhouettes, we preserve timeless elegance for generations to come.
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left border-t border-zakhira-gold/20 pt-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left border-t border-[#C9A86C]/20 pt-10">
             <div>
-              <span className="font-playfair text-3xl font-bold text-zakhira-gold block mb-1">100%</span>
-              <h4 className="font-bold text-xs uppercase tracking-wider text-zakhira-dark mb-1">BIS Hallmarked Gold</h4>
-              <p className="text-xs text-gray-500">Every single gram is certified for purity with laser hallmark laser etching.</p>
+              <span className="font-playfair text-3xl font-bold text-[#C9A86C] block mb-1">100%</span>
+              <h4 className="font-bold text-xs uppercase tracking-wider text-white mb-1">BIS Hallmarked Gold</h4>
+              <p className="text-xs text-gray-400">Every single gram is certified for purity with hallmark laser etching.</p>
             </div>
             <div>
-              <span className="font-playfair text-3xl font-bold text-zakhira-gold block mb-1">GIA / IGI</span>
-              <h4 className="font-bold text-xs uppercase tracking-wider text-zakhira-dark mb-1">Certified Diamonds</h4>
-              <p className="text-xs text-gray-500">Includes international diamond certificates guaranteeing cut, clarity and color.</p>
+              <span className="font-playfair text-3xl font-bold text-[#C9A86C] block mb-1">GIA / IGI</span>
+              <h4 className="font-bold text-xs uppercase tracking-wider text-white mb-1">Certified Diamonds</h4>
+              <p className="text-xs text-gray-400">Includes international certificates guaranteeing cut, clarity and color.</p>
             </div>
             <div>
-              <span className="font-playfair text-3xl font-bold text-zakhira-gold block mb-1">Lifetime</span>
-              <h4 className="font-bold text-xs uppercase tracking-wider text-zakhira-dark mb-1">Buyback & Exchange</h4>
-              <p className="text-xs text-gray-500">Full value buyback guarantees and complimentary annual cleaning & polishing.</p>
+              <span className="font-playfair text-3xl font-bold text-[#C9A86C] block mb-1">Lifetime</span>
+              <h4 className="font-bold text-xs uppercase tracking-wider text-white mb-1">Buyback & Exchange</h4>
+              <p className="text-xs text-gray-400">Full value buyback guarantees and complimentary annual cleaning & polishing.</p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== ZAKHIRA CLUB BANNER ===== */}
-      <section className="relative py-24 overflow-hidden bg-zakhira-dark text-white">
-        <div className="container mx-auto px-4 relative z-10 text-center max-w-3xl">
-          <span className="inline-block text-zakhira-gold tracking-[0.25em] text-xs font-semibold uppercase mb-4">
-            ✨ EXCLUSIVE PRIVILEGES
-          </span>
-          <h2 className="text-4xl md:text-6xl font-playfair font-bold mb-4">
-            The ZAKHIRA Club
-          </h2>
-          <p className="text-xl md:text-2xl font-light text-zakhira-gold italic mb-3">Shine Brighter. Enjoy More.</p>
-          <p className="text-sm md:text-base text-white/70 mb-8 max-w-xl mx-auto leading-relaxed">
-            Join our VIP Circle to receive private invitations to new launch trunk shows, personal jewelry styling, and 10% off your first purchase.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Link to="/shop">
-              <button className="bg-zakhira-gold text-white px-8 py-3.5 rounded-sm hover:bg-opacity-90 transition font-semibold text-xs tracking-widest uppercase">
-                Shop Exclusive Sale
-              </button>
-            </Link>
-            <Link to="/register">
-              <button className="border border-white/40 text-white px-8 py-3.5 rounded-sm hover:bg-white/10 transition font-semibold text-xs tracking-widest uppercase">
-                Join ZAKHIRA Club
-              </button>
-            </Link>
           </div>
         </div>
       </section>
 
       {/* ===== TESTIMONIALS SECTION ===== */}
-      <section className="py-20 bg-gray-50/50">
+      <section className="py-20 bg-[#141414]">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <span className="inline-block text-zakhira-gold tracking-[0.3em] text-xs font-semibold uppercase mb-2">
+            <span className="inline-block text-[#C9A86C] tracking-[0.3em] text-xs font-semibold uppercase mb-2">
               ✨ CLIENT REVIEWS
             </span>
-            <h2 className="text-3xl md:text-4xl font-playfair font-bold text-zakhira-dark mb-2">What Our Patron Say</h2>
-            <p className="text-gray-500 text-sm">Real stories from our valued customers</p>
+            <h2 className="text-3xl md:text-4xl font-playfair font-bold text-white mb-2">What Our Patrons Say</h2>
+            <p className="text-gray-400 text-sm">Real stories from our valued customers</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {testimonials.map((t) => (
-              <div key={t.id} className="bg-white p-8 rounded-lg border border-gray-100 shadow-sm hover:shadow-md transition">
-                <Quote className="w-8 h-8 text-zakhira-gold mb-4 opacity-40" />
-                <div className="flex items-center gap-1 text-zakhira-gold mb-4">
+              <div key={t.id} className="bg-[#0D0D0D] p-8 rounded-xl border border-[#C9A86C]/20 shadow-md">
+                <Quote className="w-8 h-8 text-[#C9A86C] mb-4 opacity-60" />
+                <div className="flex items-center gap-1 text-[#C9A86C] mb-4">
                   {[...Array(t.rating)].map((_, i) => (
                     <Star key={i} className="w-4 h-4 fill-current" />
                   ))}
                 </div>
-                <p className="text-gray-600 text-sm leading-relaxed mb-6 italic">
+                <p className="text-gray-300 text-sm leading-relaxed mb-6 italic font-light">
                   "{t.text}"
                 </p>
-                <div className="flex items-center gap-3 border-t border-gray-50 pt-4">
-                  <img src={t.image} alt={t.name} className="w-10 h-10 rounded-full object-cover" />
+                <div className="flex items-center gap-3 border-t border-white/10 pt-4">
+                  <img src={t.image} alt={t.name} className="w-10 h-10 rounded-full object-cover border border-[#C9A86C]/40" />
                   <div>
-                    <h4 className="font-playfair font-bold text-sm text-zakhira-dark">{t.name}</h4>
+                    <h4 className="font-playfair font-bold text-sm text-white">{t.name}</h4>
                     <p className="text-xs text-gray-400">{t.location}</p>
                   </div>
                 </div>
@@ -348,47 +434,20 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ===== VIDEO REVIEWS ===== */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <span className="inline-block text-zakhira-gold tracking-[0.3em] text-xs font-semibold uppercase mb-2">
-              🎬 IN MOTION
-            </span>
-            <h2 className="text-3xl md:text-4xl font-playfair font-bold text-zakhira-dark mb-2">See Our Jewellery in Action</h2>
-            <p className="text-gray-500 text-sm">Watch unboxings and styling reviews by top creators</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {videoReviews.map((v) => (
-              <div key={v.id} className="group relative overflow-hidden rounded-lg aspect-[4/3] bg-gray-200 cursor-pointer shadow-md">
-                <img src={v.thumbnail} alt={v.title} className="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
-                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/25 transition flex flex-col items-center justify-center p-4 text-center">
-                  <div className="bg-white/90 rounded-full p-4 group-hover:scale-110 transition shadow-lg">
-                    <Play className="w-6 h-6 text-zakhira-gold fill-zakhira-gold ml-0.5" />
-                  </div>
-                  <h4 className="text-white font-playfair font-semibold text-base mt-4">{v.title}</h4>
-                  <span className="text-white/70 text-xs mt-1">{v.duration}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ===== NEWSLETTER ===== */}
-      <section className="py-16 border-t bg-zakhira-light">
+      <section className="py-16 border-t border-white/10 bg-[#0A0A0A]">
         <div className="container mx-auto px-4">
           <div className="max-w-xl mx-auto text-center">
-            <h3 className="text-2xl font-playfair font-bold text-zakhira-dark mb-2">Stay Connected</h3>
-            <p className="text-gray-500 text-xs mb-6">Subscribe to receive early access to signature collection releases and private sales.</p>
+            <h3 className="text-2xl font-playfair font-bold text-white mb-2">Stay Connected</h3>
+            <p className="text-gray-400 text-xs mb-6">Subscribe to receive early access to signature collection releases and private sales.</p>
             <form onSubmit={(e) => { e.preventDefault(); alert('Subscribed to ZAKHIRA newsletter!'); }} className="flex flex-col sm:flex-row gap-2">
               <input 
                 type="email" 
                 required
                 placeholder="Enter your email address" 
-                className="flex-1 px-4 py-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-zakhira-gold text-sm"
+                className="flex-1 px-4 py-3 bg-[#141414] border border-[#C9A86C]/30 text-white rounded-md focus:outline-none focus:border-[#C9A86C] text-sm"
               />
-              <button type="submit" className="bg-zakhira-dark text-white px-8 py-3 rounded-sm hover:bg-opacity-90 transition text-xs font-semibold tracking-wider uppercase whitespace-nowrap">
+              <button type="submit" className="bg-[#C9A86C] text-black hover:bg-[#b8975b] px-8 py-3 rounded-md transition text-xs font-semibold tracking-wider uppercase whitespace-nowrap">
                 Subscribe
               </button>
             </form>
