@@ -1,8 +1,14 @@
 import { Link } from 'react-router-dom';
 import { 
+<<<<<<< HEAD
   Globe, 
   Share2, 
   MessageCircle, 
+=======
+  Globe,
+  Share2,
+  MessageCircle,
+>>>>>>> d5b6f8adeec5372282876a05334f56b752e3f245
   Mail, 
   Phone, 
   MapPin,
