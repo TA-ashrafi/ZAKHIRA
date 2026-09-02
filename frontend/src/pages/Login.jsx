@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Lock, Mail, ArrowRight } from 'lucide-react';
+import { Lock, Mail, ArrowRight, ShieldCheck } from 'lucide-react';
 import useAuth from '../hooks/useAuth';
 
 const Login = () => {
@@ -29,10 +29,15 @@ const Login = () => {
     }
   };
 
+  const handleFillAdmin = () => {
+    setEmail('admin@zakhira.com');
+    setPassword('adminpassword123');
+  };
+
   return (
     <div className="min-h-[80vh] flex items-center justify-center bg-gray-50/50 py-12 px-4">
-      <div className="bg-white p-8 md:p-10 rounded-xl shadow-lg border border-gray-100 max-w-md w-full">
-        <div className="text-center mb-8">
+      <div className="bg-white p-8 md:p-10 rounded-xl shadow-lg border border-gray-100 max-w-md w-full space-y-6">
+        <div className="text-center">
           <span className="text-xs uppercase tracking-[0.3em] font-semibold text-zakhira-gold block mb-1">
             WELCOME BACK
           </span>
@@ -42,6 +47,21 @@ const Login = () => {
           <p className="text-gray-500 text-xs mt-1">
             Sign in to access your orders, wishlist and VIP privileges.
           </p>
+        </div>
+
+        {/* Demo Admin Auto-fill Helper */}
+        <div className="bg-gold/10 border border-zakhira-gold/30 p-3 rounded-lg flex items-center justify-between text-xs text-zakhira-dark">
+          <div className="flex items-center gap-2">
+            <ShieldCheck className="w-4 h-4 text-zakhira-gold flex-shrink-0" />
+            <span>Admin Demo Account Available</span>
+          </div>
+          <button
+            type="button"
+            onClick={handleFillAdmin}
+            className="text-[11px] bg-zakhira-gold text-white px-2.5 py-1 rounded font-bold uppercase tracking-wider hover:bg-opacity-90 transition"
+          >
+            Auto-fill Admin
+          </button>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4 text-xs">
@@ -89,7 +109,7 @@ const Login = () => {
           </button>
         </form>
 
-        <div className="mt-8 border-t border-gray-100 pt-6 text-center text-xs text-gray-500">
+        <div className="border-t border-gray-100 pt-6 text-center text-xs text-gray-500">
           Don't have a ZAKHIRA account yet?{' '}
           <Link to="/register" className="text-zakhira-gold font-bold hover:underline">
             Register Now

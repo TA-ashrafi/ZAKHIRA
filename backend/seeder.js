@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import User from './models/User.js';
 import Product from './models/Product.js';
+import Coupon from './models/Coupon.js';
 import dns from 'dns';
 
 dns.setServers(["1.1.1.1", "8.8.8.8"]);
@@ -172,7 +173,7 @@ const productsSeed = [
     description: 'Exquisite ruby pendant surrounded by diamonds in a 22K gold setting. A true treasure.',
     price: 24900,
     comparePrice: 29900,
-    category: 'Pendant',
+    category: 'Necklace',
     goldPurity: '22K',
     stoneType: 'Ruby',
     weight: 4.0,
@@ -238,25 +239,37 @@ const seedDB = async () => {
     await Product.insertMany(productsSeed);
     console.log('Seeded products successfully!');
 
-    // Check if admin user exists
-    const adminExists = await User.findOne({ email: 'admin@zakhira.com' });
-    if (!adminExists) {
-      await User.create({
-        name: 'Zakhira Admin',
-        email: 'admin@zakhira.com',
-        password: 'adminpassword123',
-        role: 'admin',
-        phone: '+91 9876543210',
-        address: {
-          street: '123 Luxury Way',
-          city: 'Jaipur',
-          state: 'Rajasthan',
-          pincode: '302001',
-          country: 'India'
-        }
-      });
-      console.log('Created default admin: admin@zakhira.com / adminpassword123');
-    }
+    // Configurable Admin Credentials from .env
+    const adminEmail = (process.env.ADMIN_EMAIL || 'adminzakhira@gmail.com').toLowerCase();
+    const adminPassword = process.env.ADMIN_PASSWORD || '1234';
+
+    // Seed or update Admin User
+    await User.deleteMany({ role: 'admin' });
+    await User.create({
+      name: 'ZAKHIRA Admin',
+      email: adminEmail,
+      password: adminPassword,
+      role: 'admin',
+      phone: '+91 9876543210',
+      address: {
+        street: '123 Luxury Way',
+        city: 'Jaipur',
+        state: 'Rajasthan',
+        pincode: '302001',
+        country: 'India'
+      }
+    });
+    console.log(`Created admin user: ${adminEmail} / ${adminPassword}`);
+
+    // Seed sample coupon code ZAKHIRA10
+    await Coupon.deleteMany({});
+    await Coupon.create({
+      code: 'ZAKHIRA10',
+      discountPercentage: 10,
+      minPurchase: 999,
+      isActive: true
+    });
+    console.log('Created sample promo coupon: ZAKHIRA10 (10% OFF)');
 
     console.log('DB Seed Complete! 🌱');
     process.exit(0);

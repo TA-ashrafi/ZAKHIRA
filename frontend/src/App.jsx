@@ -18,6 +18,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
 import Wishlist from './pages/Wishlist';
+import TrackOrder from './pages/TrackOrder';
 
 // Admin Components & Pages
 import AdminLayout from './components/admin/AdminLayout';
@@ -26,6 +27,7 @@ import AdminProducts from './pages/admin/AdminProducts';
 import AdminAddProduct from './pages/admin/AdminAddProduct';
 import AdminOrders from './pages/admin/AdminOrders';
 import AdminUsers from './pages/admin/AdminUsers';
+import AdminCoupons from './pages/admin/AdminCoupons';
 
 import useAuth from './hooks/useAuth';
 
@@ -92,6 +94,7 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/wishlist" element={<Wishlist />} />
+                <Route path="/track-order" element={<TrackOrder />} />
 
                 {/* Protected User Routes */}
                 <Route element={<ProtectedRoute />}>
@@ -108,6 +111,7 @@ function App() {
                 <Route path="/admin/edit-product/:id" element={<AdminAddProduct />} />
                 <Route path="/admin/orders" element={<AdminOrders />} />
                 <Route path="/admin/users" element={<AdminUsers />} />
+                <Route path="/admin/coupons" element={<AdminCoupons />} />
               </Route>
 
               {/* Fallback redirect */}
