@@ -119,62 +119,100 @@ const Home = () => {
 
   return (
     <div className="bg-[#0D0D0D] text-[#F8F6F1]">
-      {/* ===== PORTFOLIO HERO SECTION WITH HUGE TYPOGRAPHY & MODEL PNG ===== */}
-      <section className="relative min-h-screen flex flex-col justify-between items-center overflow-hidden bg-gradient-to-b from-[#0A0A0A] via-[#141414] to-[#0D0D0D] pt-28 pb-12 px-4">
-        {/* Subtle Background Glow & Pattern */}
+      {/* ===== EDITORIAL LUXURY HERO SECTION (BURGUNDY THEME + MODEL PNG) ===== */}
+      <section className="relative min-h-screen bg-gradient-to-b from-[#2B080C] via-[#1A0306] to-[#0D0D0D] overflow-hidden pt-24 pb-12 flex flex-col justify-between px-6 md:px-12">
+        {/* Subtle radial glow overlay */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#C9A86C]/10 rounded-full blur-[140px]" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-[#C9A86C]/10 blur-[150px] rounded-full" />
         </div>
 
-        {/* Top Tagline */}
-        <div className="relative z-10 text-center space-y-2">
-          <span className="inline-flex items-center gap-2 text-[#C9A86C] tracking-[0.4em] text-xs uppercase font-semibold border border-[#C9A86C]/30 px-4 py-1.5 rounded-full bg-[#1A1A1A]/60 backdrop-blur-md">
-            <Sparkles className="w-3.5 h-3.5" /> ROYAL HAUTE JOAILLERIE • ATELIER JAIPUR
+        {/* Top Tagline / Atelier Bar */}
+        <div className="relative z-10 flex justify-between items-center max-w-7xl mx-auto w-full pt-4">
+          <span className="text-[#C9A86C] text-[11px] font-semibold tracking-[0.3em] uppercase flex items-center gap-2">
+            <Sparkles className="w-3.5 h-3.5" /> ATELIER JAIPUR • HAUTE JOAILLERIE
           </span>
+          <a
+            href="https://wa.me/918527580809"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-[#C9A86C] border border-[#C9A86C]/40 px-4 py-1.5 rounded-full hover:bg-[#C9A86C]/10 transition flex items-center gap-2"
+          >
+            <Phone className="w-3 h-3" /> VIP Consultation
+          </a>
         </div>
 
-        {/* Giant Headline Typography with Model Overlay */}
-        <div className="relative w-full max-w-7xl mx-auto flex items-center justify-center my-6 py-8">
-          {/* Giant Background Word */}
-          <h1 className="font-playfair text-[12vw] sm:text-[14vw] md:text-[16vw] font-bold text-center leading-none text-transparent bg-clip-text bg-gradient-to-b from-[#FAF8F5]/20 via-[#C9A86C]/30 to-transparent select-none tracking-tighter">
+        {/* Center Stage: Giant Typography & Transparent Model Overlay */}
+        <div className="relative max-w-7xl mx-auto w-full my-auto py-12 flex flex-col items-center justify-center">
+          {/* Giant Background Watermark Text "ZAKHIRA" */}
+          <h1 className="font-playfair text-[15vw] leading-none font-bold text-center text-transparent bg-clip-text bg-gradient-to-b from-[#C9A86C]/30 via-[#C9A86C]/15 to-transparent tracking-tighter select-none">
             ZAKHIRA
           </h1>
 
-          {/* Model Image Portrait Overlay */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 sm:w-80 md:w-96 aspect-[3/4] rounded-full overflow-hidden border-2 border-[#C9A86C]/50 shadow-[0_0_50px_rgba(201,168,108,0.25)] z-10 hover:scale-105 transition-transform duration-700">
+          {/* Model Overlay Image */}
+          <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
             <img
-              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=800"
-              alt="ZAKHIRA Royal Muse"
-              className="w-full h-full object-cover filter brightness-105 contrast-105"
+              src="/hero_img.png"
+              alt="ZAKHIRA Muse"
+              className="h-[75vh] md:h-[85vh] object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)] filter brightness-105 contrast-105 pointer-events-auto transition-transform duration-700 hover:scale-102"
+              onError={(e) => {
+                // Fallback if public path served differently
+                e.target.src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=800';
+              }}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-            <div className="absolute bottom-4 left-0 right-0 text-center">
-              <span className="text-[10px] tracking-[0.3em] uppercase text-[#C9A86C]">Signature Solitaire Collection</span>
+          </div>
+
+          {/* Left Block: Creative Director Info */}
+          <div className="absolute left-0 bottom-8 max-w-xs z-20 hidden md:block text-left space-y-2">
+            <div className="border-l-2 border-[#C9A86C] pl-3">
+              <p className="text-[#C9A86C] font-semibold text-xs tracking-widest uppercase">
+                I'M TAHSEEN
+              </p>
+              <p className="text-gray-300 text-[10px] tracking-wider uppercase font-medium">
+                CREATIVE DIRECTOR & DESIGNER
+              </p>
+            </div>
+            <p className="text-gray-400 text-xs italic font-light leading-relaxed">
+              "Crafting timeless jewellery experiences with elegance, emotion, and individuality."
+            </p>
+          </div>
+
+          {/* Right Block: Design that Tells Your Story & Services */}
+          <div className="absolute right-0 bottom-8 max-w-xs z-20 hidden md:block text-right space-y-3">
+            <p className="font-playfair italic text-xl text-[#C9A86C] leading-tight">
+              Design that Tells Your Story
+            </p>
+            <ul className="text-gray-300 text-[11px] tracking-widest uppercase space-y-1 font-medium">
+              <li>✦ FINE JEWELLERY</li>
+              <li>✦ CUSTOM DESIGNS</li>
+              <li>✦ BESPOKE CREATIONS</li>
+              <li>✦ TIMELESS ELEGANCE</li>
+            </ul>
+            <div>
+              <Link
+                to="/shop"
+                className="inline-flex items-center gap-2 bg-[#C9A86C] text-black font-semibold text-[11px] tracking-widest uppercase px-6 py-2.5 rounded-full hover:bg-[#b8975b] transition shadow-lg shadow-[#C9A86C]/20 pointer-events-auto"
+              >
+                Shop Collection <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
             </div>
           </div>
         </div>
 
-        {/* Hero CTA & Subtitle */}
-        <div className="relative z-10 text-center max-w-2xl mx-auto space-y-6">
-          <p className="text-gray-300 font-light text-sm sm:text-base leading-relaxed max-w-lg mx-auto">
-            Sculpted in 18K & 22K hallmarked fine gold and conflict-free natural VVS diamonds. Created for royalty and life's defining milestones.
-          </p>
+        {/* Mobile Call to Action Button */}
+        <div className="relative z-20 text-center md:hidden pb-6">
+          <Link
+            to="/shop"
+            className="inline-flex items-center gap-2 bg-[#C9A86C] text-black font-semibold text-xs tracking-widest uppercase px-8 py-3.5 rounded-full hover:bg-[#b8975b] transition shadow-lg shadow-[#C9A86C]/20"
+          >
+            Shop Collection <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
 
-          <div className="flex flex-wrap justify-center gap-4">
-            <Link
-              to="/shop"
-              className="bg-gradient-to-r from-[#C9A86C] to-[#a38048] text-black font-semibold text-xs tracking-widest uppercase px-8 py-3.5 rounded-full hover:brightness-110 transition shadow-lg shadow-[#C9A86C]/20 flex items-center gap-2"
-            >
-              Explore Royal Atelier <ArrowRight className="w-4 h-4" />
-            </Link>
-            <a
-              href="https://wa.me/918527580809"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="border border-[#C9A86C]/50 text-[#F8F6F1] hover:bg-[#C9A86C]/10 font-semibold text-xs tracking-widest uppercase px-8 py-3.5 rounded-full transition flex items-center gap-2"
-            >
-              <Phone className="w-4 h-4 text-[#C9A86C]" /> VIP WhatsApp Consultation
-            </a>
+        {/* Bottom Scroll Indicator */}
+        <div className="relative z-10 flex flex-col items-center justify-center pt-2">
+          <span className="text-[10px] tracking-[0.3em] uppercase text-[#C9A86C]/70 mb-1">Scroll to Explore</span>
+          <div className="w-5 h-8 border border-[#C9A86C]/40 rounded-full flex justify-center pt-1.5">
+            <div className="w-1 h-2 bg-[#C9A86C] rounded-full animate-bounce" />
           </div>
         </div>
       </section>
