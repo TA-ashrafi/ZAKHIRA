@@ -198,10 +198,10 @@ const Home = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="relative group overflow-hidden rounded-lg h-96 shadow-md">
               <div className="absolute inset-0 bg-gray-200">
-                <img
-                  src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&q=80&w=800"
-                  alt="Royal Wedding"
-                  className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
+                <img 
+                  src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&q=80&w=800" 
+                  alt="Royal Wedding" 
+                  className="w-full h-full object-cover group-hover:scale-105 transition duration-700" 
                 />
               </div>
               <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition flex flex-col items-center justify-center text-white p-6 text-center">
@@ -216,10 +216,10 @@ const Home = () => {
 
             <div className="relative group overflow-hidden rounded-lg h-96 shadow-md">
               <div className="absolute inset-0 bg-gray-200">
-                <img
-                  src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&q=80&w=800"
-                  alt="Everyday Minimalist"
-                  className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
+                <img 
+                  src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&q=80&w=800" 
+                  alt="Everyday Minimalist" 
+                  className="w-full h-full object-cover group-hover:scale-105 transition duration-700" 
                 />
               </div>
               <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition flex flex-col items-center justify-center text-white p-6 text-center">
@@ -234,10 +234,10 @@ const Home = () => {
 
             <div className="relative group overflow-hidden rounded-lg h-96 shadow-md">
               <div className="absolute inset-0 bg-gray-200">
-                <img
-                  src="https://images.unsplash.com/photo-1630019852942-f89202989a59?auto=format&fit=crop&q=80&w=800"
-                  alt="Diamond Solitaires"
-                  className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
+                <img 
+                  src="https://images.unsplash.com/photo-1630019852942-f89202989a59?auto=format&fit=crop&q=80&w=800" 
+                  alt="Diamond Solitaires" 
+                  className="w-full h-full object-cover group-hover:scale-105 transition duration-700" 
                 />
               </div>
               <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition flex flex-col items-center justify-center text-white p-6 text-center">

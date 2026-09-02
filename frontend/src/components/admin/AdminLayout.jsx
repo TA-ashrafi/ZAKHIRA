@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import {
-  LayoutDashboard,
-  Package,
-  PlusCircle,
-  ShoppingBag,
-  Users,
-  Tag,
-  ArrowLeft,
+import { 
+  LayoutDashboard, 
+  Package, 
+  PlusCircle, 
+  ShoppingBag, 
+  Users, 
+  ArrowLeft, 
   LogOut,
   Menu,
   X,
@@ -83,8 +82,8 @@ const AdminLayout = () => {
                   onClick={() => setSidebarOpen(false)}
                   className={`
                     flex items-center gap-3 px-4 py-3 rounded-lg text-xs font-semibold uppercase tracking-wider transition
-                    ${isActive
-                      ? 'bg-zakhira-gold text-white shadow-md'
+                    ${isActive 
+                      ? 'bg-zakhira-gold text-white shadow-md' 
                       : 'text-white/70 hover:bg-white/10 hover:text-white'}
                   `}
                 >
