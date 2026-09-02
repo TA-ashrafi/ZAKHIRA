@@ -23,16 +23,16 @@ export const placeOrder = async (req, res) => {
       name: item.product.name,
       price: item.product.price,
       quantity: item.quantity,
-      image: item.product.images[0] || ''
+      image: (item.product.images && item.product.images.length > 0) ? item.product.images[0] : ''
     }));
 
     // Check stock
     for (const item of cart.items) {
       const product = await Product.findById(item.product._id);
-      if (product.stockQuantity < item.quantity) {
+      if (!product || product.stockQuantity < item.quantity) {
         return res.status(400).json({
           success: false,
-          message: `Not enough stock for ${product.name}. Available: ${product.stockQuantity}`
+          message: `Not enough stock for ${product ? product.name : 'product'}.`
         });
       }
     }
@@ -44,7 +44,7 @@ export const placeOrder = async (req, res) => {
       totalAmount: cart.totalPrice,
       shippingAddress: shippingAddress || req.user.address,
       paymentMethod,
-      paymentStatus: paymentMethod === 'COD' ? 'Pending' : 'Pending',
+      paymentStatus: paymentMethod === 'COD' ? 'Pending' : 'Paid',
       orderStatus: 'Processing'
     });
 
@@ -95,7 +95,7 @@ export const getOrders = async (req, res) => {
 // Get single order
 export const getOrderById = async (req, res) => {
   try {
-    const order = await Order.findById(req.params.id);
+    const order = await Order.findById(req.params.id).populate('user', 'name email phone');
 
     if (!order) {
       return res.status(404).json({
@@ -105,7 +105,7 @@ export const getOrderById = async (req, res) => {
     }
 
     // Check if order belongs to user or user is admin
-    if (order.user.toString() !== req.user.id && req.user.role !== 'admin') {
+    if (order.user._id.toString() !== req.user.id && req.user.role !== 'admin') {
       return res.status(403).json({
         success: false,
         message: 'Access denied'
@@ -115,6 +115,26 @@ export const getOrderById = async (req, res) => {
     res.status(200).json({
       success: true,
       data: order
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Server error'
+    });
+  }
+};
+
+// Get all orders (Admin only)
+export const getAllOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({})
+      .populate('user', 'name email phone')
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      count: orders.length,
+      data: orders
     });
   } catch (error) {
     res.status(500).json({

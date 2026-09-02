@@ -37,6 +37,8 @@ export const register = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
+        phone: user.phone,
+        address: user.address,
         token: generateToken(user._id)
       }
     });
@@ -84,6 +86,8 @@ export const login = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
+        phone: user.phone,
+        address: user.address,
         token: generateToken(user._id)
       }
     });
@@ -134,6 +138,23 @@ export const updateProfile = async (req, res) => {
       success: true,
       message: 'Profile updated successfully!',
       data: user
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Server error'
+    });
+  }
+};
+
+// Get All Users (Admin only)
+export const getUsers = async (req, res) => {
+  try {
+    const users = await User.find({}).select('-password').sort({ createdAt: -1 });
+    res.status(200).json({
+      success: true,
+      count: users.length,
+      data: users
     });
   } catch (error) {
     res.status(500).json({
