@@ -79,13 +79,8 @@ const Navbar = () => {
                   <ShieldAlert className="w-3 h-3" /> Admin Portal
                 </Link>
               )}
-<<<<<<< HEAD
               
               <button 
-=======
-
-              <button
->>>>>>> d3baaa56c6b81aa3e5f1a03e0b36b4917644fd9d
                 onClick={() => setIsHelpOpen(true)}
                 className="hover:text-zakhira-gold transition flex items-center gap-1 cursor-pointer"
               >
@@ -96,13 +91,8 @@ const Navbar = () => {
                 TRACK ORDER
               </Link>
 
-<<<<<<< HEAD
               <Link 
                 to={isAuthenticated ? "/profile" : "/login"} 
-=======
-              <Link
-                to={isAuthenticated ? "/profile" : "/login"}
->>>>>>> d3baaa56c6b81aa3e5f1a03e0b36b4917644fd9d
                 className="hover:text-zakhira-gold transition font-semibold text-zakhira-gold border border-zakhira-gold/40 px-2.5 py-0.5 rounded-full hover:bg-zakhira-gold hover:text-black"
               >
                 {isAuthenticated ? "MY ACCOUNT" : "LOGIN / REGISTER"}
@@ -137,11 +127,7 @@ const Navbar = () => {
                 to={link.path}
                 className={`text-[11px] font-medium tracking-[0.2em] uppercase transition duration-200 py-1 ${
                   location.pathname + location.search === link.path 
-<<<<<<< HEAD
                     ? 'text-zakhira-gold border-b-2 border-zakhira-gold' 
-=======
-                    ? 'text-zakhira-gold border-b-2 border-zakhira-gold'
->>>>>>> d3baaa56c6b81aa3e5f1a03e0b36b4917644fd9d
                     : 'text-white/80 hover:text-zakhira-gold'
                 }`}
               >
@@ -194,13 +180,8 @@ const Navbar = () => {
                   </div>
                 </button>
               ) : (
-<<<<<<< HEAD
                 <Link 
                   to="/login" 
-=======
-                <Link
-                  to="/login"
->>>>>>> d3baaa56c6b81aa3e5f1a03e0b36b4917644fd9d
                   className="hidden sm:flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-zakhira-gold border border-zakhira-gold/50 px-3 py-1.5 rounded-full hover:bg-zakhira-gold hover:text-black transition"
                 >
                   <User className="w-4 h-4" />
@@ -337,11 +318,7 @@ const Navbar = () => {
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-[#141414] border border-zakhira-gold/40 rounded-2xl max-w-lg w-full p-6 text-white relative shadow-2xl animate-scaleUp">
             {/* Close button */}
-<<<<<<< HEAD
             <button 
-=======
-            <button
->>>>>>> d3baaa56c6b81aa3e5f1a03e0b36b4917644fd9d
               onClick={() => setIsHelpOpen(false)}
               className="absolute top-4 right-4 text-gray-400 hover:text-white p-1 rounded-full hover:bg-white/10 transition"
             >
@@ -359,15 +336,9 @@ const Navbar = () => {
 
             {/* Contact Details */}
             <div className="space-y-3 mb-6">
-<<<<<<< HEAD
               <a 
                 href="https://wa.me/918527580809" 
                 target="_blank" 
-=======
-              <a
-                href="https://wa.me/918527580809"
-                target="_blank"
->>>>>>> d3baaa56c6b81aa3e5f1a03e0b36b4917644fd9d
                 rel="noreferrer"
                 className="flex items-center justify-between bg-emerald-950/40 border border-emerald-500/30 p-3.5 rounded-xl text-emerald-300 hover:bg-emerald-900/30 transition text-xs"
               >
@@ -381,13 +352,8 @@ const Navbar = () => {
                 <span className="bg-emerald-500/20 text-emerald-300 px-3 py-1 rounded-full text-[10px] font-semibold uppercase">Chat Live</span>
               </a>
 
-<<<<<<< HEAD
               <a 
                 href="tel:+918527580809" 
-=======
-              <a
-                href="tel:+918527580809"
->>>>>>> d3baaa56c6b81aa3e5f1a03e0b36b4917644fd9d
                 className="flex items-center justify-between bg-white/5 border border-white/10 p-3.5 rounded-xl hover:bg-white/10 transition text-xs"
               >
                 <div className="flex items-center gap-3">
@@ -400,13 +366,8 @@ const Navbar = () => {
                 <span className="text-zakhira-gold text-[10px] uppercase tracking-wider font-semibold">Call Now</span>
               </a>
 
-<<<<<<< HEAD
               <a 
                 href="mailto:tahseenashrafi29@gmail.com" 
-=======
-              <a
-                href="mailto:tahseenashrafi29@gmail.com"
->>>>>>> d3baaa56c6b81aa3e5f1a03e0b36b4917644fd9d
                 className="flex items-center justify-between bg-white/5 border border-white/10 p-3.5 rounded-xl hover:bg-white/10 transition text-xs"
               >
                 <div className="flex items-center gap-3">
@@ -433,11 +394,7 @@ const Navbar = () => {
             </div>
 
             {/* Close CTA */}
-<<<<<<< HEAD
             <button 
-=======
-            <button
->>>>>>> d3baaa56c6b81aa3e5f1a03e0b36b4917644fd9d
               onClick={() => setIsHelpOpen(false)}
               className="mt-6 w-full bg-zakhira-gold text-black py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-[#b8975b] transition"
             >
