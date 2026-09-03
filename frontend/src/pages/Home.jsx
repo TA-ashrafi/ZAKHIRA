@@ -47,21 +47,12 @@ const Home = () => {
   }
 
   // Filter Necklaces and Earrings
-<<<<<<< HEAD
   const necklacesList = products.filter(p => 
     p.category?.toLowerCase() === 'necklace' || 
     p.category?.toLowerCase() === 'necklaces'
   );
   const earringsList = products.filter(p => 
     p.category?.toLowerCase() === 'earring' || 
-=======
-  const necklacesList = products.filter(p =>
-    p.category?.toLowerCase() === 'necklace' ||
-    p.category?.toLowerCase() === 'necklaces'
-  );
-  const earringsList = products.filter(p =>
-    p.category?.toLowerCase() === 'earring' ||
->>>>>>> 3c318cea24b23b97f2a9156e3877166c8e6a2de2
     p.category?.toLowerCase() === 'earrings'
   );
 
@@ -384,11 +375,7 @@ const Home = () => {
             <div className="relative group overflow-hidden rounded-xl h-96 border border-[#C9A86C]/30 shadow-xl">
               <div className="absolute inset-0 bg-gray-900">
                 <img 
-<<<<<<< HEAD
                   src={necklace1Img} 
-=======
-                  src={necklace1Img}
->>>>>>> 3c318cea24b23b97f2a9156e3877166c8e6a2de2
                   alt="Royal Wedding" 
                   className="w-full h-full object-cover group-hover:scale-105 transition duration-700 filter brightness-90" 
                 />
@@ -406,11 +393,7 @@ const Home = () => {
             <div className="relative group overflow-hidden rounded-xl h-96 border border-[#C9A86C]/30 shadow-xl">
               <div className="absolute inset-0 bg-gray-900">
                 <img 
-<<<<<<< HEAD
                   src={ring1Img} 
-=======
-                  src={ring1Img}
->>>>>>> 3c318cea24b23b97f2a9156e3877166c8e6a2de2
                   alt="Everyday Minimalist" 
                   className="w-full h-full object-cover group-hover:scale-105 transition duration-700 filter brightness-90" 
                 />
@@ -428,11 +411,7 @@ const Home = () => {
             <div className="relative group overflow-hidden rounded-xl h-96 border border-[#C9A86C]/30 shadow-xl">
               <div className="absolute inset-0 bg-gray-900">
                 <img 
-<<<<<<< HEAD
                   src={earring1Img} 
-=======
-                  src={earring1Img}
->>>>>>> 3c318cea24b23b97f2a9156e3877166c8e6a2de2
                   alt="Diamond Solitaires" 
                   className="w-full h-full object-cover group-hover:scale-105 transition duration-700 filter brightness-90" 
                 />
