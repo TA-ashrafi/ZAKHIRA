@@ -1,10 +1,7 @@
 import { createTransport } from "nodemailer";
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 // Helper to get SMTP transporter with environment variables
-export const getTransporter = () => {
+const getTransporter = () => {
   const host = process.env.SMTP_HOST || process.env.EMAIL_HOST || "smtp-relay.brevo.com";
   const port = Number(process.env.SMTP_PORT || process.env.EMAIL_PORT) || 587;
   const isSecure = process.env.SMTP_SECURE === "true" || port === 465;
@@ -12,13 +9,13 @@ export const getTransporter = () => {
   return createTransport({
     host,
     port,
-    secure: isSecure,
+    secure: isSecure, // false for port 587, true for 465
     auth: {
       user: process.env.SMTP_USER || process.env.EMAIL_USER,
       pass: process.env.SMTP_PASS || process.env.EMAIL_PASS,
     },
     tls: {
-      rejectUnauthorized: false,
+      rejectUnauthorized: false, // Serverless runtime TLS fix
     },
     connectionTimeout: 10000,
   });
