@@ -7,20 +7,16 @@ import {
   Headphones, 
   ArrowRight, 
   Star,
-  Play,
   Quote,
   Sparkles,
-  Crown,
-  Phone,
-  Mail
+  Crown
 } from 'lucide-react';
-import { categoriesData, productsData, heroData } from '../data/products';
+import { categoriesData, productsData } from '../data/products';
 import productService from '../services/product.service';
 import ProductCard from '../components/user/ProductCard';
 import hero_img from '../assets/images/hero_img.png';
 
 const Home = () => {
-  
   const [products, setProducts] = useState(productsData);
 
   useEffect(() => {
@@ -39,7 +35,7 @@ const Home = () => {
 
   const bestSellers = products.slice(0, 6);
 
-  // 3D Curved Showcase Items matching Screenshot 2026-09-02 174534.png
+  // 3D Curved Showcase Items
   const curvedGalleryItems = [
     {
       id: 1,
@@ -59,7 +55,7 @@ const Home = () => {
     },
     {
       id: 3,
-      title: 'THE Hibiscus Ring II',
+      title: 'THE HIBISCUS RING II',
       category: 'Rings',
       isCenter: true,
       image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&q=80&w=800',
@@ -112,20 +108,13 @@ const Home = () => {
     }
   ];
 
-  // Video Reviews
-  const videoReviews = [
-    { id: 1, title: 'Unboxing ZAKHIRA Solitaire Collection', duration: '2:30', thumbnail: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&q=80&w=800' },
-    { id: 2, title: 'Review - Diamond Studs & Hoop Earrings', duration: '3:15', thumbnail: 'https://images.unsplash.com/photo-1630019852942-f89202989a59?auto=format&fit=crop&q=80&w=800' },
-    { id: 3, title: '22K Gold Bangles & Bracelet Showcase', duration: '1:45', thumbnail: 'https://images.unsplash.com/photo-1611591475140-1e5b4109f6b9?auto=format&fit=crop&q=80&w=800' },
-  ];
-
   return (
     <div className="bg-[#0D0D0D] text-[#F8F6F1]">
-      {/* ===== CLEAN HERO SECTION - FULL SCREEN ===== */}
-      <section className="relative h-screen w-full bg-gradient-to-b from-[#2B080C] via-[#1A0306] to-[#0D0D0D] overflow-hidden flex items-center justify-center">
+      {/* ===== LUXURY FULL-SCREEN HERO SECTION ===== */}
+      <section className="relative h-screen w-full bg-gradient-to-b from-[#2B080C] via-[#1A0306] to-[#0D0D0D] overflow-hidden flex flex-col justify-between items-center pt-24 pb-8">
         {/* Subtle radial glow overlay */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-[#C9A86C]/10 blur-[150px] rounded-full" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[600px] bg-[#C9A86C]/10 blur-[160px] rounded-full" />
         </div>
 
         {/* Giant Background Watermark Text "ZAKHIRA" */}
@@ -133,13 +122,39 @@ const Home = () => {
           ZAKHIRA
         </h1>
 
+        {/* Top Tagline */}
+        <div className="relative z-10 text-center px-4 mt-2">
+          <span className="inline-flex items-center gap-2 text-zakhira-gold text-xs font-semibold tracking-[0.35em] uppercase bg-black/40 px-4 py-1.5 rounded-full border border-zakhira-gold/30 backdrop-blur-md">
+            <Crown className="w-3.5 h-3.5" /> ROYAL HAUTE JOAILLERIE
+          </span>
+        </div>
+
         {/* Model Overlay Image */}
-        <div className="relative z-10 flex items-center justify-center w-full h-full">
+        <div className="relative z-10 flex items-center justify-center w-full flex-1 my-auto">
           <img
             src={hero_img}
-            alt="ZAKHIRA Muse"
-            className="h-[75vh] md:h-[85vh] w-auto object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)] filter brightness-105 contrast-105 transition-transform duration-700 hover:scale-102"
+            alt="ZAKHIRA Fine Jewellery"
+            className="max-h-[60vh] md:max-h-[72vh] w-auto object-contain drop-shadow-[0_25px_60px_rgba(0,0,0,0.9)] filter brightness-105 contrast-105 transition-transform duration-700 hover:scale-102"
           />
+        </div>
+
+        {/* Hero CTA Overlay Buttons */}
+        <div className="relative z-20 text-center space-y-3 pb-4">
+          <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
+            <Link
+              to="/shop"
+              className="bg-zakhira-gold text-black font-bold text-xs uppercase tracking-[0.2em] px-8 py-3.5 rounded-full hover:bg-[#b8975b] transition shadow-lg shadow-zakhira-gold/20 flex items-center gap-2 group"
+            >
+              <span>Explore Royal Archives</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
+            <Link
+              to="/shop?category=Necklace"
+              className="border border-zakhira-gold/60 text-zakhira-gold font-bold text-xs uppercase tracking-[0.2em] px-8 py-3.5 rounded-full hover:bg-zakhira-gold/10 transition backdrop-blur-sm"
+            >
+              View Bridal Collection
+            </Link>
+          </div>
         </div>
       </section>
 

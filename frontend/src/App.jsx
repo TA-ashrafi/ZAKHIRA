@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, Outlet, useLocation } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 
 import { AuthProvider } from './contexts/AuthContext';
@@ -39,10 +39,13 @@ import useAuth from './hooks/useAuth';
 
 // Public Layout Wrapper with Navbar & Footer
 const PublicLayout = () => {
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
+
   return (
-    <div className="min-h-screen flex flex-col font-inter bg-white text-zakhira-dark">
+    <div className="min-h-screen flex flex-col font-inter bg-[#0D0D0D] text-white">
       <Navbar />
-      <main className="flex-1">
+      <main className={`flex-1 ${isHomePage ? '' : 'pt-28 md:pt-32'}`}>
         <Outlet />
       </main>
       <Footer />
