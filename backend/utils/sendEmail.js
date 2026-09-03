@@ -1,69 +1,6 @@
-import nodemailer from 'nodemailer';
+import sendEmail, { getTransporter } from '../config/nodemailer.js';
 
-/**
- * Send Email utility supporting Brevo / SMTP / Gmail with environment variable fallback.
- * Flexible env vars supported:
- * - SMTP_USER / EMAIL_USER
- * - SMTP_PASS / EMAIL_PASS
- * - SENDER_EMAIL / EMAIL_FROM
- * - SMTP_HOST / EMAIL_HOST (Default: 'smtp-relay.brevo.com')
- * - SMTP_PORT / EMAIL_PORT (Default: 587)
- */
-export const sendEmail = async ({ to, subject, html, text }) => {
-  try {
-    const smtpUser = process.env.SMTP_USER || process.env.EMAIL_USER;
-    const smtpPass = process.env.SMTP_PASS || process.env.EMAIL_PASS;
-    const senderEmail = process.env.SENDER_EMAIL || process.env.EMAIL_FROM || 'tahseenashrafi29@gmail.com';
-    const smtpHost = process.env.SMTP_HOST || process.env.EMAIL_HOST || 'smtp-relay.brevo.com';
-    const smtpPort = Number(process.env.SMTP_PORT || process.env.EMAIL_PORT) || 587;
-    const isSecure = process.env.SMTP_SECURE === 'true' || smtpPort === 465;
-
-    // If SMTP credentials are present, configure Nodemailer transporter
-    if (smtpUser && smtpPass) {
-      console.log(`[EMAIL DISPATCH] Preparing email to ${to} via ${smtpHost}:${smtpPort}...`);
-
-      const transporter = nodemailer.createTransport({
-        host: smtpHost,
-        port: smtpPort,
-        secure: isSecure, // false for 587 (uses STARTTLS), true for 465
-        auth: {
-          user: smtpUser,
-          pass: smtpPass
-        },
-        requireTLS: !isSecure,
-        tls: {
-          rejectUnauthorized: false
-        },
-        connectionTimeout: 15000,
-        greetingTimeout: 15000
-      });
-
-      const mailOptions = {
-        from: `"ZAKHIRA Royal Atelier" <${senderEmail}>`,
-        to,
-        subject,
-        text: text || (html ? html.replace(/<[^>]*>?/gm, '') : ''),
-        html,
-        replyTo: senderEmail
-      };
-
-      const info = await transporter.sendMail(mailOptions);
-      console.log(`[EMAIL SUCCESS] Email dispatched to ${to}. Response ID: ${info.messageId}`);
-      return { success: true, messageId: info.messageId, response: info.response };
-    } else {
-      // Log warning when credentials are not configured
-      console.warn(`[EMAIL MOCK DISPATCH] SMTP credentials missing in .env (SMTP_USER / SMTP_PASS).`);
-      console.log(`Simulated dispatch to ${to} | Subject: ${subject}`);
-      return { success: true, mock: true, message: 'SMTP credentials missing, email simulated' };
-    }
-  } catch (error) {
-    console.error(`[EMAIL ERROR] Failed sending to ${to}:`, error.message);
-    if (error.response) {
-      console.error(`[EMAIL ERROR DETAILS] SMTP Server response:`, error.response);
-    }
-    return { success: false, error: error.message };
-  }
-};
+export { sendEmail };
 
 /**
  * Generate Welcome Email Template for new ZAKHIRA members
@@ -93,7 +30,7 @@ export const getWelcomeEmailTemplate = (name) => {
         <h1>Welcome to Royal Haute Joaillerie, ${name}</h1>
         <p>We are delighted to welcome you into the inner sanctum of ZAKHIRA. Your journey into handcrafted 18K & 22K hallmarked fine gold and certified diamond treasures begins today.</p>
         <p>As a valued connoisseur, enjoy complimentary insured worldwide shipping, private consultations, and priority access to our limited high jewelry drop collections.</p>
-        <a href="https://zakhira.com/shop" class="cta-btn">Explore Royal Collections</a>
+        <a href="${process.env.VITE_BASE_URL || 'http://localhost:5173'}" class="cta-btn">Explore Royal Collections</a>
         <div class="footer">
           <p>© 2026 ZAKHIRA Atelier Jaipur. All rights reserved.</p>
           <p>Jaipur • Delhi • Mumbai • Dubai</p>
