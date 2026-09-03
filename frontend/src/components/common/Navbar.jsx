@@ -8,7 +8,13 @@ import {
   X,
   LogOut,
   ShieldAlert,
-  UserCheck
+  UserCheck,
+  Phone,
+  Mail,
+  HelpCircle,
+  Clock,
+  Sparkles,
+  MessageCircle
 } from 'lucide-react';
 import { useState } from 'react';
 import useAuth from '../../hooks/useAuth';
@@ -18,6 +24,7 @@ import useWishlist from '../../hooks/useWishlist';
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isHelpOpen, setIsHelpOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [showUserDropdown, setShowUserDropdown] = useState(false);
 
@@ -49,124 +56,147 @@ const Navbar = () => {
 
   return (
     <>
-      {/* ===== TOP BAR - BLACK ===== */}
-      <div className="bg-[#1A1A1A] text-white/60 text-[10px] py-2 hidden md:block absolute top-0 left-0 right-0 z-50 border-b border-white/5">
-        <div className="container mx-auto px-4 flex justify-between items-center">
-          <div className="flex items-center space-x-6">
-            <span className="tracking-wider font-light flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-zakhira-gold animate-pulse"></span>
-              LIVE GOLD 24K: ₹7,450/g
-            </span>
-            <span className="text-white/20">|</span>
-            <span className="tracking-wider font-light">INSURED EXPRESS SHIPPING</span>
-            <span className="text-white/20">|</span>
-            <span className="text-zakhira-gold font-semibold tracking-wider">10% OFF: ZAKHIRA10</span>
-          </div>
-          <div className="flex items-center space-x-6 text-[10px] tracking-wider uppercase">
-            {isAdmin && (
-              <Link to="/admin" className="text-zakhira-gold font-semibold hover:underline flex items-center gap-1">
-                <ShieldAlert className="w-3 h-3" /> Admin
+      <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/10 transition-all duration-300">
+        {/* ===== TOP ANNOUNCEMENT & UTILITY BAR ===== */}
+        <div className="hidden md:block bg-black/50 border-b border-white/10 text-white/70 text-[10px] tracking-wider py-1.5 px-6">
+          <div className="max-w-7xl mx-auto flex justify-between items-center">
+            {/* Left Highlights */}
+            <div className="flex items-center space-x-5">
+              <span className="font-light flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-zakhira-gold animate-pulse"></span>
+                LIVE GOLD 24K: ₹7,450/g
+              </span>
+              <span className="text-white/20">|</span>
+              <span className="font-light">INSURED EXPRESS SHIPPING WORLDWIDE</span>
+              <span className="text-white/20">|</span>
+              <span className="text-zakhira-gold font-semibold">USE CODE: ZAKHIRA10 FOR 10% OFF</span>
+            </div>
+
+            {/* Right Action Links */}
+            <div className="flex items-center space-x-5 text-[10px] uppercase font-medium">
+              {isAdmin && (
+                <Link to="/admin" className="text-zakhira-gold font-bold hover:underline flex items-center gap-1">
+                  <ShieldAlert className="w-3 h-3" /> Admin Portal
+                </Link>
+              )}
+
+              <button
+                onClick={() => setIsHelpOpen(true)}
+                className="hover:text-zakhira-gold transition flex items-center gap-1 cursor-pointer"
+              >
+                <HelpCircle className="w-3 h-3 text-zakhira-gold" /> HELP & SUPPORT
+              </button>
+
+              <Link to="/track-order" className="hover:text-zakhira-gold transition">
+                TRACK ORDER
               </Link>
-            )}
-            <Link to="/shop" className="hover:text-zakhira-gold transition">HELP</Link>
-            <Link to="/track-order" className="hover:text-zakhira-gold transition">TRACK</Link>
-            <Link to={isAuthenticated ? "/profile" : "/login"} className="hover:text-zakhira-gold transition">
-              {isAuthenticated ? "ACCOUNT" : "LOGIN"}
-            </Link>
+
+              <Link
+                to={isAuthenticated ? "/profile" : "/login"}
+                className="hover:text-zakhira-gold transition font-semibold text-zakhira-gold border border-zakhira-gold/40 px-2.5 py-0.5 rounded-full hover:bg-zakhira-gold hover:text-black"
+              >
+                {isAuthenticated ? "MY ACCOUNT" : "LOGIN / REGISTER"}
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* ===== MAIN NAVBAR - CLEAN TRANSPARENT (SAME AS BEFORE) ===== */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-transparent px-4 md:px-8 py-4 md:py-5">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          {/* Mobile Menu Button */}
+        {/* ===== MAIN NAVBAR ===== */}
+        <div className="max-w-7xl mx-auto px-4 md:px-8 py-3.5 flex items-center justify-between">
+          {/* Mobile Menu Toggle Button */}
           <button 
-            className="md:hidden text-white/80 hover:text-zakhira-gold transition p-1"
+            className="lg:hidden text-white/90 hover:text-zakhira-gold transition p-1.5 rounded-md hover:bg-white/5"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle Navigation Menu"
           >
             {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
 
-          {/* Logo */}
-          <Link to="/" className="flex items-center">
-            <span className="text-2xl md:text-3xl font-playfair font-bold text-white tracking-widest uppercase hover:text-zakhira-gold transition">
+          {/* Brand Logo */}
+          <Link to="/" className="flex items-center group">
+            <span className="text-2xl md:text-3xl font-playfair font-bold text-white tracking-[0.2em] uppercase group-hover:text-zakhira-gold transition duration-300">
               ZAKHIRA
             </span>
           </Link>
 
           {/* Desktop Navigation Links */}
-          <div className="hidden lg:flex items-center space-x-7">
+          <nav className="hidden lg:flex items-center space-x-6 xl:space-x-8">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 to={link.path}
-                className={`text-[10px] font-light tracking-[0.25em] uppercase hover:text-zakhira-gold transition ${
+                className={`text-[11px] font-medium tracking-[0.2em] uppercase transition duration-200 py-1 ${
                   location.pathname + location.search === link.path 
-                    ? 'text-zakhira-gold border-b border-zakhira-gold pb-1' 
-                    : 'text-white/70'
+                    ? 'text-zakhira-gold border-b-2 border-zakhira-gold'
+                    : 'text-white/80 hover:text-zakhira-gold'
                 }`}
               >
                 {link.name}
               </Link>
             ))}
-          </div>
+          </nav>
 
-          {/* Right Icons */}
-          <div className="flex items-center space-x-4 md:space-x-5">
-            {/* Search */}
+          {/* Right Utilities (Search, Wishlist, Cart, Profile) */}
+          <div className="flex items-center space-x-3 sm:space-x-4">
+            {/* Search Toggle */}
             <button 
               onClick={() => setIsSearchOpen(!isSearchOpen)}
-              className="text-white/70 hover:text-zakhira-gold transition p-1"
+              className="text-white/80 hover:text-zakhira-gold transition p-1.5 rounded-full hover:bg-white/5"
+              title="Search"
             >
               <Search className="w-5 h-5" />
             </button>
 
-            {/* Wishlist */}
-            <Link to="/wishlist" className="relative text-white/70 hover:text-zakhira-gold transition p-1">
+            {/* Wishlist Icon */}
+            <Link to="/wishlist" className="relative text-white/80 hover:text-zakhira-gold transition p-1.5 rounded-full hover:bg-white/5" title="Wishlist">
               <Heart className="w-5 h-5" />
               {wishlistCount > 0 && (
-                <span className="absolute -top-1 -right-1.5 bg-zakhira-gold text-black text-[9px] font-bold rounded-full h-4 w-4 flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 bg-zakhira-gold text-black text-[9px] font-bold rounded-full h-4 w-4 flex items-center justify-center">
                   {wishlistCount}
                 </span>
               )}
             </Link>
 
-            {/* Cart */}
-            <Link to="/cart" className="relative text-white/70 hover:text-zakhira-gold transition p-1">
+            {/* Cart Icon */}
+            <Link to="/cart" className="relative text-white/80 hover:text-zakhira-gold transition p-1.5 rounded-full hover:bg-white/5" title="Cart">
               <ShoppingBag className="w-5 h-5" />
               {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1.5 bg-zakhira-gold text-black text-[9px] font-bold rounded-full h-4 w-4 flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 bg-zakhira-gold text-black text-[9px] font-bold rounded-full h-4 w-4 flex items-center justify-center">
                   {cartCount}
                 </span>
               )}
             </Link>
 
-            {/* User */}
+            {/* User Profile / Dropdown */}
             <div className="relative">
               {isAuthenticated ? (
                 <button
                   onClick={() => setShowUserDropdown(!showUserDropdown)}
-                  className="flex items-center p-1 rounded-full hover:ring-2 hover:ring-zakhira-gold/50 transition"
+                  className="flex items-center p-1 rounded-full border border-zakhira-gold/60 hover:ring-2 hover:ring-zakhira-gold/50 transition"
+                  title="Account"
                 >
-                  <div className="w-7 h-7 bg-zakhira-gold/20 border border-zakhira-gold/50 text-zakhira-gold rounded-full flex items-center justify-center font-semibold text-xs uppercase">
+                  <div className="w-7 h-7 bg-zakhira-gold/20 text-zakhira-gold rounded-full flex items-center justify-center font-bold text-xs uppercase">
                     {user?.name ? user.name[0] : 'U'}
                   </div>
                 </button>
               ) : (
-                <Link to="/login" className="text-white/70 hover:text-zakhira-gold transition p-1">
-                  <User className="w-5 h-5" />
+                <Link
+                  to="/login"
+                  className="hidden sm:flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-zakhira-gold border border-zakhira-gold/50 px-3 py-1.5 rounded-full hover:bg-zakhira-gold hover:text-black transition"
+                >
+                  <User className="w-4 h-4" />
+                  <span>Login</span>
                 </Link>
               )}
 
-              {/* Dropdown */}
+              {/* User Dropdown Menu */}
               {isAuthenticated && showUserDropdown && (
                 <div 
-                  className="absolute right-0 mt-2 w-48 bg-white/95 backdrop-blur-md border border-white/20 rounded-md shadow-xl py-2 z-50 text-sm"
+                  className="absolute right-0 mt-2 w-52 bg-[#141414] border border-zakhira-gold/30 rounded-lg shadow-2xl py-2 z-50 text-sm text-white"
                   onMouseLeave={() => setShowUserDropdown(false)}
                 >
-                  <div className="px-4 py-2 border-b border-gray-100">
-                    <p className="font-semibold text-gray-800 truncate">{user?.name}</p>
+                  <div className="px-4 py-2 border-b border-white/10">
+                    <p className="font-semibold text-zakhira-gold truncate">{user?.name}</p>
                     <p className="text-xs text-gray-400 truncate">{user?.email}</p>
                   </div>
 
@@ -174,20 +204,29 @@ const Navbar = () => {
                     <Link
                       to="/admin"
                       onClick={() => setShowUserDropdown(false)}
-                      className="flex items-center gap-2 px-4 py-2 text-zakhira-gold font-semibold hover:bg-gold/10 transition"
+                      className="flex items-center gap-2 px-4 py-2 text-zakhira-gold font-semibold hover:bg-zakhira-gold/10 transition"
                     >
                       <ShieldAlert className="w-4 h-4" />
-                      Admin Panel
+                      Admin Control Panel
                     </Link>
                   )}
 
                   <Link
                     to="/profile"
                     onClick={() => setShowUserDropdown(false)}
-                    className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50 transition"
+                    className="flex items-center gap-2 px-4 py-2 text-gray-200 hover:bg-white/5 transition"
                   >
-                    <UserCheck className="w-4 h-4" />
+                    <UserCheck className="w-4 h-4 text-zakhira-gold" />
                     My Profile
+                  </Link>
+
+                  <Link
+                    to="/track-order"
+                    onClick={() => setShowUserDropdown(false)}
+                    className="flex items-center gap-2 px-4 py-2 text-gray-200 hover:bg-white/5 transition"
+                  >
+                    <Clock className="w-4 h-4 text-zakhira-gold" />
+                    Track My Orders
                   </Link>
 
                   <button
@@ -195,10 +234,10 @@ const Navbar = () => {
                       setShowUserDropdown(false);
                       logout();
                     }}
-                    className="w-full flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-red-50 transition text-left"
+                    className="w-full flex items-center gap-2 px-4 py-2 text-rose-400 hover:bg-rose-500/10 transition text-left font-medium"
                   >
                     <LogOut className="w-4 h-4" />
-                    Logout
+                    Logout Account
                   </button>
                 </div>
               )}
@@ -206,16 +245,16 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Search Bar */}
+        {/* ===== EXPANDABLE SEARCH BAR ===== */}
         {isSearchOpen && (
-          <div className="mt-4 pt-4 border-t border-white/10">
+          <div className="px-4 pb-4 pt-1 bg-black/90 border-t border-white/10 animate-fadeIn">
             <form onSubmit={handleSearchSubmit} className="relative max-w-xl mx-auto">
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search for fine jewellery..."
-                className="w-full px-5 py-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-white placeholder:text-white/40 text-sm focus:outline-none focus:ring-2 focus:ring-zakhira-gold pr-10"
+                placeholder="Search for fine necklaces, diamond rings, gold bangles..."
+                className="w-full px-5 py-2.5 bg-white/10 border border-zakhira-gold/40 rounded-full text-white placeholder:text-gray-400 text-xs focus:outline-none focus:ring-2 focus:ring-zakhira-gold pr-10"
                 autoFocus
               />
               <button type="submit" className="absolute right-3 top-1/2 -translate-y-1/2 text-zakhira-gold p-1 hover:scale-110 transition">
@@ -224,47 +263,143 @@ const Navbar = () => {
             </form>
           </div>
         )}
-      </nav>
+      </header>
 
-      {/* Mobile Menu Overlay */}
+      {/* ===== MOBILE MENU OVERLAY ===== */}
       {isMenuOpen && (
-        <div className="fixed inset-0 z-40 bg-black/80 backdrop-blur-md pt-24 px-6">
-          <div className="flex flex-col space-y-4 text-center">
+        <div className="fixed inset-0 z-40 bg-black/95 backdrop-blur-xl pt-28 px-6 overflow-y-auto">
+          <div className="flex flex-col space-y-4 text-center max-w-md mx-auto">
+            <span className="text-xs uppercase tracking-[0.3em] text-zakhira-gold font-bold">COLLECTIONS & CATEGORIES</span>
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 to={link.path}
-                className="text-sm font-light tracking-[0.3em] uppercase text-white/80 hover:text-zakhira-gold transition py-2"
+                className="text-sm font-medium tracking-[0.25em] uppercase text-white/90 hover:text-zakhira-gold transition py-2 border-b border-white/5"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {link.name}
               </Link>
             ))}
-            <div className="border-t border-white/10 pt-4 flex flex-col space-y-3">
+
+            <div className="pt-4 flex flex-col space-y-3">
               {isAdmin && (
-                <Link to="/admin" className="text-zakhira-gold text-sm font-semibold" onClick={() => setIsMenuOpen(false)}>
+                <Link to="/admin" className="text-zakhira-gold text-sm font-bold bg-zakhira-gold/10 py-2 rounded-lg" onClick={() => setIsMenuOpen(false)}>
                   👑 Admin Panel
                 </Link>
               )}
-              <Link to="/track-order" className="text-white/60 text-sm" onClick={() => setIsMenuOpen(false)}>
+              <button onClick={() => { setIsMenuOpen(false); setIsHelpOpen(true); }} className="text-white/80 text-sm py-1 hover:text-zakhira-gold">
+                Help & Concierge
+              </button>
+              <Link to="/track-order" className="text-white/80 text-sm py-1 hover:text-zakhira-gold" onClick={() => setIsMenuOpen(false)}>
                 Track Order
               </Link>
-              <Link to="/wishlist" className="text-white/60 text-sm" onClick={() => setIsMenuOpen(false)}>
+              <Link to="/wishlist" className="text-white/80 text-sm py-1 hover:text-zakhira-gold" onClick={() => setIsMenuOpen(false)}>
                 Wishlist ({wishlistCount})
               </Link>
-              <Link to="/cart" className="text-white/60 text-sm" onClick={() => setIsMenuOpen(false)}>
-                Cart ({cartCount})
+              <Link to="/cart" className="text-white/80 text-sm py-1 hover:text-zakhira-gold" onClick={() => setIsMenuOpen(false)}>
+                Shopping Cart ({cartCount})
               </Link>
               {isAuthenticated ? (
-                <Link to="/profile" className="text-white/60 text-sm" onClick={() => setIsMenuOpen(false)}>
+                <Link to="/profile" className="text-zakhira-gold text-sm font-bold border border-zakhira-gold/50 py-2.5 rounded-full" onClick={() => setIsMenuOpen(false)}>
                   My Account ({user?.name})
                 </Link>
               ) : (
-                <Link to="/login" className="text-zakhira-gold text-sm font-semibold" onClick={() => setIsMenuOpen(false)}>
+                <Link to="/login" className="bg-zakhira-gold text-black text-sm font-bold py-2.5 rounded-full uppercase tracking-wider" onClick={() => setIsMenuOpen(false)}>
                   Login / Register
                 </Link>
               )}
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* ===== HELP & CONCIERGE MODAL ===== */}
+      {isHelpOpen && (
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-[#141414] border border-zakhira-gold/40 rounded-2xl max-w-lg w-full p-6 text-white relative shadow-2xl animate-scaleUp">
+            {/* Close button */}
+            <button
+              onClick={() => setIsHelpOpen(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-white p-1 rounded-full hover:bg-white/10 transition"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            {/* Modal Title */}
+            <div className="text-center mb-6">
+              <div className="w-12 h-12 bg-zakhira-gold/20 text-zakhira-gold rounded-full flex items-center justify-center mx-auto mb-3 border border-zakhira-gold/40">
+                <Sparkles className="w-6 h-6" />
+              </div>
+              <h3 className="font-playfair text-2xl font-bold text-white">Royal Concierge & Help</h3>
+              <p className="text-xs text-gray-400 mt-1">Our private jewellery advisors are at your service 24/7</p>
+            </div>
+
+            {/* Contact Details */}
+            <div className="space-y-3 mb-6">
+              <a
+                href="https://wa.me/918527580809"
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center justify-between bg-emerald-950/40 border border-emerald-500/30 p-3.5 rounded-xl text-emerald-300 hover:bg-emerald-900/30 transition text-xs"
+              >
+                <div className="flex items-center gap-3">
+                  <MessageCircle className="w-5 h-5 text-emerald-400" />
+                  <div>
+                    <p className="font-bold">WhatsApp Concierge</p>
+                    <p className="text-[11px] opacity-80">+91 8527580809</p>
+                  </div>
+                </div>
+                <span className="bg-emerald-500/20 text-emerald-300 px-3 py-1 rounded-full text-[10px] font-semibold uppercase">Chat Live</span>
+              </a>
+
+              <a
+                href="tel:+918527580809"
+                className="flex items-center justify-between bg-white/5 border border-white/10 p-3.5 rounded-xl hover:bg-white/10 transition text-xs"
+              >
+                <div className="flex items-center gap-3">
+                  <Phone className="w-5 h-5 text-zakhira-gold" />
+                  <div>
+                    <p className="font-bold">Direct Call Line</p>
+                    <p className="text-[11px] text-gray-400">+91 8527580809</p>
+                  </div>
+                </div>
+                <span className="text-zakhira-gold text-[10px] uppercase tracking-wider font-semibold">Call Now</span>
+              </a>
+
+              <a
+                href="mailto:tahseenashrafi29@gmail.com"
+                className="flex items-center justify-between bg-white/5 border border-white/10 p-3.5 rounded-xl hover:bg-white/10 transition text-xs"
+              >
+                <div className="flex items-center gap-3">
+                  <Mail className="w-5 h-5 text-zakhira-gold" />
+                  <div>
+                    <p className="font-bold">Email Support</p>
+                    <p className="text-[11px] text-gray-400">tahseenashrafi29@gmail.com</p>
+                  </div>
+                </div>
+                <span className="text-zakhira-gold text-[10px] uppercase tracking-wider font-semibold">Send Mail</span>
+              </a>
+            </div>
+
+            {/* Quick Links & Info */}
+            <div className="border-t border-white/10 pt-4 text-xs space-y-2 text-gray-300">
+              <div className="flex justify-between items-center py-1">
+                <span className="text-gray-400">Insured Shipping Policy:</span>
+                <span className="font-semibold text-white">Complimentary Express</span>
+              </div>
+              <div className="flex justify-between items-center py-1">
+                <span className="text-gray-400">Purity Guarantee:</span>
+                <span className="font-semibold text-zakhira-gold">100% BIS Hallmarked</span>
+              </div>
+            </div>
+
+            {/* Close CTA */}
+            <button
+              onClick={() => setIsHelpOpen(false)}
+              className="mt-6 w-full bg-zakhira-gold text-black py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-[#b8975b] transition"
+            >
+              Close Help Menu
+            </button>
           </div>
         </div>
       )}

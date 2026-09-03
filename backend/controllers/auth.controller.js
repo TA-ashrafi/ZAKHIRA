@@ -226,3 +226,36 @@ export const getUsers = async (req, res) => {
     });
   }
 };
+
+// Test Email Dispatch API Endpoint
+export const testEmail = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const targetEmail = email || process.env.SENDER_EMAIL || 'tahseenashrafi29@gmail.com';
+
+    const result = await sendEmail({
+      to: targetEmail,
+      subject: '✨ ZAKHIRA Diagnostic Test Email',
+      html: getWelcomeEmailTemplate('Valued Client')
+    });
+
+    if (result.success) {
+      return res.status(200).json({
+        success: true,
+        message: `Email dispatched successfully to ${targetEmail}`,
+        details: result
+      });
+    } else {
+      return res.status(500).json({
+        success: false,
+        message: `Email dispatch failed to ${targetEmail}`,
+        error: result.error
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Server error sending test email'
+    });
+  }
+};
