@@ -26,6 +26,7 @@ const AdminAddProduct = () => {
     weight: '',
     stockQuantity: 1,
     isFeatured: false,
+    isBestSeller: false,
     images: [],
   });
 
@@ -50,6 +51,7 @@ const AdminAddProduct = () => {
               weight: res.data.weight || '',
               stockQuantity: res.data.stockQuantity || 1,
               isFeatured: Boolean(res.data.isFeatured),
+              isBestSeller: Boolean(res.data.isBestSeller),
               images: res.data.images || [],
             });
           }
@@ -161,23 +163,23 @@ const AdminAddProduct = () => {
       <div className="flex items-center gap-4">
         <button
           onClick={() => navigate('/admin/products')}
-          className="p-2 border rounded-lg hover:bg-white transition text-gray-600"
+          className="p-2 border border-gray-700 bg-[#141414] rounded-lg hover:bg-[#1A1A1A] transition text-white"
         >
-          <ArrowLeft className="w-5 h-5" />
+          <ArrowLeft className="w-5 h-5 text-[#C9A86C]" />
         </button>
         <div>
-          <h1 className="text-3xl font-playfair font-bold text-zakhira-dark">
+          <h1 className="text-3xl font-playfair font-bold text-white">
             {isEditMode ? 'Edit Product' : 'Add New Product'}
           </h1>
-          <p className="text-gray-500 text-xs mt-0.5">Fill in product attributes and pricing details</p>
+          <p className="text-gray-400 text-xs mt-0.5">Fill in product attributes, placement, and pricing details</p>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="bg-white p-8 rounded-xl border border-gray-200 shadow-sm space-y-6 text-xs">
+      <form onSubmit={handleSubmit} className="bg-[#141414] p-8 rounded-xl border border-[#C9A86C]/30 shadow-xl space-y-6 text-xs text-white">
         {/* Name & Category */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block font-semibold text-gray-700 mb-1">Product Name *</label>
+            <label className="block font-semibold text-gray-200 mb-1">Product Name *</label>
             <input
               type="text"
               name="name"
@@ -185,17 +187,17 @@ const AdminAddProduct = () => {
               onChange={handleChange}
               required
               placeholder="e.g. Royal Solitaire Pendant Necklace"
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-zakhira-gold"
+              className="w-full px-3 py-2.5 bg-[#1A1A1A] border border-gray-700 rounded text-white focus:outline-none focus:border-[#C9A86C]"
             />
           </div>
 
           <div>
-            <label className="block font-semibold text-gray-700 mb-1">Category *</label>
+            <label className="block font-semibold text-gray-200 mb-1">Category *</label>
             <select
               name="category"
               value={formData.category}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-zakhira-gold bg-white"
+              className="w-full px-3 py-2.5 bg-[#1A1A1A] border border-gray-700 rounded text-white focus:outline-none focus:border-[#C9A86C]"
             >
               <option value="Necklace">Necklace</option>
               <option value="Earring">Earring</option>
@@ -209,7 +211,7 @@ const AdminAddProduct = () => {
 
         {/* Description */}
         <div>
-          <label className="block font-semibold text-gray-700 mb-1">Description *</label>
+          <label className="block font-semibold text-gray-200 mb-1">Description *</label>
           <textarea
             name="description"
             rows="4"
@@ -217,14 +219,14 @@ const AdminAddProduct = () => {
             onChange={handleChange}
             required
             placeholder="Describe craftsmanship, gold specifications, stones, styling recommendations..."
-            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-zakhira-gold"
+            className="w-full px-3 py-2.5 bg-[#1A1A1A] border border-gray-700 rounded text-white focus:outline-none focus:border-[#C9A86C]"
           ></textarea>
         </div>
 
         {/* Prices & Stock */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
-            <label className="block font-semibold text-gray-700 mb-1">Price (₹) *</label>
+            <label className="block font-semibold text-gray-200 mb-1">Price (₹) *</label>
             <input
               type="number"
               name="price"
@@ -233,12 +235,12 @@ const AdminAddProduct = () => {
               required
               min="0"
               placeholder="12900"
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-zakhira-gold"
+              className="w-full px-3 py-2.5 bg-[#1A1A1A] border border-gray-700 rounded text-white focus:outline-none focus:border-[#C9A86C]"
             />
           </div>
 
           <div>
-            <label className="block font-semibold text-gray-700 mb-1">Original / Compare Price (₹)</label>
+            <label className="block font-semibold text-gray-200 mb-1">Original / Compare Price (₹)</label>
             <input
               type="number"
               name="comparePrice"
@@ -246,12 +248,12 @@ const AdminAddProduct = () => {
               onChange={handleChange}
               min="0"
               placeholder="15900"
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-zakhira-gold"
+              className="w-full px-3 py-2.5 bg-[#1A1A1A] border border-gray-700 rounded text-white focus:outline-none focus:border-[#C9A86C]"
             />
           </div>
 
           <div>
-            <label className="block font-semibold text-gray-700 mb-1">Stock Quantity *</label>
+            <label className="block font-semibold text-gray-200 mb-1">Stock Quantity *</label>
             <input
               type="number"
               name="stockQuantity"
@@ -259,20 +261,20 @@ const AdminAddProduct = () => {
               onChange={handleChange}
               required
               min="0"
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-zakhira-gold"
+              className="w-full px-3 py-2.5 bg-[#1A1A1A] border border-gray-700 rounded text-white focus:outline-none focus:border-[#C9A86C]"
             />
           </div>
         </div>
 
         {/* Specifications */}
-        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 pt-4 border-t border-gray-100">
+        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 pt-4 border-t border-white/10">
           <div>
-            <label className="block font-semibold text-gray-700 mb-1">Gold Purity</label>
+            <label className="block font-semibold text-gray-200 mb-1">Gold Purity</label>
             <select
               name="goldPurity"
               value={formData.goldPurity}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-zakhira-gold bg-white"
+              className="w-full px-3 py-2.5 bg-[#1A1A1A] border border-gray-700 rounded text-white focus:outline-none focus:border-[#C9A86C]"
             >
               <option value="18K">18K</option>
               <option value="22K">22K</option>
@@ -282,12 +284,12 @@ const AdminAddProduct = () => {
           </div>
 
           <div>
-            <label className="block font-semibold text-gray-700 mb-1">Stone Type</label>
+            <label className="block font-semibold text-gray-200 mb-1">Stone Type</label>
             <select
               name="stoneType"
               value={formData.stoneType}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-zakhira-gold bg-white"
+              className="w-full px-3 py-2.5 bg-[#1A1A1A] border border-gray-700 rounded text-white focus:outline-none focus:border-[#C9A86C]"
             >
               <option value="None">None</option>
               <option value="Diamond">Diamond</option>
@@ -299,7 +301,7 @@ const AdminAddProduct = () => {
           </div>
 
           <div>
-            <label className="block font-semibold text-gray-700 mb-1">Weight (grams)</label>
+            <label className="block font-semibold text-gray-200 mb-1">Weight (grams)</label>
             <input
               type="number"
               step="0.1"
@@ -307,12 +309,12 @@ const AdminAddProduct = () => {
               value={formData.weight}
               onChange={handleChange}
               placeholder="3.2"
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-zakhira-gold"
+              className="w-full px-3 py-2.5 bg-[#1A1A1A] border border-gray-700 rounded text-white focus:outline-none focus:border-[#C9A86C]"
             />
           </div>
 
           <div>
-            <label className="block font-semibold text-gray-700 mb-1">Ring Size (If Ring)</label>
+            <label className="block font-semibold text-gray-200 mb-1">Ring Size (If Ring)</label>
             <input
               type="number"
               name="ringSize"
@@ -321,33 +323,49 @@ const AdminAddProduct = () => {
               min="4"
               max="12"
               placeholder="7"
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-zakhira-gold"
+              className="w-full px-3 py-2.5 bg-[#1A1A1A] border border-gray-700 rounded text-white focus:outline-none focus:border-[#C9A86C]"
             />
           </div>
         </div>
 
-        {/* Featured Toggle */}
-        <div className="flex items-center gap-3 pt-2">
-          <input
-            type="checkbox"
-            id="isFeatured"
-            name="isFeatured"
-            checked={formData.isFeatured}
-            onChange={handleChange}
-            className="w-4 h-4 text-zakhira-gold border-gray-300 rounded focus:ring-zakhira-gold"
-          />
-          <label htmlFor="isFeatured" className="font-semibold text-gray-800 cursor-pointer">
-            Mark as Featured Product (Displayed in Best Sellers & Highlights)
+        {/* Product Placement Options */}
+        <div className="pt-4 border-t border-white/10 space-y-3">
+          <label className="block font-semibold text-[#C9A86C] uppercase tracking-wider text-[11px]">
+            Product Placement & Section Controls
           </label>
+          <div className="flex flex-col sm:flex-row gap-6">
+            <label htmlFor="isBestSeller" className="flex items-center gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                id="isBestSeller"
+                name="isBestSeller"
+                checked={formData.isBestSeller}
+                onChange={handleChange}
+                className="w-4 h-4 bg-[#1A1A1A] border-gray-700 rounded text-[#C9A86C] focus:ring-[#C9A86C]"
+              />
+              <span className="font-medium text-gray-200">Show in Patron Favorites (Best Sellers Section)</span>
+            </label>
+
+            <label htmlFor="isFeatured" className="flex items-center gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                id="isFeatured"
+                name="isFeatured"
+                checked={formData.isFeatured}
+                onChange={handleChange}
+                className="w-4 h-4 bg-[#1A1A1A] border-gray-700 rounded text-[#C9A86C] focus:ring-[#C9A86C]"
+              />
+              <span className="font-medium text-gray-200">Show in Featured Collections / Highlights</span>
+            </label>
+          </div>
         </div>
 
         {/* Product Images Section */}
-        <div className="pt-4 border-t border-gray-100 space-y-3">
-          <label className="block font-semibold text-gray-700">Product Images</label>
+        <div className="pt-4 border-t border-white/10 space-y-3">
+          <label className="block font-semibold text-gray-200">Product Images</label>
 
-          {/* Upload Button */}
           <div className="flex flex-wrap gap-3 items-center">
-            <label className="cursor-pointer bg-zakhira-dark text-white px-4 py-2 rounded font-semibold text-xs hover:bg-opacity-90 flex items-center gap-2">
+            <label className="cursor-pointer bg-[#C9A86C] text-black px-4 py-2.5 rounded font-bold text-xs hover:bg-[#b8975b] flex items-center gap-2">
               <Upload className="w-4 h-4" />
               {uploadingImage ? 'Uploading...' : 'Upload Image File'}
               <input type="file" multiple accept="image/*" onChange={handleFileUpload} className="hidden" disabled={uploadingImage} />
@@ -360,23 +378,22 @@ const AdminAddProduct = () => {
                 type="url"
                 value={imageUrlInput}
                 onChange={(e) => setImageUrlInput(e.target.value)}
-                placeholder="https://images.unsplash.com/photo-..."
-                className="flex-1 px-3 py-1.5 border border-gray-300 rounded"
+                placeholder="https://res.cloudinary.com/..."
+                className="flex-1 px-3 py-2 bg-[#1A1A1A] border border-gray-700 rounded text-white focus:outline-none focus:border-[#C9A86C]"
               />
               <button
                 type="button"
                 onClick={handleAddImageUrl}
-                className="bg-gray-100 border text-gray-700 px-3 py-1.5 rounded font-semibold hover:bg-gray-200"
+                className="bg-gray-800 border border-gray-700 text-gray-200 px-4 py-2 rounded font-semibold hover:bg-gray-700"
               >
                 Add URL
               </button>
             </div>
           </div>
 
-          {/* Image Previews */}
           <div className="flex flex-wrap gap-4 pt-2">
             {formData.images.map((url, idx) => (
-              <div key={idx} className="relative w-24 h-24 border rounded-lg overflow-hidden bg-gray-50 group">
+              <div key={idx} className="relative w-24 h-24 border border-gray-700 rounded-lg overflow-hidden bg-[#1A1A1A] group">
                 <img src={url} alt={`Product ${idx}`} className="w-full h-full object-cover" />
                 <button
                   type="button"
@@ -392,18 +409,18 @@ const AdminAddProduct = () => {
         </div>
 
         {/* Buttons */}
-        <div className="flex justify-end gap-3 pt-6 border-t border-gray-100">
+        <div className="flex justify-end gap-3 pt-6 border-t border-white/10">
           <button
             type="button"
             onClick={() => navigate('/admin/products')}
-            className="px-6 py-2.5 border rounded text-xs font-semibold hover:bg-gray-50"
+            className="px-6 py-2.5 border border-gray-700 rounded text-xs font-semibold hover:bg-[#1A1A1A]"
           >
             Cancel
           </button>
           <button
             type="submit"
             disabled={loading}
-            className="bg-zakhira-gold text-white px-8 py-2.5 rounded font-semibold text-xs uppercase tracking-wider hover:bg-opacity-90 flex items-center gap-2 shadow"
+            className="bg-[#C9A86C] text-black px-8 py-2.5 rounded font-bold text-xs uppercase tracking-wider hover:bg-[#b8975b] flex items-center gap-2 shadow"
           >
             <Save className="w-4 h-4" /> {isEditMode ? 'Update Product' : 'Create Product'}
           </button>
