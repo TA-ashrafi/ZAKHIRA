@@ -1,42 +1,91 @@
-import sendEmail, { getTransporter } from '../config/nodemailer.js';
+import sendEmail from '../config/nodemailer.js';
 
+// Re-export sendEmail
 export { sendEmail };
 
-/**
- * Generate Welcome Email Template for new ZAKHIRA members
- */
+// Welcome Email Template
 export const getWelcomeEmailTemplate = (name) => {
-  return `
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <meta charset="utf-8">
-      <title>Welcome to ZAKHIRA</title>
-      <style>
-        body { font-family: 'Playfair Display', Georgia, serif; background-color: #0d0d0d; color: #f8f6f1; margin: 0; padding: 40px 20px; }
-        .container { max-width: 600px; margin: 0 auto; background-color: #141414; border: 1px solid #C9A86C; border-radius: 12px; padding: 40px; text-align: center; }
-        .logo { font-size: 32px; font-weight: bold; letter-spacing: 6px; color: #C9A86C; margin-bottom: 20px; }
-        .gold-divider { width: 60px; height: 2px; background-color: #C9A86C; margin: 20px auto; }
-        h1 { color: #ffffff; font-size: 24px; margin-bottom: 16px; font-weight: 300; }
-        p { color: #d1d5db; font-size: 15px; line-height: 1.8; margin-bottom: 24px; font-family: 'Inter', sans-serif; }
-        .cta-btn { display: inline-block; background: linear-gradient(135deg, #C9A86C 0%, #A38048 100%); color: #000000; font-weight: bold; padding: 14px 32px; text-decoration: none; border-radius: 30px; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; margin-top: 10px; }
-        .footer { font-size: 12px; color: #71717a; margin-top: 40px; font-family: 'Inter', sans-serif; border-t: 1px solid #262626; pt: 20px; }
-      </style>
-    </head>
-    <body>
-      <div class="container">
-        <div class="logo">ZAKHIRA</div>
-        <div class="gold-divider"></div>
-        <h1>Welcome to Royal Haute Joaillerie, ${name}</h1>
-        <p>We are delighted to welcome you into the inner sanctum of ZAKHIRA. Your journey into handcrafted 18K & 22K hallmarked fine gold and certified diamond treasures begins today.</p>
-        <p>As a valued connoisseur, enjoy complimentary insured worldwide shipping, private consultations, and priority access to our limited high jewelry drop collections.</p>
-        <a href="${process.env.VITE_BASE_URL || 'http://localhost:5173'}" class="cta-btn">Explore Royal Collections</a>
-        <div class="footer">
-          <p>© 2026 ZAKHIRA Atelier Jaipur. All rights reserved.</p>
-          <p>Jaipur • Delhi • Mumbai • Dubai</p>
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome to ZAKHIRA</title>
+  <style>
+    body { margin: 0; padding: 0; background-color: #0D0D0D; font-family: Georgia, serif; }
+    .container { max-width: 600px; margin: 0 auto; background: linear-gradient(135deg, #1A1A1A, #0D0D0D); border: 1px solid #C9A86C/30; border-radius: 16px; overflow: hidden; }
+    .header { background: linear-gradient(135deg, #2B080C, #1A0306); padding: 40px 30px 20px; text-align: center; border-bottom: 2px solid #C9A86C; }
+    .header h1 { font-family: 'Playfair Display', Georgia, serif; font-size: 36px; font-weight: 700; color: #C9A86C; margin: 0; letter-spacing: 4px; }
+    .header p { color: #F5E6D3/70; font-size: 12px; letter-spacing: 3px; text-transform: uppercase; margin-top: 6px; }
+    .body-content { padding: 40px 35px; }
+    .body-content h2 { color: #F5E6D3; font-size: 22px; font-weight: 400; margin: 0 0 8px 0; }
+    .body-content .name { color: #C9A86C; font-size: 28px; font-weight: 700; font-family: 'Playfair Display', Georgia, serif; margin: 0 0 16px 0; display: block; }
+    .body-content p { color: #B9B9B9; font-size: 15px; line-height: 1.8; margin: 0 0 16px 0; }
+    .body-content .highlight { color: #C9A86C; font-weight: 600; }
+    .divider { border: none; height: 1px; background: linear-gradient(to right, transparent, #C9A86C/40, transparent); margin: 24px 0; }
+    .features { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
+    .feature-item { background: #1A1A1A; border: 1px solid #C9A86C/15; border-radius: 8px; padding: 14px 16px; text-align: center; }
+    .feature-item span { display: block; font-size: 22px; margin-bottom: 4px; }
+    .feature-item .label { color: #C9A86C; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+    .feature-item .value { color: #F5E6D3; font-size: 12px; font-weight: 300; margin-top: 2px; }
+    .cta-btn { display: inline-block; background: #C9A86C; color: #0D0D0D !important; font-weight: 700; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; padding: 14px 40px; border-radius: 6px; text-decoration: none; margin: 16px 0 8px 0; }
+    .cta-btn:hover { background: #b8975b; }
+    .footer { background: #0A0A0A; padding: 24px 35px; text-align: center; border-top: 1px solid #C9A86C/15; }
+    .footer .brand { font-family: 'Playfair Display', Georgia, serif; font-size: 18px; color: #C9A86C; font-weight: 700; letter-spacing: 2px; }
+    .footer p { color: #4D4D4D; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; margin: 6px 0 0 0; }
+    .footer .social { margin-top: 12px; display: flex; justify-content: center; gap: 16px; }
+    .footer .social a { color: #4D4D4D; font-size: 10px; text-decoration: none; letter-spacing: 1px; text-transform: uppercase; transition: color 0.3s; }
+    .footer .social a:hover { color: #C9A86C; }
+    @media only screen and (max-width: 480px) {
+      .body-content { padding: 24px 18px; }
+      .header h1 { font-size: 28px; }
+      .features { grid-template-columns: 1fr; }
+      .cta-btn { display: block; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#0D0D0D; padding:20px 10px;">
+    <tr>
+      <td align="center">
+        <div class="container">
+          <div class="header">
+            <h1>✨ ZAKHIRA</h1>
+            <p>Timeless Jewellery • Royal Atelier</p>
+          </div>
+          <div class="body-content">
+            <h2>Welcome to ZAKHIRA,</h2>
+            <span class="name">${name}</span>
+            <p>We are absolutely <span class="highlight">delighted</span> to welcome you to <span class="highlight">ZAKHIRA</span> — a world of timeless elegance, handcrafted in pure gold and precious gems.</p>
+            <p>Your journey with us begins today. As a valued member of our community, you'll be the first to discover our <span class="highlight">signature collections</span>, receive <span class="highlight">exclusive offers</span>, and experience the art of fine jewellery like never before.</p>
+            <hr class="divider">
+            <div class="features">
+              <div class="feature-item"><span>📿</span><div class="label">Exclusive Access</div><div class="value">Early access to new collections</div></div>
+              <div class="feature-item"><span>💎</span><div class="label">Member Benefits</div><div class="value">Special discounts &amp; offers</div></div>
+              <div class="feature-item"><span>📦</span><div class="label">Insured Shipping</div><div class="value">Complimentary worldwide delivery</div></div>
+              <div class="feature-item"><span>👑</span><div class="label">Private Concierge</div><div class="value">24/7 dedicated support</div></div>
+            </div>
+            <hr class="divider">
+            <p style="text-align:center; font-size:13px; color:#B9B9B9;">Start exploring our <span class="highlight">royal collections</span> and discover the perfect piece for your precious moments.</p>
+            <div style="text-align:center;">
+              <a href="${process.env.FRONTEND_URL || 'http://localhost:5173'}/shop" class="cta-btn">✦ Explore Collections ✦</a>
+            </div>
+            <p style="text-align:center; font-size:12px; color:#666; margin-top:20px;">Your ZAKHIRA account is now active.</p>
+          </div>
+          <div class="footer">
+            <div class="brand">✦ ZAKHIRA ✦</div>
+            <p>Timeless Beauty. Made to Shine.</p>
+            <div class="social">
+              <a href="#">Instagram</a>
+              <a href="#">YouTube</a>
+              <a href="#">Facebook</a>
+            </div>
+            <p style="margin-top:12px;">&copy; ${new Date().getFullYear()} ZAKHIRA. All rights reserved.</p>
+          </div>
         </div>
-      </div>
-    </body>
-    </html>
-  `;
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
 };
