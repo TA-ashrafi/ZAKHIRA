@@ -7,13 +7,9 @@ import {
   Headphones, 
   ArrowRight, 
   Star,
-  Quote,
-  Crown,
-  Sparkles,
-  Heart,
-  ShoppingBag
+  Quote
 } from 'lucide-react';
-import { categoriesData, productsData } from '../data/products';
+import { categoriesData } from '../data/products';
 import productService from '../services/product.service';
 import ProductCard from '../components/user/ProductCard';
 import hero_img from '../assets/images/hero_img.png';
@@ -25,32 +21,38 @@ import ring1Img from '../assets/images/products/ring-1.jpg';
 import pendant1Img from '../assets/images/products/pendant-1.jpg';
 
 const Home = () => {
-  const [products, setProducts] = useState(productsData);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const loadFeaturedProducts = async () => {
+    const loadProducts = async () => {
       try {
-        const res = await productService.getProducts({ sort: 'featured' });
-        if (res.success && res.data && res.data.length > 0) {
+        setLoading(true);
+        const res = await productService.getProducts();
+        if (res.success && Array.isArray(res.data)) {
           setProducts(res.data);
+        } else if (Array.isArray(res)) {
+          setProducts(res);
+        } else {
+          setProducts([]);
         }
       } catch (err) {
-        // Fallback to local productsData
+        setProducts([]);
+      } finally {
+        setLoading(false);
       }
     };
-    loadFeaturedProducts();
+    loadProducts();
   }, []);
 
-  const bestSellers = products.filter(p => p.isBestSeller || p.featured).slice(0, 6);
-  if (bestSellers.length === 0) {
-    bestSellers.push(...products.slice(0, 6));
-  }
+  // Strict filtering from DB products only
+  const bestSellers = products.filter(p => p.isBestSeller || p.isFeatured || p.featured);
 
-  // Filter Necklaces and Earrings
   const necklacesList = products.filter(p => 
     p.category?.toLowerCase() === 'necklace' || 
     p.category?.toLowerCase() === 'necklaces'
   );
+
   const earringsList = products.filter(p => 
     p.category?.toLowerCase() === 'earring' || 
     p.category?.toLowerCase() === 'earrings'
@@ -138,9 +140,9 @@ const Home = () => {
           ZAKHIRA
         </h1>
 
-        <div className="relative z-10 text-center px-4 mt-2">
-          <span className="inline-flex items-center gap-2 text-zakhira-gold text-xs font-semibold tracking-[0.35em] uppercase bg-black/40 px-4 py-1.5 rounded-full border border-zakhira-gold/30 backdrop-blur-md">
-            <Crown className="w-3.5 h-3.5" /> ROYAL HAUTE JOAILLERIE
+        <div className="relative z-10 text-center px-4 mt-4">
+          <span className="font-playfair italic text-[#C9A86C] text-xl md:text-3xl font-light tracking-wider drop-shadow-md">
+            Crafted for Royalty & Eternal Elegance
           </span>
         </div>
 
@@ -148,7 +150,8 @@ const Home = () => {
           <img
             src={hero_img}
             alt="ZAKHIRA Fine Jewellery"
-            className="max-h-[60vh] md:max-h-[72vh] w-auto object-contain drop-shadow-[0_25px_60px_rgba(0,0,0,0.9)] filter brightness-105 contrast-105 transition-transform duration-700 hover:scale-102"
+            className="max-h-[58vh] md:max-h-[70vh] w-auto object-contain drop-shadow-[0_25px_60px_rgba(0,0,0,0.9)] filter brightness-105 contrast-105 transition-transform duration-700 hover:scale-102"
+            loading="eager"
           />
         </div>
 
@@ -181,13 +184,22 @@ const Home = () => {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {categoriesData.map((cat) => (
-              <Link to={cat.link} key={cat.id} className="group relative overflow-hidden rounded-xl aspect-square border border-[#C9A86C]/20 shadow-xl hover:border-[#C9A86C] transition duration-500">
-                <div className="absolute inset-0 bg-gray-900 group-hover:scale-110 transition duration-700">
-                  <img src={cat.image} alt={cat.name} className="w-full h-full object-cover filter brightness-90" />
+              <Link 
+                to={cat.link} 
+                key={cat.id} 
+                className="group relative overflow-hidden rounded-xl aspect-square border border-[#C9A86C]/20 shadow-xl hover:border-[#C9A86C] transition-all duration-300 will-change-transform"
+              >
+                <div className="absolute inset-0 bg-gray-900 overflow-hidden">
+                  <img 
+                    src={cat.image} 
+                    alt={cat.name} 
+                    className="w-full h-full object-cover filter brightness-90 group-hover:scale-105 transition-transform duration-500 ease-out" 
+                    loading="lazy" 
+                  />
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent flex items-end p-6">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex items-end p-5">
                   <div className="text-white w-full">
-                    <h3 className="text-xl font-playfair font-bold tracking-wider">{cat.name}</h3>
+                    <h3 className="text-lg md:text-xl font-playfair font-bold tracking-wider">{cat.name}</h3>
                     <span className="text-xs text-[#C9A86C] mt-1 group-hover:underline flex items-center gap-1 font-medium">
                       Explore Archives <ArrowRight className="w-3.5 h-3.5" />
                     </span>
@@ -241,11 +253,18 @@ const Home = () => {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-            {bestSellers.map((product) => (
-              <ProductCard key={product._id} product={product} />
-            ))}
-          </div>
+          {bestSellers.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {bestSellers.map((product) => (
+                <ProductCard key={product._id} product={product} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12 border border-dashed border-white/10 rounded-xl bg-[#0D0D0D]">
+              <p className="text-gray-400 text-sm">No best seller products added yet.</p>
+              <p className="text-xs text-[#C9A86C] mt-1">Add new products from the Admin Panel to display them here.</p>
+            </div>
+          )}
         </div>
       </section>
 
@@ -270,6 +289,7 @@ const Home = () => {
                   src={item.image}
                   alt={item.title}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
 
@@ -314,15 +334,18 @@ const Home = () => {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-            {(necklacesList.length > 0 ? necklacesList : [
-              { _id: 'n1', name: 'Royal Kundan Choker Set', price: 185000, image: necklace1Img, category: 'Necklace' },
-              { _id: 'n2', name: 'Solitaire Diamond Pendant', price: 92000, image: pendant1Img, category: 'Necklace' },
-              { _id: 'n3', name: 'Heritage Emerald Gold Mala', price: 240000, image: necklace2Img, category: 'Necklace' }
-            ]).slice(0, 4).map((item) => (
-              <ProductCard key={item._id} product={item} />
-            ))}
-          </div>
+          {necklacesList.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+              {necklacesList.map((item) => (
+                <ProductCard key={item._id} product={item} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12 border border-dashed border-white/10 rounded-xl bg-[#141414]">
+              <p className="text-gray-400 text-sm">No necklace products available currently.</p>
+              <p className="text-xs text-[#C9A86C] mt-1">Add products under category "Necklace" from the Admin Panel to show them here.</p>
+            </div>
+          )}
         </div>
       </section>
 
@@ -350,14 +373,18 @@ const Home = () => {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-            {(earringsList.length > 0 ? earringsList : [
-              { _id: 'e1', name: 'Heritage Polki Drop Earrings', price: 78000, image: earring1Img, category: 'Earring' },
-              { _id: 'e2', name: 'Classic Solitaire Diamond Studs', price: 115000, image: earring2Img, category: 'Earring' }
-            ]).slice(0, 4).map((item) => (
-              <ProductCard key={item._id} product={item} />
-            ))}
-          </div>
+          {earringsList.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+              {earringsList.map((item) => (
+                <ProductCard key={item._id} product={item} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12 border border-dashed border-white/10 rounded-xl bg-[#0D0D0D]">
+              <p className="text-gray-400 text-sm">No earring products available currently.</p>
+              <p className="text-xs text-[#C9A86C] mt-1">Add products under category "Earring" from the Admin Panel to show them here.</p>
+            </div>
+          )}
         </div>
       </section>
 
@@ -366,7 +393,7 @@ const Home = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <span className="inline-block text-[#C9A86C] tracking-[0.3em] text-xs font-semibold uppercase mb-2">
-              ✨ SIGNATURE SERIES
+              SIGNATURE SERIES
             </span>
             <h2 className="text-3xl md:text-4xl font-playfair font-bold text-white mb-2">Featured Collections</h2>
             <p className="text-gray-400 text-sm">Curated jewelry lines crafted for your defining moments</p>
@@ -378,6 +405,7 @@ const Home = () => {
                   src={necklace1Img} 
                   alt="Royal Wedding" 
                   className="w-full h-full object-cover group-hover:scale-105 transition duration-700 filter brightness-90" 
+                  loading="lazy"
                 />
               </div>
               <div className="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition flex flex-col items-center justify-center text-white p-6 text-center">
@@ -396,6 +424,7 @@ const Home = () => {
                   src={ring1Img} 
                   alt="Everyday Minimalist" 
                   className="w-full h-full object-cover group-hover:scale-105 transition duration-700 filter brightness-90" 
+                  loading="lazy"
                 />
               </div>
               <div className="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition flex flex-col items-center justify-center text-white p-6 text-center">
@@ -414,6 +443,7 @@ const Home = () => {
                   src={earring1Img} 
                   alt="Diamond Solitaires" 
                   className="w-full h-full object-cover group-hover:scale-105 transition duration-700 filter brightness-90" 
+                  loading="lazy"
                 />
               </div>
               <div className="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition flex flex-col items-center justify-center text-white p-6 text-center">
@@ -466,7 +496,7 @@ const Home = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <span className="inline-block text-[#C9A86C] tracking-[0.3em] text-xs font-semibold uppercase mb-2">
-              ✨ CLIENT REVIEWS
+              CLIENT REVIEWS
             </span>
             <h2 className="text-3xl md:text-4xl font-playfair font-bold text-white mb-2">What Our Patrons Say</h2>
             <p className="text-gray-400 text-sm">Real stories from our valued customers</p>

@@ -7,6 +7,9 @@ import { WishlistProvider } from './contexts/WishlistContext';
 
 import Navbar from './components/common/Navbar';
 import Footer from './components/common/Footer';
+import ScrollToTop from './components/common/ScrollToTop';
+import ScrollProgress from './components/common/ScrollProgress';
+import BackToTop from './components/common/BackToTop';
 
 // User Pages
 import Home from './pages/Home';
@@ -25,10 +28,15 @@ import Craftsmanship from './pages/Craftsmanship';
 import Sustainability from './pages/Sustainability';
 import StoreLocator from './pages/StoreLocator';
 import Careers from './pages/Careers';
+import ShippingInfo from './pages/ShippingInfo';
+import ReturnsExchanges from './pages/ReturnsExchanges';
+import FAQ from './pages/FAQ';
+import Contact from './pages/Contact';
 
 // Admin Components & Pages
 import AdminLayout from './components/admin/AdminLayout';
 import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminAnalytics from './pages/admin/AdminAnalytics';
 import AdminProducts from './pages/admin/AdminProducts';
 import AdminAddProduct from './pages/admin/AdminAddProduct';
 import AdminOrders from './pages/admin/AdminOrders';
@@ -44,11 +52,13 @@ const PublicLayout = () => {
 
   return (
     <div className="min-h-screen flex flex-col font-inter bg-[#0D0D0D] text-white">
+      <ScrollProgress />
       <Navbar />
       <main className={`flex-1 ${isHomePage ? '' : 'pt-28 md:pt-32'}`}>
         <Outlet />
       </main>
       <Footer />
+      <BackToTop />
     </div>
   );
 };
@@ -66,7 +76,13 @@ const AdminRoute = () => {
   if (loading) return null;
   if (!isAuthenticated) return <Navigate to="/login" replace />;
   if (!isAdmin) return <Navigate to="/" replace />;
-  return <AdminLayout />;
+  return (
+    <>
+      <ScrollProgress />
+      <AdminLayout />
+      <BackToTop />
+    </>
+  );
 };
 
 function App() {
@@ -75,6 +91,7 @@ function App() {
       <CartProvider>
         <WishlistProvider>
           <BrowserRouter>
+            <ScrollToTop />
             <Toaster
               position="top-right"
               toastOptions={{
@@ -110,6 +127,10 @@ function App() {
                 <Route path="/sustainability" element={<Sustainability />} />
                 <Route path="/store-locator" element={<StoreLocator />} />
                 <Route path="/careers" element={<Careers />} />
+                <Route path="/shipping-info" element={<ShippingInfo />} />
+                <Route path="/returns-exchanges" element={<ReturnsExchanges />} />
+                <Route path="/faq" element={<FAQ />} />
+                <Route path="/contact" element={<Contact />} />
 
                 {/* Protected User Routes */}
                 <Route element={<ProtectedRoute />}>
@@ -121,6 +142,7 @@ function App() {
               {/* Admin Portal Routes */}
               <Route element={<AdminRoute />}>
                 <Route path="/admin" element={<AdminDashboard />} />
+                <Route path="/admin/analytics" element={<AdminAnalytics />} />
                 <Route path="/admin/products" element={<AdminProducts />} />
                 <Route path="/admin/add-product" element={<AdminAddProduct />} />
                 <Route path="/admin/edit-product/:id" element={<AdminAddProduct />} />

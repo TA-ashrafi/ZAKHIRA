@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Crown, Sparkles, Phone, Mail, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const OurStory = () => {
@@ -66,7 +66,6 @@ const OurStory = () => {
 
       {/* Call to action */}
       <div className="max-w-3xl mx-auto text-center bg-[#141414] border border-[#C9A86C]/30 rounded-2xl p-10">
-        <Crown className="w-10 h-10 text-[#C9A86C] mx-auto mb-4" />
         <h3 className="font-playfair text-2xl text-white mb-3">Experience ZAKHIRA Firsthand</h3>
         <p className="text-gray-400 text-sm mb-6">Schedule a private session with our chief creative director.</p>
         <Link
