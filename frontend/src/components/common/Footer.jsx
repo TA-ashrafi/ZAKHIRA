@@ -31,14 +31,14 @@ const Footer = () => {
                 Made for every moment of your life.
               </p>
               <div className="flex space-x-4 mt-6 text-zakhira-gold">
-                <a href="#" className="hover:text-white transition" title="Global">
-                  <Globe className="w-5 h-5" />
-                </a>
-                <a href="#" className="hover:text-white transition" title="Social">
-                  <Share2 className="w-5 h-5" />
-                </a>
-                <a href="#" className="hover:text-white transition" title="Community">
+                <a href="https://wa.me/918527580809" target="_blank" rel="noreferrer" className="hover:text-white transition" title="WhatsApp">
                   <MessageCircle className="w-5 h-5" />
+                </a>
+                <a href="mailto:tahseenashrafi29@gmail.com" className="hover:text-white transition" title="Email">
+                  <Mail className="w-5 h-5" />
+                </a>
+                <a href="tel:+918527580809" className="hover:text-white transition" title="Call">
+                  <Phone className="w-5 h-5" />
                 </a>
               </div>
             </div>
@@ -64,10 +64,10 @@ const Footer = () => {
                 Customer Care
               </h4>
               <ul className="space-y-2 text-sm">
-                <li><Link to="/about" className="hover:text-zakhira-gold transition">Contact Us</Link></li>
-                <li><Link to="/about" className="hover:text-zakhira-gold transition">Shipping Info</Link></li>
-                <li><Link to="/about" className="hover:text-zakhira-gold transition">Returns & Exchanges</Link></li>
-                <li><Link to="/about" className="hover:text-zakhira-gold transition">FAQ</Link></li>
+                <li><Link to="/contact" className="hover:text-zakhira-gold transition">Contact Us</Link></li>
+                <li><Link to="/shipping-info" className="hover:text-zakhira-gold transition">Shipping Info</Link></li>
+                <li><Link to="/returns-exchanges" className="hover:text-zakhira-gold transition">Returns & Exchanges</Link></li>
+                <li><Link to="/faq" className="hover:text-zakhira-gold transition">FAQ</Link></li>
                 <li><Link to="/track-order" className="hover:text-zakhira-gold transition">Track Order</Link></li>
               </ul>
             </div>
@@ -165,8 +165,8 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-6 text-xs">
             <span>© {currentYear} ZAKHIRA. All rights reserved.</span>
-            <Link to="/shop" className="hover:text-zakhira-gold transition">Privacy Policy</Link>
-            <Link to="/shop" className="hover:text-zakhira-gold transition">Terms of Service</Link>
+            <Link to="/returns-exchanges" className="hover:text-zakhira-gold transition">Privacy Policy</Link>
+            <Link to="/returns-exchanges" className="hover:text-zakhira-gold transition">Terms of Service</Link>
           </div>
           <div className="flex items-center gap-3">
             <span className="text-xs text-white/60">Secure payments by</span>

@@ -16,6 +16,8 @@ const AdminProducts = () => {
       const res = await productService.getProducts();
       if (res.success && res.data) {
         setProducts(res.data);
+      } else if (Array.isArray(res)) {
+        setProducts(res);
       }
     } catch (err) {
       toast.error('Failed to load products');
@@ -44,36 +46,36 @@ const AdminProducts = () => {
 
   const filteredProducts = products.filter(
     (p) =>
-      p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      p.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       p.category?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
     <div className="space-y-6">
       {/* Header Bar */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-[#141414] p-6 rounded-2xl border border-[#C9A86C]/30 shadow-lg">
         <div>
-          <h1 className="text-3xl font-playfair font-bold text-zakhira-dark">Manage Products</h1>
-          <p className="text-gray-500 text-xs mt-1">View, edit, or remove jewellery catalog items</p>
+          <h1 className="text-3xl font-playfair font-bold text-[#F8F6F1]">Manage Products</h1>
+          <p className="text-gray-400 text-xs mt-1">View, edit, or remove luxury jewellery catalog items</p>
         </div>
 
         <Link
           to="/admin/add-product"
-          className="bg-zakhira-gold text-white px-5 py-2.5 rounded-lg text-xs font-semibold uppercase tracking-wider hover:bg-opacity-90 transition flex items-center gap-1.5 shadow-md"
+          className="bg-[#C9A86C] text-black px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-[#b8975b] transition flex items-center gap-1.5 shadow-md"
         >
           <Plus className="w-4 h-4" /> Add New Product
         </Link>
       </div>
 
       {/* Search Bar */}
-      <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex items-center gap-3 max-w-md">
-        <Search className="w-4 h-4 text-gray-400" />
+      <div className="bg-[#141414] p-4 rounded-xl border border-[#C9A86C]/20 shadow-sm flex items-center gap-3 max-w-md">
+        <Search className="w-4 h-4 text-[#C9A86C]" />
         <input
           type="text"
           placeholder="Search product name or category..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full text-xs focus:outline-none"
+          className="w-full text-xs focus:outline-none bg-transparent text-white placeholder-gray-500 font-medium"
         />
       </div>
 
@@ -81,59 +83,61 @@ const AdminProducts = () => {
       {loading ? (
         <Loader />
       ) : (
-        <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+        <div className="bg-[#141414] rounded-2xl border border-[#C9A86C]/20 shadow-xl overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-xs text-left">
-              <thead className="bg-gray-50 text-gray-500 uppercase font-semibold text-[10px] tracking-wider">
+            <table className="w-full text-xs text-left text-[#F8F6F1]">
+              <thead className="bg-[#1A1A1A] text-[#C9A86C] uppercase font-bold text-[10px] tracking-wider border-b border-white/10">
                 <tr>
-                  <th className="px-4 py-3">Product</th>
-                  <th className="px-4 py-3">Category</th>
-                  <th className="px-4 py-3">Price</th>
-                  <th className="px-4 py-3">Gold Purity</th>
-                  <th className="px-4 py-3">Stock</th>
-                  <th className="px-4 py-3 text-center">Actions</th>
+                  <th className="px-5 py-4">Product</th>
+                  <th className="px-5 py-4">Category</th>
+                  <th className="px-5 py-4">Price</th>
+                  <th className="px-5 py-4">Gold Purity</th>
+                  <th className="px-5 py-4">Stock</th>
+                  <th className="px-5 py-4 text-center">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-white/10">
                 {filteredProducts.map((p) => (
-                  <tr key={p._id} className="hover:bg-gray-50/50 transition">
-                    <td className="px-4 py-3">
+                  <tr key={p._id} className="hover:bg-white/5 transition">
+                    <td className="px-5 py-4">
                       <div className="flex items-center gap-3">
                         <img
                           src={(p.images && p.images[0]) || 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&q=80&w=800'}
                           alt={p.name}
-                          className="w-10 h-10 object-cover rounded bg-gray-100 flex-shrink-0"
+                          className="w-11 h-11 object-cover rounded-lg bg-gray-900 border border-[#C9A86C]/30 flex-shrink-0"
                         />
                         <div>
-                          <p className="font-semibold text-gray-900 line-clamp-1">{p.name}</p>
-                          {p.isFeatured && (
-                            <span className="text-[9px] font-bold text-zakhira-gold uppercase tracking-wider">★ Featured</span>
+                          <p className="font-semibold text-white text-sm line-clamp-1">{p.name}</p>
+                          {(p.isFeatured || p.isBestSeller) && (
+                            <span className="text-[9px] font-bold text-[#C9A86C] uppercase tracking-wider block mt-0.5">
+                              ★ Featured Best Seller
+                            </span>
                           )}
                         </div>
                       </div>
                     </td>
-                    <td className="px-4 py-3 font-medium text-gray-600">{p.category}</td>
-                    <td className="px-4 py-3 font-bold text-zakhira-gold">₹{p.price?.toLocaleString()}</td>
-                    <td className="px-4 py-3 text-gray-600">{p.goldPurity || 'N/A'}</td>
-                    <td className="px-4 py-3">
-                      <span className={`px-2 py-0.5 rounded text-[10px] font-semibold ${
-                        p.stockQuantity > 0 ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'
+                    <td className="px-5 py-4 font-medium text-gray-300">{p.category}</td>
+                    <td className="px-5 py-4 font-bold text-[#C9A86C] text-sm">₹{p.price?.toLocaleString()}</td>
+                    <td className="px-5 py-4 text-gray-300 font-medium">{p.goldPurity || 'N/A'}</td>
+                    <td className="px-5 py-4">
+                      <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                        p.stockQuantity > 0 ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-rose-500/20 text-rose-400 border border-rose-500/30'
                       }`}>
                         {p.stockQuantity > 0 ? `${p.stockQuantity} in stock` : 'Out of Stock'}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-center">
+                    <td className="px-5 py-4 text-center">
                       <div className="flex items-center justify-center gap-2">
                         <Link
                           to={`/admin/edit-product/${p._id}`}
-                          className="p-1.5 text-blue-600 hover:bg-blue-50 rounded transition"
+                          className="p-2 text-sky-400 hover:bg-sky-500/10 rounded-lg transition border border-sky-500/30"
                           title="Edit Product"
                         >
                           <Edit2 className="w-4 h-4" />
                         </Link>
                         <button
                           onClick={() => handleDelete(p._id, p.name)}
-                          className="p-1.5 text-red-600 hover:bg-red-50 rounded transition"
+                          className="p-2 text-rose-400 hover:bg-rose-500/10 rounded-lg transition border border-rose-500/30"
                           title="Delete Product"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -147,9 +151,10 @@ const AdminProducts = () => {
           </div>
 
           {filteredProducts.length === 0 && (
-            <div className="p-8 text-center text-gray-400">
-              <Package className="w-10 h-10 mx-auto mb-2 opacity-50" />
-              <p>No products match your search query.</p>
+            <div className="p-12 text-center text-gray-400">
+              <Package className="w-12 h-12 mx-auto mb-3 text-[#C9A86C] opacity-60" />
+              <p className="text-sm font-medium text-gray-300">No products match your search query.</p>
+              <p className="text-xs text-gray-500 mt-1">Try searching with a different keyword or category.</p>
             </div>
           )}
         </div>

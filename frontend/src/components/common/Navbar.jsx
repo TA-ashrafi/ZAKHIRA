@@ -13,7 +13,6 @@ import {
   Mail,
   HelpCircle,
   Clock,
-  Sparkles,
   MessageCircle
 } from 'lucide-react';
 import { useState } from 'react';
@@ -112,7 +111,7 @@ const Navbar = () => {
             {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
 
-          {/* Brand Logo */}
+          {/* Brand Logo - Plain Text ZAKHIRA */}
           <Link to="/" className="flex items-center group">
             <span className="text-2xl md:text-3xl font-playfair font-bold text-white tracking-[0.2em] uppercase group-hover:text-zakhira-gold transition duration-300">
               ZAKHIRA
@@ -284,7 +283,7 @@ const Navbar = () => {
             <div className="pt-4 flex flex-col space-y-3">
               {isAdmin && (
                 <Link to="/admin" className="text-zakhira-gold text-sm font-bold bg-zakhira-gold/10 py-2 rounded-lg" onClick={() => setIsMenuOpen(false)}>
-                  👑 Admin Panel
+                  Admin Panel
                 </Link>
               )}
               <button onClick={() => { setIsMenuOpen(false); setIsHelpOpen(true); }} className="text-white/80 text-sm py-1 hover:text-zakhira-gold">
@@ -327,9 +326,6 @@ const Navbar = () => {
 
             {/* Modal Title */}
             <div className="text-center mb-6">
-              <div className="w-12 h-12 bg-zakhira-gold/20 text-zakhira-gold rounded-full flex items-center justify-center mx-auto mb-3 border border-zakhira-gold/40">
-                <Sparkles className="w-6 h-6" />
-              </div>
               <h3 className="font-playfair text-2xl font-bold text-white">Royal Concierge & Help</h3>
               <p className="text-xs text-gray-400 mt-1">Our private jewellery advisors are at your service 24/7</p>
             </div>
