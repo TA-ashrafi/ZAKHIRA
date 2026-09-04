@@ -52,9 +52,9 @@ const Contact = () => {
             </div>
 
             <div className="space-y-6 text-xs">
-              <a
-                href="https://wa.me/918527580809"
-                target="_blank"
+              <a 
+                href="https://wa.me/918527580809" 
+                target="_blank" 
                 rel="noreferrer"
                 className="flex items-center gap-4 p-4 bg-emerald-950/30 border border-emerald-500/30 rounded-xl hover:bg-emerald-900/40 transition text-emerald-300"
               >
@@ -67,7 +67,7 @@ const Contact = () => {
                 </div>
               </a>
 
-              <a
+              <a 
                 href="tel:+918527580809"
                 className="flex items-center gap-4 p-4 bg-[#1A1A1A] border border-white/10 rounded-xl hover:bg-white/5 transition"
               >
@@ -80,7 +80,7 @@ const Contact = () => {
                 </div>
               </a>
 
-              <a
+              <a 
                 href="mailto:tahseenashrafi29@gmail.com"
                 className="flex items-center gap-4 p-4 bg-[#1A1A1A] border border-white/10 rounded-xl hover:bg-white/5 transition"
               >

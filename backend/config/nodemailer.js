@@ -1,7 +1,7 @@
 import { createTransport } from "nodemailer";
 
 // Helper to get SMTP transporter with environment variables
-const getTransporter = () => {
+export const getTransporter = () => {
   const host = process.env.SMTP_HOST || process.env.EMAIL_HOST || "smtp-relay.brevo.com";
   const port = Number(process.env.SMTP_PORT || process.env.EMAIL_PORT) || 587;
   const isSecure = process.env.SMTP_SECURE === "true" || port === 465;

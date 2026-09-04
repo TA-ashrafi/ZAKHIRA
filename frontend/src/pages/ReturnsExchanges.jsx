@@ -64,10 +64,10 @@ const ReturnsExchanges = () => {
 
         <div className="mt-12 text-center bg-[#1A1A1A] p-6 rounded-2xl border border-white/10">
           <p className="text-xs text-gray-300 mb-3">To initiate a return or exchange, contact our Concierge directly on WhatsApp:</p>
-          <a
-            href="https://wa.me/918527580809"
-            target="_blank"
-            rel="noopener noreferrer"
+          <a 
+            href="https://wa.me/918527580809" 
+            target="_blank" 
+            rel="noopener noreferrer" 
             className="inline-flex items-center gap-2 bg-[#25D366] text-black font-bold text-xs px-6 py-2.5 rounded-full uppercase tracking-wider hover:bg-[#20bd5a] transition"
           >
             <MessageCircle className="w-4 h-4 fill-current" /> Contact Concierge (+91 8527580809)

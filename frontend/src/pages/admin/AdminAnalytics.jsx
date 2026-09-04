@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import {
-  BarChart2,
-  TrendingUp,
-  ShoppingBag,
-  AlertTriangle,
-  PieChart,
+import { 
+  BarChart2, 
+  TrendingUp, 
+  ShoppingBag, 
+  AlertTriangle, 
+  PieChart, 
   Award,
   Crown,
   DollarSign
@@ -190,8 +190,8 @@ const AdminAnalytics = () => {
                     </span>
                   </div>
                   <div className="h-2.5 w-full bg-[#1A1A1A] rounded-full overflow-hidden border border-white/5">
-                    <div
-                      className="h-full bg-gradient-to-r from-[#C9A86C] to-[#E2C792] rounded-full transition-all duration-500"
+                    <div 
+                      className="h-full bg-gradient-to-r from-[#C9A86C] to-[#E2C792] rounded-full transition-all duration-500" 
                       style={{ width: `${Math.max(percent, 8)}%` }}
                     />
                   </div>
@@ -224,9 +224,9 @@ const AdminAnalytics = () => {
               <div key={p._id || i} className="flex items-center justify-between p-3.5 bg-[#1A1A1A] rounded-xl border border-white/5 hover:border-[#C9A86C]/40 transition">
                 <div className="flex items-center gap-3">
                   <span className="font-playfair font-bold text-sm text-[#C9A86C] w-5 text-center">#{i + 1}</span>
-                  <img
-                    src={(p.images && p.images[0]) || 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&q=80&w=800'}
-                    alt={p.name}
+                  <img 
+                    src={(p.images && p.images[0]) || 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&q=80&w=800'} 
+                    alt={p.name} 
                     className="w-10 h-10 object-cover rounded-lg bg-black border border-[#C9A86C]/30 flex-shrink-0"
                   />
                   <div>
