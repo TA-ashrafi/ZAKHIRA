@@ -67,10 +67,25 @@ const AdminAddProduct = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === 'checkbox' ? checked : value,
-    });
+    if (type === 'checkbox') {
+      if (name === 'isBestSeller') {
+        setFormData((prev) => ({
+          ...prev,
+          isBestSeller: checked,
+          isFeatured: checked ? false : prev.isFeatured,
+        }));
+      } else if (name === 'isFeatured') {
+        setFormData((prev) => ({
+          ...prev,
+          isFeatured: checked,
+          isBestSeller: checked ? false : prev.isBestSeller,
+        }));
+      } else {
+        setFormData((prev) => ({ ...prev, [name]: checked }));
+      }
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleFileUpload = async (e) => {
@@ -343,7 +358,7 @@ const AdminAddProduct = () => {
                 onChange={handleChange}
                 className="w-4 h-4 bg-[#1A1A1A] border-gray-700 rounded text-[#C9A86C] focus:ring-[#C9A86C]"
               />
-              <span className="font-medium text-gray-200">Show in Patron Favorites (Best Sellers Section)</span>
+              <span className="font-medium text-gray-200">Show in Best Sellers Section</span>
             </label>
 
             <label htmlFor="isFeatured" className="flex items-center gap-3 cursor-pointer">
@@ -355,7 +370,7 @@ const AdminAddProduct = () => {
                 onChange={handleChange}
                 className="w-4 h-4 bg-[#1A1A1A] border-gray-700 rounded text-[#C9A86C] focus:ring-[#C9A86C]"
               />
-              <span className="font-medium text-gray-200">Show in Featured Collections / Highlights</span>
+              <span className="font-medium text-gray-200">Show in Home Page</span>
             </label>
           </div>
         </div>

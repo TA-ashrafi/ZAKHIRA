@@ -35,22 +35,22 @@ const AdminUsers = () => {
   );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 text-[#F8F6F1]">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-playfair font-bold text-zakhira-dark">Registered Users</h1>
-        <p className="text-gray-500 text-xs mt-1">Directory of registered patrons and administrative personnel</p>
+        <h1 className="text-3xl font-playfair font-bold text-white">Registered Users</h1>
+        <p className="text-gray-400 text-xs mt-1">Directory of registered patrons and administrative personnel</p>
       </div>
 
       {/* Search Bar */}
-      <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex items-center gap-3 max-w-md">
-        <Search className="w-4 h-4 text-gray-400" />
+      <div className="bg-[#141414] p-4 rounded-xl border border-[#C9A86C]/30 shadow-md flex items-center gap-3 max-w-md">
+        <Search className="w-4 h-4 text-[#C9A86C]" />
         <input
           type="text"
           placeholder="Search user name, email, or phone..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full text-xs focus:outline-none"
+          className="w-full text-xs focus:outline-none bg-transparent text-white placeholder-gray-500"
         />
       </div>
 
@@ -58,10 +58,10 @@ const AdminUsers = () => {
       {loading ? (
         <Loader />
       ) : (
-        <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+        <div className="bg-[#141414] rounded-xl border border-white/10 shadow-lg overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-xs text-left">
-              <thead className="bg-gray-50 text-gray-500 uppercase font-semibold text-[10px] tracking-wider">
+              <thead className="bg-[#0D0D0D] text-gray-400 uppercase font-semibold text-[10px] tracking-wider border-b border-white/10">
                 <tr>
                   <th className="px-4 py-3">User</th>
                   <th className="px-4 py-3">Email</th>
@@ -71,24 +71,24 @@ const AdminUsers = () => {
                   <th className="px-4 py-3 text-center">Action / Toggle Role</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-white/5">
                 {filteredUsers.map((u) => (
-                  <tr key={u._id} className="hover:bg-gray-50/50 transition">
-                    <td className="px-4 py-3 font-semibold text-gray-900">
+                  <tr key={u._id} className="hover:bg-white/5 transition">
+                    <td className="px-4 py-3 font-semibold text-white">
                       <div className="flex items-center gap-2.5">
-                        <div className="w-8 h-8 bg-zakhira-gold/20 text-zakhira-gold rounded-full flex items-center justify-center font-bold text-xs uppercase">
+                        <div className="w-8 h-8 bg-[#C9A86C]/20 text-[#C9A86C] border border-[#C9A86C]/30 rounded-full flex items-center justify-center font-bold text-xs uppercase">
                           {u.name ? u.name[0] : 'U'}
                         </div>
                         <span>{u.name}</span>
                       </div>
                     </td>
-                    <td className="px-4 py-3 text-gray-600">{u.email}</td>
-                    <td className="px-4 py-3 text-gray-600">{u.phone || 'N/A'}</td>
+                    <td className="px-4 py-3 text-gray-300">{u.email}</td>
+                    <td className="px-4 py-3 text-gray-300">{u.phone || 'N/A'}</td>
                     <td className="px-4 py-3">
                       <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase ${
-                        u.role === 'admin' ? 'bg-purple-100 text-purple-800 border border-purple-200' : 'bg-gray-100 text-gray-800'
+                        u.role === 'admin' ? 'bg-purple-500/20 text-purple-300 border border-purple-500/40' : 'bg-gray-800 text-gray-300 border border-gray-700'
                       }`}>
-                        {u.role === 'admin' ? '👑 Admin' : 'Customer'}
+                        {u.role === 'admin' ? 'Admin' : 'Customer'}
                       </span>
                     </td>
                     <td className="px-4 py-3 text-gray-400">
@@ -112,13 +112,13 @@ const AdminUsers = () => {
                             }
                           }
                         }}
-                        className={`px-3 py-1 rounded text-[11px] font-bold transition ${
+                        className={`px-3 py-1 rounded-lg text-[11px] font-bold transition ${
                           u.role === 'admin'
-                            ? 'bg-amber-100 text-amber-800 hover:bg-amber-200'
-                            : 'bg-zakhira-gold text-white hover:bg-opacity-90'
+                            ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30'
+                            : 'bg-[#C9A86C] text-black hover:bg-[#b8975b]'
                         }`}
                       >
-                        {u.role === 'admin' ? 'Demote to User' : 'Make Admin 👑'}
+                        {u.role === 'admin' ? 'Demote to User' : 'Make Admin'}
                       </button>
                     </td>
                   </tr>
@@ -129,7 +129,7 @@ const AdminUsers = () => {
 
           {filteredUsers.length === 0 && (
             <div className="p-8 text-center text-gray-400">
-              <Users className="w-10 h-10 mx-auto mb-2 opacity-50" />
+              <Users className="w-10 h-10 mx-auto mb-2 opacity-50 text-[#C9A86C]" />
               <p>No users found matching query.</p>
             </div>
           )}

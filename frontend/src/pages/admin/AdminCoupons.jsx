@@ -69,23 +69,23 @@ const AdminCoupons = () => {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 text-[#F8F6F1]">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-playfair font-bold text-zakhira-dark">Manage Coupons & Promo Codes</h1>
-        <p className="text-gray-500 text-xs mt-1">Create and manage discount codes for marketing campaigns</p>
+        <h1 className="text-3xl font-playfair font-bold text-white">Manage Coupons & Promo Codes</h1>
+        <p className="text-gray-400 text-xs mt-1">Create and manage discount codes for marketing campaigns</p>
       </div>
 
       {/* Create Coupon Form */}
-      <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-        <h2 className="font-playfair font-bold text-lg text-zakhira-dark mb-4 flex items-center gap-2 border-b border-gray-100 pb-3">
-          <Tag className="w-5 h-5 text-zakhira-gold" />
+      <div className="bg-[#141414] p-6 rounded-xl border border-[#C9A86C]/30 shadow-lg">
+        <h2 className="font-playfair font-bold text-lg text-white mb-4 flex items-center gap-2 border-b border-white/10 pb-3">
+          <Tag className="w-5 h-5 text-[#C9A86C]" />
           Create New Discount Coupon
         </h2>
 
         <form onSubmit={handleCreate} className="grid grid-cols-1 sm:grid-cols-4 gap-4 text-xs items-end">
           <div>
-            <label className="block font-semibold text-gray-700 mb-1">Coupon Code *</label>
+            <label className="block font-semibold text-gray-300 mb-1">Coupon Code *</label>
             <input
               type="text"
               name="code"
@@ -93,12 +93,12 @@ const AdminCoupons = () => {
               onChange={handleChange}
               required
               placeholder="e.g. FESTIVE20"
-              className="w-full px-3 py-2 border border-gray-300 rounded uppercase focus:outline-none focus:ring-1 focus:ring-zakhira-gold"
+              className="w-full px-3 py-2 border border-white/10 rounded uppercase bg-[#0D0D0D] text-white focus:outline-none focus:border-[#C9A86C]"
             />
           </div>
 
           <div>
-            <label className="block font-semibold text-gray-700 mb-1">Discount % *</label>
+            <label className="block font-semibold text-gray-300 mb-1">Discount % *</label>
             <input
               type="number"
               name="discountPercentage"
@@ -108,12 +108,12 @@ const AdminCoupons = () => {
               min="1"
               max="100"
               placeholder="15"
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-zakhira-gold"
+              className="w-full px-3 py-2 border border-white/10 rounded bg-[#0D0D0D] text-white focus:outline-none focus:border-[#C9A86C]"
             />
           </div>
 
           <div>
-            <label className="block font-semibold text-gray-700 mb-1">Min Purchase Amount (₹)</label>
+            <label className="block font-semibold text-gray-300 mb-1">Min Purchase Amount (₹)</label>
             <input
               type="number"
               name="minPurchase"
@@ -121,14 +121,14 @@ const AdminCoupons = () => {
               onChange={handleChange}
               min="0"
               placeholder="999"
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-zakhira-gold"
+              className="w-full px-3 py-2 border border-white/10 rounded bg-[#0D0D0D] text-white focus:outline-none focus:border-[#C9A86C]"
             />
           </div>
 
           <button
             type="submit"
             disabled={submitting}
-            className="bg-zakhira-gold text-white py-2.5 rounded font-semibold uppercase text-xs hover:bg-opacity-90 transition flex items-center justify-center gap-1.5 shadow"
+            className="bg-[#C9A86C] text-black py-2.5 rounded font-bold uppercase text-xs hover:bg-[#b8975b] transition flex items-center justify-center gap-1.5 shadow"
           >
             <Plus className="w-4 h-4" /> {submitting ? 'Creating...' : 'Create Coupon'}
           </button>
@@ -139,10 +139,10 @@ const AdminCoupons = () => {
       {loading ? (
         <Loader />
       ) : (
-        <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+        <div className="bg-[#141414] rounded-xl border border-white/10 shadow-lg overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-xs text-left">
-              <thead className="bg-gray-50 text-gray-500 uppercase font-semibold text-[10px] tracking-wider">
+              <thead className="bg-[#0D0D0D] text-gray-400 uppercase font-semibold text-[10px] tracking-wider border-b border-white/10">
                 <tr>
                   <th className="px-4 py-3">Code</th>
                   <th className="px-4 py-3">Discount</th>
@@ -151,27 +151,27 @@ const AdminCoupons = () => {
                   <th className="px-4 py-3 text-center">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-white/5">
                 {coupons.map((c) => (
-                  <tr key={c._id} className="hover:bg-gray-50/50 transition">
-                    <td className="px-4 py-3 font-mono font-bold text-zakhira-gold text-sm uppercase">
+                  <tr key={c._id} className="hover:bg-white/5 transition">
+                    <td className="px-4 py-3 font-mono font-bold text-[#C9A86C] text-sm uppercase">
                       {c.code}
                     </td>
-                    <td className="px-4 py-3 font-semibold text-gray-900">
+                    <td className="px-4 py-3 font-semibold text-white">
                       {c.discountPercentage}% OFF
                     </td>
-                    <td className="px-4 py-3 text-gray-600">
+                    <td className="px-4 py-3 text-gray-300">
                       {c.minPurchase > 0 ? `₹${c.minPurchase}` : 'No Minimum'}
                     </td>
                     <td className="px-4 py-3">
-                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
                         Active
                       </span>
                     </td>
                     <td className="px-4 py-3 text-center">
                       <button
                         onClick={() => handleDelete(c._id, c.code)}
-                        className="p-1.5 text-red-600 hover:bg-red-50 rounded transition"
+                        className="p-1.5 text-rose-400 hover:bg-rose-500/20 rounded transition"
                         title="Delete Coupon"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -185,7 +185,7 @@ const AdminCoupons = () => {
 
           {coupons.length === 0 && (
             <div className="p-8 text-center text-gray-400">
-              <Tag className="w-10 h-10 mx-auto mb-2 opacity-50" />
+              <Tag className="w-10 h-10 mx-auto mb-2 opacity-50 text-[#C9A86C]" />
               <p>No coupon codes created yet.</p>
             </div>
           )}
