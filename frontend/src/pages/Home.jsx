@@ -45,18 +45,27 @@ const Home = () => {
     loadProducts();
   }, []);
 
-  // Strict filtering from DB products only
-  const bestSellers = products.filter(p => p.isBestSeller || p.isFeatured || p.featured);
+  // Strict filtering with exact product limits requested by user:
+  // Best Sellers: max 4 products (newest replace old)
+  const bestSellers = products
+    .filter(p => p.isBestSeller || p.isFeatured || p.featured)
+    .slice(-4);
 
-  const necklacesList = products.filter(p => 
-    p.category?.toLowerCase() === 'necklace' || 
-    p.category?.toLowerCase() === 'necklaces'
-  );
+  // Necklaces: max 6 products
+  const necklacesList = products
+    .filter(p =>
+      p.category?.toLowerCase() === 'necklace' ||
+      p.category?.toLowerCase() === 'necklaces'
+    )
+    .slice(-6);
 
-  const earringsList = products.filter(p => 
-    p.category?.toLowerCase() === 'earring' || 
-    p.category?.toLowerCase() === 'earrings'
-  );
+  // Earrings: max 5 products
+  const earringsList = products
+    .filter(p =>
+      p.category?.toLowerCase() === 'earring' ||
+      p.category?.toLowerCase() === 'earrings'
+    )
+    .slice(-5);
 
   // 3D Curved Showcase Items using local assets
   const curvedGalleryItems = [
@@ -335,7 +344,7 @@ const Home = () => {
           </div>
 
           {necklacesList.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
               {necklacesList.map((item) => (
                 <ProductCard key={item._id} product={item} />
               ))}
@@ -374,7 +383,7 @@ const Home = () => {
           </div>
 
           {earringsList.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
               {earringsList.map((item) => (
                 <ProductCard key={item._id} product={item} />
               ))}

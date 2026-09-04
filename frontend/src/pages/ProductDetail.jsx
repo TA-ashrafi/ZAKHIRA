@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Star, Heart, ShoppingBag, ShieldCheck, Truck, RotateCcw, Award } from 'lucide-react';
+import { Star, Heart, ShoppingBag, ShieldCheck, Truck, RotateCcw, Award, MessageSquare } from 'lucide-react';
 import { productsData } from '../data/products';
 import productService from '../services/product.service';
+import ProductCard from '../components/user/ProductCard';
 import useCart from '../hooks/useCart';
 import useWishlist from '../hooks/useWishlist';
 import Loader from '../components/common/Loader';
@@ -10,31 +11,72 @@ import Loader from '../components/common/Loader';
 const ProductDetail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
+  const [relatedProducts, setRelatedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
+
+  // Review Form state
+  const [rating, setRating] = useState(5);
+  const [reviewerName, setReviewerName] = useState('');
+  const [reviewComment, setReviewComment] = useState('');
+  const [reviewsList, setReviewsList] = useState([]);
+  const [reviewSubmitted, setReviewSubmitted] = useState(false);
 
   const { addToCart } = useCart();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
 
   useEffect(() => {
-    const fetchProduct = async () => {
+    const fetchProductAndRelated = async () => {
       setLoading(true);
       try {
         const res = await productService.getProductById(id);
+        let currentProduct = null;
         if (res.success && res.data) {
-          setProduct(res.data);
+          currentProduct = res.data;
         } else {
-          setProduct(productsData.find((p) => p._id === id) || null);
+          currentProduct = productsData.find((p) => p._id === id) || null;
+        }
+
+        setProduct(currentProduct);
+
+        if (currentProduct) {
+          // Fetch related products
+          const allRes = await productService.getProducts();
+          const allProds = (allRes.success && Array.isArray(allRes.data)) ? allRes.data : productsData;
+          const filteredRelated = allProds.filter(
+            p => p.category === currentProduct.category && p._id !== currentProduct._id
+          ).slice(0, 4);
+          setRelatedProducts(filteredRelated);
         }
       } catch (err) {
-        setProduct(productsData.find((p) => p._id === id) || null);
+        const fallback = productsData.find((p) => p._id === id) || null;
+        setProduct(fallback);
       } finally {
         setLoading(false);
       }
     };
-    fetchProduct();
+    fetchProductAndRelated();
   }, [id]);
+
+  const handleReviewSubmit = (e) => {
+    e.preventDefault();
+    if (!reviewComment.trim()) return;
+
+    const newRev = {
+      id: Date.now(),
+      name: reviewerName || 'Valued Patron',
+      rating,
+      comment: reviewComment,
+      date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+    };
+
+    setReviewsList([newRev, ...reviewsList]);
+    setReviewComment('');
+    setReviewerName('');
+    setReviewSubmitted(true);
+    setTimeout(() => setReviewSubmitted(false), 4000);
+  };
 
   if (loading) {
     return <Loader fullScreen />;
@@ -177,17 +219,19 @@ const ProductDetail = () => {
 
             {/* Quantity Selector & Add to Cart */}
             <div className="flex flex-col sm:flex-row items-stretch gap-4 mb-6">
-              <div className="flex items-center border border-gray-300 rounded overflow-hidden justify-between w-32 bg-gray-50">
+              <div className="flex items-center border border-zakhira-gold rounded-lg overflow-hidden justify-between w-36 bg-[#141414] text-white shadow-sm">
                 <button
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="px-3 py-3 hover:bg-gray-200 transition font-bold"
+                  className="px-4 py-3 bg-[#1A1A1A] hover:bg-[#C9A86C] hover:text-black transition font-bold text-lg text-[#C9A86C] select-none"
+                  aria-label="Decrease quantity"
                 >
                   -
                 </button>
-                <span className="px-4 py-3 font-semibold text-sm">{quantity}</span>
+                <span className="px-4 py-3 font-bold text-base text-white">{quantity}</span>
                 <button
                   onClick={() => setQuantity(quantity + 1)}
-                  className="px-3 py-3 hover:bg-gray-200 transition font-bold"
+                  className="px-4 py-3 bg-[#1A1A1A] hover:bg-[#C9A86C] hover:text-black transition font-bold text-lg text-[#C9A86C] select-none"
+                  aria-label="Increase quantity"
                 >
                   +
                 </button>
@@ -195,14 +239,14 @@ const ProductDetail = () => {
 
               <button
                 onClick={() => addToCart(product, quantity)}
-                className="flex-1 bg-zakhira-gold text-white px-8 py-3.5 rounded font-semibold text-xs tracking-widest uppercase hover:bg-opacity-90 transition flex items-center justify-center gap-2 shadow-md"
+                className="flex-1 bg-zakhira-gold text-black font-bold text-xs tracking-widest uppercase hover:bg-[#b8975b] transition flex items-center justify-center gap-2 shadow-md rounded-lg py-3.5"
               >
                 <ShoppingBag className="w-4 h-4" /> Add to Cart
               </button>
 
               <button
                 onClick={() => isWishlisted ? removeFromWishlist(product._id) : addToWishlist(product)}
-                className={`p-3.5 border rounded transition flex items-center justify-center ${
+                className={`p-3.5 border rounded-lg transition flex items-center justify-center ${
                   isWishlisted
                     ? 'border-red-500 text-red-500 bg-red-50'
                     : 'border-gray-300 text-gray-600 hover:border-zakhira-gold hover:text-zakhira-gold'
@@ -229,6 +273,121 @@ const ProductDetail = () => {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* RELATED PRODUCTS SECTION */}
+        {relatedProducts.length > 0 && (
+          <div className="mt-20 border-t border-gray-200 pt-12">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8">
+              <div>
+                <span className="text-xs uppercase tracking-widest font-semibold text-[#C9A86C]">CURATED MATCHES</span>
+                <h2 className="text-2xl md:text-3xl font-playfair font-bold text-gray-900 mt-1">Related Creations</h2>
+              </div>
+              <Link to={`/shop?category=${product.category}`} className="text-[#C9A86C] text-xs font-bold uppercase tracking-wider hover:underline mt-2 md:mt-0">
+                View All {product.category}s
+              </Link>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+              {relatedProducts.map((rel) => (
+                <ProductCard key={rel._id} product={rel} />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* REVIEWS & SUBMIT REVIEW SECTION */}
+        <div className="mt-20 border-t border-gray-200 pt-12 max-w-4xl mx-auto">
+          <div className="text-center mb-10">
+            <span className="text-xs text-[#C9A86C] uppercase tracking-[0.2em] font-semibold block mb-1">PATRON REVIEWS</span>
+            <h2 className="text-2xl md:text-3xl font-playfair font-bold text-gray-900">Submit Your Review</h2>
+            <p className="text-gray-500 text-xs mt-1">Share your experience with this fine piece of jewellery</p>
+          </div>
+
+          <form onSubmit={handleReviewSubmit} className="bg-gray-50 border border-gray-200 p-6 md:p-8 rounded-xl shadow-sm mb-12">
+            {reviewSubmitted && (
+              <div className="mb-6 p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs rounded-lg font-medium">
+                Thank you! Your review has been submitted successfully.
+              </div>
+            )}
+
+            <div className="space-y-6">
+              <div>
+                <label className="block text-xs font-bold uppercase text-gray-700 tracking-wider mb-2">
+                  Select Rating
+                </label>
+                <div className="flex items-center gap-2">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                      type="button"
+                      key={star}
+                      onClick={() => setRating(star)}
+                      className="p-1 focus:outline-none transition transform hover:scale-110"
+                    >
+                      <Star className={`w-6 h-6 ${star <= rating ? 'text-[#C9A86C] fill-current' : 'text-gray-300'}`} />
+                    </button>
+                  ))}
+                  <span className="text-xs font-bold text-[#C9A86C] ml-2">{rating} Stars</span>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase text-gray-700 tracking-wider mb-2">
+                  Your Name (Optional)
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. Anjali Verma"
+                  value={reviewerName}
+                  onChange={(e) => setReviewerName(e.target.value)}
+                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-xs text-gray-800 focus:outline-none focus:border-[#C9A86C]"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase text-gray-700 tracking-wider mb-2">
+                  Your Review
+                </label>
+                <textarea
+                  required
+                  rows={4}
+                  placeholder="Write your review about product quality, craftsmanship and service..."
+                  value={reviewComment}
+                  onChange={(e) => setReviewComment(e.target.value)}
+                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-xs text-gray-800 focus:outline-none focus:border-[#C9A86C]"
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="w-full bg-[#C9A86C] text-black font-bold text-xs uppercase tracking-widest py-3.5 rounded-lg hover:bg-[#b8975b] transition shadow-md"
+              >
+                Submit Review
+              </button>
+            </div>
+          </form>
+
+          {/* DISPLAY USER REVIEWS */}
+          {reviewsList.length > 0 && (
+            <div className="space-y-4">
+              <h3 className="font-playfair text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <MessageSquare className="w-5 h-5 text-[#C9A86C]" /> Customer Comments ({reviewsList.length})
+              </h3>
+              {reviewsList.map((rev) => (
+                <div key={rev.id} className="p-5 border border-gray-200 rounded-lg bg-white shadow-sm">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="font-bold text-sm text-gray-900">{rev.name}</span>
+                    <span className="text-xs text-gray-400">{rev.date}</span>
+                  </div>
+                  <div className="flex items-center gap-1 text-[#C9A86C] mb-2">
+                    {[...Array(rev.rating)].map((_, i) => (
+                      <Star key={i} className="w-3.5 h-3.5 fill-current" />
+                    ))}
+                  </div>
+                  <p className="text-xs text-gray-600 leading-relaxed">{rev.comment}</p>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
