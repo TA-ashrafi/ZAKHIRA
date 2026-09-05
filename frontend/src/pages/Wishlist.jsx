@@ -10,20 +10,20 @@ const Wishlist = () => {
 
   if (wishlistItems.length === 0) {
     return (
-      <div className="bg-gray-50/50 min-h-[70vh] flex items-center justify-center py-16 px-4">
-        <div className="bg-white p-10 rounded-xl border border-gray-100 shadow-sm text-center max-w-md w-full">
-          <div className="w-16 h-16 bg-red-50 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
+      <div className="bg-[#0D0D0D] text-white min-h-[70vh] flex items-center justify-center py-16 px-4">
+        <div className="bg-[#141414] p-10 rounded-xl border border-[#C9A86C]/30 shadow-2xl text-center max-w-md w-full">
+          <div className="w-16 h-16 bg-red-500/10 text-red-400 rounded-full flex items-center justify-center mx-auto mb-4 border border-red-500/20">
             <Heart className="w-8 h-8 fill-current" />
           </div>
-          <h2 className="text-2xl font-playfair font-bold text-zakhira-dark mb-2">
+          <h2 className="text-2xl font-playfair font-bold text-white mb-2">
             Your Wishlist is Empty
           </h2>
-          <p className="text-gray-500 text-xs mb-6">
+          <p className="text-gray-400 text-xs mb-6">
             Save your favourite fine jewellery pieces here to keep track of them later.
           </p>
           <Link
             to="/shop"
-            className="inline-block bg-zakhira-gold text-white px-8 py-3.5 rounded font-semibold text-xs tracking-widest uppercase hover:bg-opacity-90 transition shadow-md"
+            className="inline-block bg-[#C9A86C] text-black px-8 py-3.5 rounded font-bold text-xs tracking-widest uppercase hover:bg-[#b8975b] transition shadow-md"
           >
             Explore Collection
           </Link>
@@ -33,13 +33,13 @@ const Wishlist = () => {
   }
 
   return (
-    <div className="bg-gray-50/30 min-h-screen py-12">
+    <div className="bg-[#0D0D0D] text-white min-h-screen py-12">
       <div className="container mx-auto px-4 max-w-6xl">
-        <div className="mb-8 border-b border-gray-200 pb-4">
-          <h1 className="text-3xl font-playfair font-bold text-zakhira-dark">
+        <div className="mb-8 border-b border-white/10 pb-4">
+          <h1 className="text-3xl font-playfair font-bold text-white">
             My Wishlist ({wishlistItems.length})
           </h1>
-          <p className="text-gray-500 text-xs mt-1">
+          <p className="text-gray-400 text-xs mt-1">
             Your saved fine jewellery pieces
           </p>
         </div>

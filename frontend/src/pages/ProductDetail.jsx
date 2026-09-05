@@ -12,6 +12,7 @@ const ProductDetail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
+  const [peopleAlsoLiked, setPeopleAlsoLiked] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
@@ -41,13 +42,18 @@ const ProductDetail = () => {
         setProduct(currentProduct);
 
         if (currentProduct) {
-          // Fetch related products
+            // Fetch related products & People Also Liked
           const allRes = await productService.getProducts();
           const allProds = (allRes.success && Array.isArray(allRes.data)) ? allRes.data : productsData;
           const filteredRelated = allProds.filter(
             p => p.category === currentProduct.category && p._id !== currentProduct._id
           ).slice(0, 4);
           setRelatedProducts(filteredRelated);
+
+            const filteredLiked = allProds.filter(
+              p => p._id !== currentProduct._id
+            ).slice(0, 6);
+            setPeopleAlsoLiked(filteredLiked);
         }
       } catch (err) {
         const fallback = productsData.find((p) => p._id === id) || null;
@@ -290,6 +296,26 @@ const ProductDetail = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
               {relatedProducts.map((rel) => (
                 <ProductCard key={rel._id} product={rel} />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* PEOPLE ALSO LIKED SECTION */}
+        {peopleAlsoLiked.length > 0 && (
+          <div className="mt-16 border-t border-gray-200 pt-12">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8">
+              <div>
+                <span className="text-xs uppercase tracking-widest font-semibold text-[#C9A86C]">TRENDING FAVORITES</span>
+                <h2 className="text-2xl md:text-3xl font-playfair font-bold text-gray-900 mt-1">PEOPLE ALSO LIKED</h2>
+              </div>
+              <Link to="/shop" className="text-[#C9A86C] text-xs font-bold uppercase tracking-wider hover:underline mt-2 md:mt-0">
+                Explore All Products
+              </Link>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+              {peopleAlsoLiked.map((item) => (
+                <ProductCard key={item._id} product={item} />
               ))}
             </div>
           </div>

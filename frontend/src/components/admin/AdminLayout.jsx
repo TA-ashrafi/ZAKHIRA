@@ -38,6 +38,7 @@ const AdminLayout = () => {
     { name: 'Orders', path: '/admin/orders', icon: ShoppingBag },
     { name: 'Users', path: '/admin/users', icon: Users },
     { name: 'Coupons', path: '/admin/coupons', icon: Tag },
+    { name: 'Subscribers', path: '/admin/subscribers', icon: Users },
   ];
 
   // Fetch real-time alerts for orders and stock
@@ -95,7 +96,7 @@ const AdminLayout = () => {
           <span className="font-playfair font-bold text-lg text-[#C9A86C]">ZAKHIRA Admin</span>
         </div>
         <div className="flex items-center gap-3">
-          <button 
+          <button
             onClick={() => setNotificationsOpen(!notificationsOpen)}
             className="relative p-1.5 text-[#C9A86C] hover:bg-white/5 rounded-lg"
           >
@@ -129,7 +130,7 @@ const AdminLayout = () => {
 
             {/* Notification Bell Icon */}
             <div className="relative">
-              <button 
+              <button
                 onClick={() => {
                   setNotificationsOpen(!notificationsOpen);
                   setUnreadCount(0);
@@ -152,7 +153,7 @@ const AdminLayout = () => {
                     <h4 className="font-playfair font-bold text-sm text-white flex items-center gap-1.5">
                       <Bell className="w-4 h-4 text-[#C9A86C]" /> Admin Alerts
                     </h4>
-                    <button 
+                    <button
                       onClick={() => setNotificationsOpen(false)}
                       className="text-xs text-gray-400 hover:text-white"
                     >
@@ -167,8 +168,8 @@ const AdminLayout = () => {
                         to={n.link}
                         onClick={() => setNotificationsOpen(false)}
                         className={`block p-3 rounded-xl border text-xs transition ${
-                          n.type === 'stock' 
-                            ? 'bg-amber-950/30 border-amber-500/30 text-amber-200 hover:bg-amber-900/40' 
+                          n.type === 'stock'
+                            ? 'bg-amber-950/30 border-amber-500/30 text-amber-200 hover:bg-amber-900/40'
                             : 'bg-emerald-950/30 border-emerald-500/30 text-emerald-200 hover:bg-emerald-900/40'
                         }`}
                       >
@@ -216,7 +217,7 @@ const AdminLayout = () => {
                   className={`
                     flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition
                     ${isActive 
-                      ? 'bg-[#C9A86C] text-black shadow-lg shadow-[#C9A86C]/20' 
+                      ? 'bg-[#C9A86C] text-black shadow-lg shadow-[#C9A86C]/20'
                       : 'text-gray-300 hover:bg-white/5 hover:text-white'}
                   `}
                 >

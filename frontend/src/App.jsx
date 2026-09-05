@@ -32,6 +32,7 @@ import ShippingInfo from './pages/ShippingInfo';
 import ReturnsExchanges from './pages/ReturnsExchanges';
 import FAQ from './pages/FAQ';
 import Contact from './pages/Contact';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 
 // Admin Components & Pages
 import AdminLayout from './components/admin/AdminLayout';
@@ -42,6 +43,7 @@ import AdminAddProduct from './pages/admin/AdminAddProduct';
 import AdminOrders from './pages/admin/AdminOrders';
 import AdminUsers from './pages/admin/AdminUsers';
 import AdminCoupons from './pages/admin/AdminCoupons';
+import AdminSubscribers from './pages/admin/AdminSubscribers';
 
 import useAuth from './hooks/useAuth';
 
@@ -131,6 +133,7 @@ function App() {
                 <Route path="/returns-exchanges" element={<ReturnsExchanges />} />
                 <Route path="/faq" element={<FAQ />} />
                 <Route path="/contact" element={<Contact />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
                 {/* Protected User Routes */}
                 <Route element={<ProtectedRoute />}>
@@ -149,6 +152,7 @@ function App() {
                 <Route path="/admin/orders" element={<AdminOrders />} />
                 <Route path="/admin/users" element={<AdminUsers />} />
                 <Route path="/admin/coupons" element={<AdminCoupons />} />
+                <Route path="/admin/subscribers" element={<AdminSubscribers />} />
               </Route>
 
               {/* Fallback redirect */}

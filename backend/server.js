@@ -12,6 +12,8 @@ import wishlistRoutes from './routes/wishlist.routes.js';
 import orderRoutes from './routes/order.routes.js';
 import uploadRoutes from './routes/upload.routes.js';
 import couponRoutes from './routes/coupon.routes.js';
+import subscriberRoutes from './routes/subscriber.routes.js';
+import paymentRoutes from './routes/payment.routes.js';
 
 dotenv.config();
 
@@ -36,6 +38,8 @@ app.use('/api/wishlist', wishlistRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/coupons', couponRoutes);
+app.use('/api/subscribers', subscriberRoutes);
+app.use('/api/payment', paymentRoutes);
 
 // ========== TEST ROUTE ==========
 app.get('/', (req, res) => {
