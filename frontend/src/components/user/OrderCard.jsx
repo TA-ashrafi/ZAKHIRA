@@ -1,8 +1,13 @@
-import { Package, Calendar, MapPin, CreditCard, XCircle, RotateCcw } from 'lucide-react';
+import { useState } from 'react';
+import { Package, Calendar, MapPin, CreditCard, XCircle, RotateCcw, X, Send } from 'lucide-react';
 import orderService from '../../services/order.service';
 import toast from 'react-hot-toast';
 
 const OrderCard = ({ order, onOrderUpdated }) => {
+  const [showReturnModal, setShowReturnModal] = useState(false);
+  const [returnReason, setReturnReason] = useState('');
+  const [submittingReturn, setSubmittingReturn] = useState(false);
+
   const getStatusColor = (status) => {
     switch (status) {
       case 'Delivered':
@@ -34,18 +39,25 @@ const OrderCard = ({ order, onOrderUpdated }) => {
     }
   };
 
-  const handleReturn = async () => {
-    const reason = window.prompt('Please enter the reason for return:');
-    if (reason && reason.trim()) {
-      try {
-        const res = await orderService.requestReturn(order._id, reason.trim());
-        if (res.success) {
-          toast.success('Return request submitted to royal concierge!');
-          onOrderUpdated && onOrderUpdated();
-        }
-      } catch (err) {
-        toast.error(err.response?.data?.message || 'Failed to request return');
+  const handleReturnSubmit = async (e) => {
+    e.preventDefault();
+    if (!returnReason.trim()) {
+      toast.error('Please enter a reason for the return request');
+      return;
+    }
+    setSubmittingReturn(true);
+    try {
+      const res = await orderService.requestReturn(order._id, returnReason.trim());
+      if (res.success) {
+        toast.success('Return request submitted to Royal Concierge!');
+        setShowReturnModal(false);
+        setReturnReason('');
+        onOrderUpdated && onOrderUpdated();
       }
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Failed to submit return request');
+    } finally {
+      setSubmittingReturn(false);
     }
   };
 
@@ -148,7 +160,7 @@ const OrderCard = ({ order, onOrderUpdated }) => {
           {order.orderStatus === 'Delivered' && (
             <button
               type="button"
-              onClick={handleReturn}
+              onClick={() => setShowReturnModal(true)}
               className="px-4 py-2 bg-[#C9A86C]/20 text-[#C9A86C] border border-[#C9A86C]/40 rounded-xl text-xs font-bold uppercase hover:bg-[#C9A86C]/30 transition flex items-center gap-1.5 cursor-pointer"
             >
               <RotateCcw className="w-4 h-4" /> Request Return
@@ -156,6 +168,58 @@ const OrderCard = ({ order, onOrderUpdated }) => {
           )}
         </div>
       </div>
+
+      {/* Styled Return Request Modal */}
+      {showReturnModal && (
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-[#141414] border border-[#C9A86C]/40 rounded-2xl max-w-md w-full p-6 text-white relative shadow-2xl space-y-4">
+            <button
+              type="button"
+              onClick={() => setShowReturnModal(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-white p-1 rounded-full hover:bg-white/10"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="text-center">
+              <span className="text-[10px] uppercase font-bold text-[#C9A86C] tracking-[0.2em]">ROYAL CONCIERGE</span>
+              <h3 className="font-playfair text-xl font-bold text-white mt-1">Request Order Return</h3>
+              <p className="text-xs text-gray-400 mt-1">Order #{String(order._id || '').slice(-8).toUpperCase()}</p>
+            </div>
+
+            <form onSubmit={handleReturnSubmit} className="space-y-4 text-xs">
+              <div>
+                <label className="block text-gray-300 font-semibold mb-1">Reason for Return *</label>
+                <textarea
+                  rows={4}
+                  required
+                  value={returnReason}
+                  onChange={(e) => setReturnReason(e.target.value)}
+                  placeholder="Describe why you would like to return or exchange this item..."
+                  className="w-full px-3 py-2.5 bg-[#1A1A1A] border border-gray-700 text-white rounded-xl focus:outline-none focus:border-[#C9A86C]"
+                />
+              </div>
+
+              <div className="flex justify-end gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setShowReturnModal(false)}
+                  className="px-4 py-2 border border-gray-700 rounded-xl text-xs font-semibold hover:bg-white/5"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={submittingReturn}
+                  className="bg-[#C9A86C] text-black px-6 py-2 rounded-xl font-bold text-xs uppercase tracking-wider hover:bg-[#b8975b] transition flex items-center gap-1.5 shadow"
+                >
+                  <Send className="w-4 h-4" /> {submittingReturn ? 'Submitting...' : 'Submit Return'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -53,6 +53,17 @@ app.get('/', (req, res) => {
   });
 });
 
+// ========== HEALTH CHECK ROUTE ==========
+app.get('/health', (req, res) => {
+  res.status(200).json({
+    success: true,
+    status: 'OK',
+    database: mongoose.connection.readyState === 1 ? 'Connected ✅' : 'Disconnected ❌',
+    uptime: process.uptime(),
+    timestamp: new Date().toISOString()
+  });
+});
+
 // ========== API DOCS ==========
 app.get('/api', (req, res) => {
   res.json({
@@ -139,7 +150,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-// ========== START SERVER ==========
+// ========== START SERVER + CRON JOB ==========
 app.listen(PORT, () => {
   console.log('='.repeat(50));
   console.log(`✨ ZAKHIRA Jewellery API`);

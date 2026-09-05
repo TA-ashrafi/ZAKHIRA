@@ -48,7 +48,7 @@ const Home = () => {
   // Strict filtering with exact product limits requested by user:
   // Best Sellers: max 4 products (newest replace old)
   const bestSellers = products
-    .filter(p => p.isBestSeller || p.isFeatured || p.featured)
+    .filter(p => Boolean(p.isBestSeller))
     .slice(-4);
 
   // Necklaces: max 6 products
@@ -193,17 +193,17 @@ const Home = () => {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {categoriesData.map((cat) => (
-              <Link
-                to={cat.link}
-                key={cat.id}
+              <Link 
+                to={cat.link} 
+                key={cat.id} 
                 className="group relative overflow-hidden rounded-xl aspect-square border border-[#C9A86C]/20 shadow-xl hover:border-[#C9A86C] transition-all duration-300 will-change-transform"
               >
                 <div className="absolute inset-0 bg-gray-900 overflow-hidden">
-                  <img
-                    src={cat.image}
-                    alt={cat.name}
-                    className="w-full h-full object-cover filter brightness-90 group-hover:scale-105 transition-transform duration-500 ease-out"
-                    loading="lazy"
+                  <img 
+                    src={cat.image} 
+                    alt={cat.name} 
+                    className="w-full h-full object-cover filter brightness-90 group-hover:scale-105 transition-transform duration-500 ease-out" 
+                    loading="lazy" 
                   />
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex items-end p-5">

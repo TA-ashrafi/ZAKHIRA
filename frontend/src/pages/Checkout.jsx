@@ -153,62 +153,62 @@ const Checkout = () => {
           {/* Left Column: Form & Payment */}
           <div className="lg:col-span-2 space-y-6">
             {/* Shipping Address */}
-            <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-              <h2 className="font-playfair font-bold text-lg text-zakhira-dark mb-4 border-b border-gray-100 pb-3">
+            <div className="bg-[#141414] p-6 rounded-xl border border-[#C9A86C]/30 shadow-2xl">
+              <h2 className="font-playfair font-bold text-lg text-white mb-4 border-b border-white/10 pb-3">
                 1. Shipping Address
               </h2>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
                 <div>
-                  <label className="block font-semibold text-gray-700 mb-1">Full Name *</label>
+                  <label className="block font-semibold text-gray-300 mb-1">Full Name *</label>
                   <input
                     type="text"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-zakhira-gold"
+                    className="w-full px-3 py-2.5 bg-[#1A1A1A] border border-gray-700 text-white rounded focus:outline-none focus:border-[#C9A86C]"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-gray-700 mb-1">Email Address *</label>
+                  <label className="block font-semibold text-gray-300 mb-1">Email Address *</label>
                   <input
                     type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-zakhira-gold"
+                    className="w-full px-3 py-2.5 bg-[#1A1A1A] border border-gray-700 text-white rounded focus:outline-none focus:border-[#C9A86C]"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-gray-700 mb-1">Phone Number *</label>
+                  <label className="block font-semibold text-gray-300 mb-1">Phone Number *</label>
                   <input
                     type="tel"
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-zakhira-gold"
+                    className="w-full px-3 py-2.5 bg-[#1A1A1A] border border-gray-700 text-white rounded focus:outline-none focus:border-[#C9A86C]"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-gray-700 mb-1">Pincode *</label>
+                  <label className="block font-semibold text-gray-300 mb-1">Pincode *</label>
                   <input
                     type="text"
                     name="pincode"
                     value={formData.pincode}
                     onChange={handleChange}
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-zakhira-gold"
+                    className="w-full px-3 py-2.5 bg-[#1A1A1A] border border-gray-700 text-white rounded focus:outline-none focus:border-[#C9A86C]"
                   />
                 </div>
 
                 <div className="md:col-span-2">
-                  <label className="block font-semibold text-gray-700 mb-1">Street Address *</label>
+                  <label className="block font-semibold text-gray-300 mb-1">Street Address *</label>
                   <input
                     type="text"
                     name="street"
@@ -216,88 +216,88 @@ const Checkout = () => {
                     onChange={handleChange}
                     required
                     placeholder="House/Flat No, Apartment, Street"
-                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-zakhira-gold"
+                    className="w-full px-3 py-2.5 bg-[#1A1A1A] border border-gray-700 text-white placeholder-gray-500 rounded focus:outline-none focus:border-[#C9A86C]"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-gray-700 mb-1">City *</label>
+                  <label className="block font-semibold text-gray-300 mb-1">City *</label>
                   <input
                     type="text"
                     name="city"
                     value={formData.city}
                     onChange={handleChange}
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-zakhira-gold"
+                    className="w-full px-3 py-2.5 bg-[#1A1A1A] border border-gray-700 text-white rounded focus:outline-none focus:border-[#C9A86C]"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-gray-700 mb-1">State *</label>
+                  <label className="block font-semibold text-gray-300 mb-1">State *</label>
                   <input
                     type="text"
                     name="state"
                     value={formData.state}
                     onChange={handleChange}
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-zakhira-gold"
+                    className="w-full px-3 py-2.5 bg-[#1A1A1A] border border-gray-700 text-white rounded focus:outline-none focus:border-[#C9A86C]"
                   />
                 </div>
               </div>
             </div>
 
             {/* Payment Method */}
-            <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-              <h2 className="font-playfair font-bold text-lg text-zakhira-dark mb-4 border-b border-gray-100 pb-3">
+            <div className="bg-[#141414] p-6 rounded-xl border border-[#C9A86C]/30 shadow-2xl">
+              <h2 className="font-playfair font-bold text-lg text-white mb-4 border-b border-white/10 pb-3">
                 2. Payment Method
               </h2>
 
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
                 <label
                   onClick={() => setPaymentMethod('COD')}
-                  className={`p-4 border rounded-lg cursor-pointer transition flex flex-col items-center justify-center text-center gap-2 ${
+                  className={`p-4 border rounded-xl cursor-pointer transition flex flex-col items-center justify-center text-center gap-2 ${
                     paymentMethod === 'COD'
-                      ? 'border-zakhira-gold bg-gold/10 text-zakhira-gold font-bold shadow-sm'
-                      : 'border-gray-200 hover:border-gray-300 text-gray-700'
+                      ? 'border-[#C9A86C] bg-[#C9A86C]/10 text-[#C9A86C] font-bold shadow-md'
+                      : 'border-gray-800 bg-[#1A1A1A] hover:border-gray-700 text-gray-300'
                   }`}
                 >
-                  <Banknote className="w-5 h-5 text-zakhira-gold" />
+                  <Banknote className="w-5 h-5 text-[#C9A86C]" />
                   <span>Cash on Delivery</span>
                 </label>
 
                 <label
                   onClick={() => setPaymentMethod('UPI')}
-                  className={`p-4 border rounded-lg cursor-pointer transition flex flex-col items-center justify-center text-center gap-2 ${
+                  className={`p-4 border rounded-xl cursor-pointer transition flex flex-col items-center justify-center text-center gap-2 ${
                     paymentMethod === 'UPI'
-                      ? 'border-zakhira-gold bg-gold/10 text-zakhira-gold font-bold shadow-sm'
-                      : 'border-gray-200 hover:border-gray-300 text-gray-700'
+                      ? 'border-[#C9A86C] bg-[#C9A86C]/10 text-[#C9A86C] font-bold shadow-md'
+                      : 'border-gray-800 bg-[#1A1A1A] hover:border-gray-700 text-gray-300'
                   }`}
                 >
-                  <QrCode className="w-5 h-5 text-zakhira-gold" />
+                  <QrCode className="w-5 h-5 text-[#C9A86C]" />
                   <span>UPI / QR</span>
                 </label>
 
                 <label
                   onClick={() => setPaymentMethod('Card')}
-                  className={`p-4 border rounded-lg cursor-pointer transition flex flex-col items-center justify-center text-center gap-2 ${
+                  className={`p-4 border rounded-xl cursor-pointer transition flex flex-col items-center justify-center text-center gap-2 ${
                     paymentMethod === 'Card'
-                      ? 'border-zakhira-gold bg-gold/10 text-zakhira-gold font-bold shadow-sm'
-                      : 'border-gray-200 hover:border-gray-300 text-gray-700'
+                      ? 'border-[#C9A86C] bg-[#C9A86C]/10 text-[#C9A86C] font-bold shadow-md'
+                      : 'border-gray-800 bg-[#1A1A1A] hover:border-gray-700 text-gray-300'
                   }`}
                 >
-                  <CreditCard className="w-5 h-5 text-zakhira-gold" />
+                  <CreditCard className="w-5 h-5 text-[#C9A86C]" />
                   <span>Credit / Debit Card</span>
                 </label>
 
                 <label
                   onClick={() => setPaymentMethod('NetBanking')}
-                  className={`p-4 border rounded-lg cursor-pointer transition flex flex-col items-center justify-center text-center gap-2 ${
+                  className={`p-4 border rounded-xl cursor-pointer transition flex flex-col items-center justify-center text-center gap-2 ${
                     paymentMethod === 'NetBanking'
-                      ? 'border-zakhira-gold bg-gold/10 text-zakhira-gold font-bold shadow-sm'
-                      : 'border-gray-200 hover:border-gray-300 text-gray-700'
+                      ? 'border-[#C9A86C] bg-[#C9A86C]/10 text-[#C9A86C] font-bold shadow-md'
+                      : 'border-gray-800 bg-[#1A1A1A] hover:border-gray-700 text-gray-300'
                   }`}
                 >
-                  <Building className="w-5 h-5 text-zakhira-gold" />
+                  <Building className="w-5 h-5 text-[#C9A86C]" />
                   <span>NetBanking</span>
                 </label>
               </div>
@@ -306,8 +306,8 @@ const Checkout = () => {
 
           {/* Right Column: Order Summary & Place Order */}
           <div>
-            <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm sticky top-24">
-              <h3 className="font-playfair font-bold text-lg text-zakhira-dark mb-4 border-b border-gray-100 pb-3">
+            <div className="bg-[#141414] p-6 rounded-xl border border-[#C9A86C]/30 shadow-2xl sticky top-24">
+              <h3 className="font-playfair font-bold text-lg text-white mb-4 border-b border-white/10 pb-3">
                 Order Items ({cartItems.length})
               </h3>
 
@@ -315,17 +315,17 @@ const Checkout = () => {
                 {cartItems.map((item, idx) => {
                   const product = item.product || {};
                   return (
-                    <div key={idx} className="flex items-center gap-3">
+                    <div key={idx} className="flex items-center gap-3 border-b border-white/5 pb-2">
                       <img
                         src={(product.images && product.images[0]) || 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&q=80&w=800'}
                         alt={product.name}
-                        className="w-12 h-12 object-cover rounded bg-gray-50 flex-shrink-0"
+                        className="w-12 h-12 object-cover rounded bg-[#0D0D0D] border border-white/10 flex-shrink-0"
                       />
                       <div className="flex-1 min-w-0">
-                        <p className="font-semibold text-gray-800 truncate">{product.name}</p>
+                        <p className="font-semibold text-white truncate">{product.name}</p>
                         <p className="text-gray-400">Qty: {item.quantity}</p>
                       </div>
-                      <span className="font-semibold text-gray-900">
+                      <span className="font-bold text-[#C9A86C]">
                         ₹{((product.price || 0) * item.quantity).toLocaleString()}
                       </span>
                     </div>
