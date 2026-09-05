@@ -46,7 +46,7 @@ export const register = async (req, res) => {
     // Asynchronously send welcome email without blocking response
     sendEmail({
       to: user.email,
-      subject: '✨ Welcome to ZAKHIRA Royal Atelier',
+      subject: 'Welcome to ZAKHIRA Royal Atelier',
       html: getWelcomeEmailTemplate(user.name)
     }).catch(err => console.error('Welcome email dispatch error:', err));
 
@@ -235,7 +235,7 @@ export const testEmail = async (req, res) => {
 
     const result = await sendEmail({
       to: targetEmail,
-      subject: '✨ ZAKHIRA Diagnostic Test Email',
+      subject: 'ZAKHIRA Diagnostic Test Email',
       html: getWelcomeEmailTemplate('Valued Client')
     });
 
