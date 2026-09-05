@@ -48,8 +48,8 @@ const FAQ = () => {
           {faqs.map((faq, index) => {
             const isOpen = openIndex === index;
             return (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className="bg-[#141414] border border-[#C9A86C]/20 rounded-2xl overflow-hidden transition-all duration-300"
               >
                 <button
@@ -78,16 +78,16 @@ const FAQ = () => {
             Our private jewellery advisors are available 24/7 to answer your queries.
           </p>
           <div className="flex flex-wrap justify-center gap-4 pt-2">
-            <a 
-              href="https://wa.me/918527580809" 
-              target="_blank" 
-              rel="noopener noreferrer" 
+            <a
+              href="https://wa.me/918527580809"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-[#25D366] text-black font-bold text-xs px-6 py-2.5 rounded-full uppercase tracking-wider hover:bg-[#20bd5a] transition"
             >
               <Phone className="w-4 h-4 fill-current" /> WhatsApp +91 8527580809
             </a>
-            <a 
-              href="mailto:tahseenashrafi29@gmail.com" 
+            <a
+              href="mailto:tahseenashrafi29@gmail.com"
               className="inline-flex items-center gap-2 bg-[#C9A86C] text-black font-bold text-xs px-6 py-2.5 rounded-full uppercase tracking-wider hover:bg-[#b8975b] transition"
             >
               <Mail className="w-4 h-4" /> Email Concierge

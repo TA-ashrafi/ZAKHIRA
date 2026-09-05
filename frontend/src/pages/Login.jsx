@@ -32,7 +32,7 @@ const Login = () => {
   return (
     <div className="relative min-h-[90vh] flex items-center justify-center bg-[#0D0D0D] py-16 px-4 overflow-hidden">
       {/* Background Wallpaper Overlay */}
-      <div 
+      <div
         className="absolute inset-0 bg-cover bg-center filter brightness-40 contrast-110 scale-105 transition-transform duration-1000"
         style={{
           backgroundImage: `url('https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&q=80&w=1920')`
@@ -99,7 +99,7 @@ const Login = () => {
             disabled={isSubmitting}
             className="w-full bg-[#C9A86C] text-black py-4 rounded-xl font-bold text-xs tracking-widest uppercase hover:bg-[#b8975b] transition shadow-lg shadow-[#C9A86C]/20 disabled:opacity-50 mt-2 flex items-center justify-center gap-2 group cursor-pointer"
           >
-            {isSubmitting ? 'Authenticating...' : 'Sign In To Portal'} 
+            {isSubmitting ? 'Authenticating...' : 'Sign In To Portal'}
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </button>
         </form>
