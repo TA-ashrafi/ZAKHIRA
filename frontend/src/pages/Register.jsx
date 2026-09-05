@@ -35,8 +35,8 @@ const Register = () => {
   return (
     <div className="relative min-h-[calc(100vh-80px)] flex items-center justify-center p-4 bg-[#0D0D0D] overflow-hidden">
       {/* Background wallpaper overlay */}
-      <div
-        className="absolute inset-0 bg-cover bg-center opacity-25 filter blur-sm scale-105"
+      <div 
+        className="absolute inset-0 bg-cover bg-center opacity-25 filter blur-sm scale-105" 
         style={{ backgroundImage: `url('https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&q=80&w=1600')` }}
       />
       <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] via-[#0D0D0D]/80 to-transparent" />

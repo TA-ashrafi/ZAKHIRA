@@ -53,16 +53,16 @@ const Home = () => {
 
   // Necklaces: max 6 products
   const necklacesList = products
-    .filter(p =>
-      p.category?.toLowerCase() === 'necklace' ||
+    .filter(p => 
+      p.category?.toLowerCase() === 'necklace' || 
       p.category?.toLowerCase() === 'necklaces'
     )
     .slice(-6);
 
   // Earrings: max 5 products
   const earringsList = products
-    .filter(p =>
-      p.category?.toLowerCase() === 'earring' ||
+    .filter(p => 
+      p.category?.toLowerCase() === 'earring' || 
       p.category?.toLowerCase() === 'earrings'
     )
     .slice(-5);
