@@ -34,7 +34,7 @@ const orderSchema = new mongoose.Schema({
   },
   paymentMethod: {
     type: String,
-    enum: ['COD', 'Card', 'UPI', 'NetBanking'],
+    enum: ['COD', 'Card', 'UPI', 'NetBanking', 'Razorpay Online'],
     required: true
   },
   paymentStatus: {
@@ -44,8 +44,12 @@ const orderSchema = new mongoose.Schema({
   },
   orderStatus: {
     type: String,
-    enum: ['Processing', 'Shipped', 'Delivered', 'Cancelled'],
+    enum: ['Processing', 'Shipped', 'Delivered', 'Cancelled', 'Return Requested'],
     default: 'Processing'
+  },
+  returnReason: {
+    type: String,
+    default: ''
   },
   razorpayOrderId: String,
   razorpayPaymentId: String,

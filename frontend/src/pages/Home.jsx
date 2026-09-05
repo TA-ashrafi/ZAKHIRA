@@ -48,7 +48,7 @@ const Home = () => {
   // Strict filtering with exact product limits requested by user:
   // Best Sellers: max 4 products (newest replace old)
   const bestSellers = products
-    .filter(p => p.isBestSeller || p.isFeatured || p.featured)
+    .filter(p => Boolean(p.isBestSeller))
     .slice(-4);
 
   // Necklaces: max 6 products
