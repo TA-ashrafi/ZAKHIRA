@@ -207,7 +207,16 @@ const Profile = () => {
             {loadingOrders ? (
               <Loader />
             ) : orders.length > 0 ? (
-              orders.map((order) => <OrderCard key={order._id} order={order} />)
+              orders.map((order) => (
+                <OrderCard 
+                  key={order._id} 
+                  order={order} 
+                  onOrderUpdated={async () => {
+                    const res = await orderService.getOrders();
+                    if (res.success && res.data) setOrders(res.data);
+                  }} 
+                />
+              ))
             ) : (
               <div className="bg-[#141414] p-12 rounded-xl border border-white/10 text-center">
                 <Package className="w-12 h-12 text-[#C9A86C] mx-auto mb-3 opacity-50" />

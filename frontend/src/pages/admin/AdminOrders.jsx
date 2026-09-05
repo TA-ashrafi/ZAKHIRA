@@ -98,16 +98,18 @@ const AdminOrders = () => {
                   <select
                     value={order.orderStatus}
                     onChange={(e) => handleStatusChange(order._id, e.target.value)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-bold border focus:outline-none bg-[#0D0D0D] ${
+                    className={`px-3 py-1.5 rounded-lg text-xs font-bold border focus:outline-none bg-[#0D0D0D] cursor-pointer ${
                       order.orderStatus === 'Delivered' ? 'text-emerald-400 border-emerald-500/40 bg-emerald-500/10' :
                       order.orderStatus === 'Shipped' ? 'text-blue-400 border-blue-500/40 bg-blue-500/10' :
                       order.orderStatus === 'Cancelled' ? 'text-rose-400 border-rose-500/40 bg-rose-500/10' :
+                      order.orderStatus === 'Return Requested' ? 'text-purple-400 border-purple-500/40 bg-purple-500/10' :
                       'text-amber-400 border-amber-500/40 bg-amber-500/10'
                     }`}
                   >
                     <option value="Processing" className="bg-[#141414] text-white">Processing</option>
                     <option value="Shipped" className="bg-[#141414] text-white">Shipped</option>
                     <option value="Delivered" className="bg-[#141414] text-white">Delivered</option>
+                    <option value="Return Requested" className="bg-[#141414] text-white">Return Requested</option>
                     <option value="Cancelled" className="bg-[#141414] text-white">Cancelled</option>
                   </select>
                 </div>

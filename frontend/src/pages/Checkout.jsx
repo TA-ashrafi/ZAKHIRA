@@ -360,7 +360,7 @@ const Checkout = () => {
                       value={couponCode}
                       onChange={(e) => setCouponCode(String(e.target.value || '').toUpperCase())}
                       placeholder="e.g. ZAKHIRA10"
-                      className="flex-1 px-2.5 py-1.5 border border-gray-300 rounded uppercase focus:outline-none focus:ring-1 focus:ring-zakhira-gold"
+                      className="flex-1 px-2.5 py-2 bg-[#1A1A1A] border border-gray-700 text-white placeholder-gray-500 rounded uppercase focus:outline-none focus:border-[#C9A86C] font-mono font-bold"
                     />
                     <button
                       type="button"

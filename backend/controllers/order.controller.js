@@ -5,7 +5,7 @@ import Product from '../models/Product.js';
 // Place order
 export const placeOrder = async (req, res) => {
   try {
-    const { shippingAddress, paymentMethod } = req.body;
+    const { shippingAddress, paymentMethod, paymentStatus, paymentId } = req.body;
 
     // Get user's cart
     const cart = await Cart.findOne({ user: req.user.id }).populate('items.product');
@@ -43,8 +43,9 @@ export const placeOrder = async (req, res) => {
       items: orderItems,
       totalAmount: cart.totalPrice,
       shippingAddress: shippingAddress || req.user.address,
-      paymentMethod,
-      paymentStatus: paymentMethod === 'COD' ? 'Pending' : 'Paid',
+      paymentMethod: paymentMethod || 'COD',
+      paymentStatus: paymentStatus || (paymentMethod === 'COD' ? 'Pending' : 'Paid'),
+      paymentId: paymentId || '',
       orderStatus: 'Processing'
     });
 
@@ -70,6 +71,77 @@ export const placeOrder = async (req, res) => {
       success: false,
       message: error.message || 'Server error'
     });
+  }
+};
+
+// Cancel order (User / Admin)
+export const cancelOrder = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+    if (!order) {
+      return res.status(404).json({ success: false, message: 'Order not found' });
+    }
+
+    if (order.user.toString() !== req.user.id && req.user.role !== 'admin') {
+      return res.status(403).json({ success: false, message: 'Access denied' });
+    }
+
+    if (order.orderStatus === 'Delivered') {
+      return res.status(400).json({ success: false, message: 'Delivered orders cannot be cancelled. You may request a return instead.' });
+    }
+
+    if (order.orderStatus === 'Cancelled') {
+      return res.status(400).json({ success: false, message: 'Order is already cancelled' });
+    }
+
+    order.orderStatus = 'Cancelled';
+    await order.save();
+
+    // Restore stock
+    for (const item of order.items) {
+      if (item.product) {
+        await Product.findByIdAndUpdate(item.product, { $inc: { stockQuantity: item.quantity } });
+      }
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Order cancelled successfully and stock restored!',
+      data: order
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message || 'Server error' });
+  }
+};
+
+// Request Return for Delivered Order (User)
+export const requestReturn = async (req, res) => {
+  try {
+    const { reason } = req.body;
+    const order = await Order.findById(req.params.id);
+    if (!order) {
+      return res.status(404).json({ success: false, message: 'Order not found' });
+    }
+
+    if (order.user.toString() !== req.user.id && req.user.role !== 'admin') {
+      return res.status(403).json({ success: false, message: 'Access denied' });
+    }
+
+    if (order.orderStatus !== 'Delivered') {
+      return res.status(400).json({ success: false, message: 'Only delivered orders can be requested for return' });
+    }
+
+    order.orderStatus = 'Return Requested';
+    order.returnReason = reason || 'Customer requested return';
+    await order.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Return request submitted successfully! Admin concierge will review shortly.',
+      data: order
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message || 'Server error' });
   }
 };
 

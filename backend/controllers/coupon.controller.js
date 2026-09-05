@@ -3,7 +3,7 @@ import Coupon from '../models/Coupon.js';
 // Create coupon (Admin only)
 export const createCoupon = async (req, res) => {
   try {
-    const { code, discountPercentage, minPurchase, expiresAt } = req.body;
+    const { code, discountPercentage, minPurchase, expiryType = 'NONE', expiryValue } = req.body;
 
     if (!code || !discountPercentage) {
       return res.status(400).json({
@@ -22,11 +22,33 @@ export const createCoupon = async (req, res) => {
       });
     }
 
+    let calculatedExpiresAt = null;
+    let calculatedMaxUses = 0;
+
+    const now = new Date();
+
+    if (expiryType === 'TIME') {
+      // e.g., expiryValue in hours or minutes (default hours if number)
+      const hours = Number(expiryValue) || 1;
+      calculatedExpiresAt = new Date(now.getTime() + hours * 60 * 60 * 1000);
+    } else if (expiryType === 'DAY') {
+      const days = Number(expiryValue) || 1;
+      calculatedExpiresAt = new Date(now.getTime() + days * 24 * 60 * 60 * 1000);
+    } else if (expiryType === 'DATE') {
+      calculatedExpiresAt = expiryValue ? new Date(expiryValue) : null;
+    } else if (expiryType === 'USED') {
+      calculatedMaxUses = Number(expiryValue) || 10;
+    }
+
     const coupon = await Coupon.create({
       code: formattedCode,
       discountPercentage: Number(discountPercentage),
       minPurchase: minPurchase ? Number(minPurchase) : 0,
-      expiresAt: expiresAt ? new Date(expiresAt) : undefined,
+      expiryType,
+      expiryValue: String(expiryValue || ''),
+      expiresAt: calculatedExpiresAt,
+      maxUses: calculatedMaxUses,
+      usedCount: 0,
     });
 
     res.status(201).json({
@@ -62,7 +84,8 @@ export const getCoupons = async (req, res) => {
 // Apply coupon code (User)
 export const applyCoupon = async (req, res) => {
   try {
-    const { code, totalAmount } = req.body;
+    const { code, cartTotal, totalAmount } = req.body;
+    const checkAmount = Number(cartTotal || totalAmount || 0);
 
     if (!code) {
       return res.status(400).json({
@@ -85,6 +108,7 @@ export const applyCoupon = async (req, res) => {
       });
     }
 
+    // Check expiration by date/time
     if (coupon.expiresAt && new Date() > new Date(coupon.expiresAt)) {
       return res.status(400).json({
         success: false,
@@ -92,15 +116,24 @@ export const applyCoupon = async (req, res) => {
       });
     }
 
-    if (totalAmount && coupon.minPurchase > 0 && totalAmount < coupon.minPurchase) {
+    // Check usage limit
+    if (coupon.maxUses > 0 && coupon.usedCount >= coupon.maxUses) {
       return res.status(400).json({
         success: false,
-        message: `Minimum order amount for this coupon is ₹${coupon.minPurchase}`
+        message: `Coupon usage limit (${coupon.maxUses} uses) reached`
       });
     }
 
-    const discountAmount = totalAmount
-      ? Math.round((totalAmount * coupon.discountPercentage) / 100)
+    // Check min purchase
+    if (checkAmount > 0 && coupon.minPurchase > 0 && checkAmount < coupon.minPurchase) {
+      return res.status(400).json({
+        success: false,
+        message: `Minimum purchase for this coupon is ₹${coupon.minPurchase}`
+      });
+    }
+
+    const discountAmount = checkAmount > 0
+      ? Math.round((checkAmount * coupon.discountPercentage) / 100)
       : 0;
 
     res.status(200).json({
