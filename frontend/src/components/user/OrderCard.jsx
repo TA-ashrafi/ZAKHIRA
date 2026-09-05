@@ -1,18 +1,51 @@
-import { Package, Calendar, MapPin, CreditCard, ChevronRight } from 'lucide-react';
+import { Package, Calendar, MapPin, CreditCard, XCircle, RotateCcw } from 'lucide-react';
+import orderService from '../../services/order.service';
+import toast from 'react-hot-toast';
 
-const OrderCard = ({ order }) => {
+const OrderCard = ({ order, onOrderUpdated }) => {
   const getStatusColor = (status) => {
     switch (status) {
       case 'Delivered':
-        return 'bg-emerald-100 text-emerald-800 border-emerald-200';
+        return 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30';
       case 'Shipped':
-        return 'bg-blue-100 text-blue-800 border-blue-200';
+        return 'bg-blue-500/20 text-blue-400 border-blue-500/30';
       case 'Processing':
-        return 'bg-amber-100 text-amber-800 border-amber-200';
+        return 'bg-amber-500/20 text-amber-300 border-amber-500/30';
       case 'Cancelled':
-        return 'bg-rose-100 text-rose-800 border-rose-200';
+        return 'bg-rose-500/20 text-rose-400 border-rose-500/30';
+      case 'Return Requested':
+        return 'bg-purple-500/20 text-purple-300 border-purple-500/30';
       default:
-        return 'bg-gray-100 text-gray-800 border-gray-200';
+        return 'bg-gray-800 text-gray-300 border-gray-700';
+    }
+  };
+
+  const handleCancel = async () => {
+    if (window.confirm('Are you sure you want to cancel this order?')) {
+      try {
+        const res = await orderService.cancelOrder(order._id);
+        if (res.success) {
+          toast.success('Order cancelled successfully!');
+          onOrderUpdated && onOrderUpdated();
+        }
+      } catch (err) {
+        toast.error(err.response?.data?.message || 'Failed to cancel order');
+      }
+    }
+  };
+
+  const handleReturn = async () => {
+    const reason = window.prompt('Please enter the reason for return:');
+    if (reason && reason.trim()) {
+      try {
+        const res = await orderService.requestReturn(order._id, reason.trim());
+        if (res.success) {
+          toast.success('Return request submitted to royal concierge!');
+          onOrderUpdated && onOrderUpdated();
+        }
+      } catch (err) {
+        toast.error(err.response?.data?.message || 'Failed to request return');
+      }
     }
   };
 
@@ -78,11 +111,11 @@ const OrderCard = ({ order }) => {
         </div>
 
         {/* Shipping & Payment Footer */}
-        <div className="mt-6 pt-4 border-t border-gray-100 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-gray-600 bg-gray-50/50 p-4 rounded-md">
+        <div className="mt-6 pt-4 border-t border-white/10 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-gray-300 bg-[#1A1A1A] p-4 rounded-xl border border-white/5">
           <div className="flex items-start gap-2">
-            <MapPin className="w-4 h-4 text-zakhira-gold flex-shrink-0 mt-0.5" />
+            <MapPin className="w-4 h-4 text-[#C9A86C] flex-shrink-0 mt-0.5" />
             <div>
-              <span className="font-semibold text-gray-800 block">Shipping Address</span>
+              <span className="font-semibold text-white block">Shipping Address</span>
               <span>
                 {order.shippingAddress?.street}, {order.shippingAddress?.city},{' '}
                 {order.shippingAddress?.state} - {order.shippingAddress?.pincode}
@@ -90,14 +123,37 @@ const OrderCard = ({ order }) => {
             </div>
           </div>
           <div className="flex items-start gap-2">
-            <CreditCard className="w-4 h-4 text-zakhira-gold flex-shrink-0 mt-0.5" />
+            <CreditCard className="w-4 h-4 text-[#C9A86C] flex-shrink-0 mt-0.5" />
             <div>
-              <span className="font-semibold text-gray-800 block">Payment Method</span>
+              <span className="font-semibold text-white block">Payment Method</span>
               <span>
                 {order.paymentMethod} ({order.paymentStatus || 'Pending'})
               </span>
             </div>
           </div>
+        </div>
+
+        {/* Action Controls: Cancel & Return */}
+        <div className="mt-4 pt-3 border-t border-white/10 flex justify-end gap-3">
+          {(order.orderStatus === 'Processing' || order.orderStatus === 'Pending') && (
+            <button
+              type="button"
+              onClick={handleCancel}
+              className="px-4 py-2 bg-rose-500/20 text-rose-300 border border-rose-500/40 rounded-xl text-xs font-bold uppercase hover:bg-rose-500/30 transition flex items-center gap-1.5 cursor-pointer"
+            >
+              <XCircle className="w-4 h-4" /> Cancel Order
+            </button>
+          )}
+
+          {order.orderStatus === 'Delivered' && (
+            <button
+              type="button"
+              onClick={handleReturn}
+              className="px-4 py-2 bg-[#C9A86C]/20 text-[#C9A86C] border border-[#C9A86C]/40 rounded-xl text-xs font-bold uppercase hover:bg-[#C9A86C]/30 transition flex items-center gap-1.5 cursor-pointer"
+            >
+              <RotateCcw className="w-4 h-4" /> Request Return
+            </button>
+          )}
         </div>
       </div>
     </div>

@@ -32,7 +32,7 @@ const Footer = () => {
               const emailVal = input.value.trim();
               if (!emailVal) return;
               try {
-                const res = await fetch('/api/subscribers', {
+                const res = await fetch('http://localhost:5000/api/subscribers', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({ email: emailVal }),

@@ -18,6 +18,23 @@ const couponSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
+  expiryType: {
+    type: String,
+    enum: ['NONE', 'TIME', 'DAY', 'DATE', 'USED'],
+    default: 'NONE'
+  },
+  expiryValue: {
+    type: String,
+    default: ''
+  },
+  maxUses: {
+    type: Number,
+    default: 0
+  },
+  usedCount: {
+    type: Number,
+    default: 0
+  },
   expiresAt: {
     type: Date
   },

@@ -27,8 +27,9 @@ export const subscribe = async (req, res) => {
     // Attempt to send thank you email via Nodemailer
     try {
       await sendEmail({
+        to: subscriber.email,
         email: subscriber.email,
-        subject: '✨ Welcome to ZAKHIRA Royal Circle | Subscription Confirmed',
+        subject: 'Welcome to ZAKHIRA Royal Circle | Subscription Confirmed',
         html: `
           <div style="background-color: #0D0D0D; color: #FFFFFF; font-family: Arial, sans-serif; padding: 40px; border-radius: 10px; max-width: 600px; margin: 0 auto; border: 1px solid #C9A86C;">
             <div style="text-align: center; margin-bottom: 25px;">

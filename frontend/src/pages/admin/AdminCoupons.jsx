@@ -13,6 +13,8 @@ const AdminCoupons = () => {
     code: '',
     discountPercentage: '',
     minPurchase: '',
+    expiryType: 'NONE',
+    expiryValue: '',
   });
 
   const fetchCoupons = async () => {
@@ -44,7 +46,7 @@ const AdminCoupons = () => {
       const res = await couponService.createCoupon(formData);
       if (res.success) {
         toast.success('Coupon created successfully!');
-        setFormData({ code: '', discountPercentage: '', minPurchase: '' });
+        setFormData({ code: '', discountPercentage: '', minPurchase: '', expiryType: 'NONE', expiryValue: '' });
         fetchCoupons();
       }
     } catch (err) {
@@ -83,55 +85,136 @@ const AdminCoupons = () => {
           Create New Discount Coupon
         </h2>
 
-        <form onSubmit={handleCreate} className="grid grid-cols-1 sm:grid-cols-4 gap-4 text-xs items-end">
-          <div>
-            <label className="block font-semibold text-gray-300 mb-1">Coupon Code *</label>
-            <input
-              type="text"
-              name="code"
-              value={formData.code}
-              onChange={handleChange}
-              required
-              placeholder="e.g. FESTIVE20"
-              className="w-full px-3 py-2 border border-white/10 rounded uppercase bg-[#0D0D0D] text-white focus:outline-none focus:border-[#C9A86C]"
-            />
+        <form onSubmit={handleCreate} className="space-y-4 text-xs">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label className="block font-semibold text-gray-300 mb-1">Coupon Code *</label>
+              <input
+                type="text"
+                name="code"
+                value={formData.code}
+                onChange={handleChange}
+                required
+                placeholder="e.g. FESTIVE20"
+                className="w-full px-3 py-2 border border-white/10 rounded uppercase bg-[#0D0D0D] text-white focus:outline-none focus:border-[#C9A86C]"
+              />
+            </div>
+
+            <div>
+              <label className="block font-semibold text-gray-300 mb-1">Discount % *</label>
+              <input
+                type="number"
+                name="discountPercentage"
+                value={formData.discountPercentage}
+                onChange={handleChange}
+                required
+                min="1"
+                max="100"
+                placeholder="15"
+                className="w-full px-3 py-2 border border-white/10 rounded bg-[#0D0D0D] text-white focus:outline-none focus:border-[#C9A86C]"
+              />
+            </div>
+
+            <div>
+              <label className="block font-semibold text-gray-300 mb-1">Min Purchase Amount (₹)</label>
+              <input
+                type="number"
+                name="minPurchase"
+                value={formData.minPurchase}
+                onChange={handleChange}
+                min="0"
+                placeholder="999"
+                className="w-full px-3 py-2 border border-white/10 rounded bg-[#0D0D0D] text-white focus:outline-none focus:border-[#C9A86C]"
+              />
+            </div>
           </div>
 
-          <div>
-            <label className="block font-semibold text-gray-300 mb-1">Discount % *</label>
-            <input
-              type="number"
-              name="discountPercentage"
-              value={formData.discountPercentage}
-              onChange={handleChange}
-              required
-              min="1"
-              max="100"
-              placeholder="15"
-              className="w-full px-3 py-2 border border-white/10 rounded bg-[#0D0D0D] text-white focus:outline-none focus:border-[#C9A86C]"
-            />
-          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end pt-2 border-t border-white/10">
+            <div>
+              <label className="block font-semibold text-[#C9A86C] mb-1">Expiry Rule Type</label>
+              <select
+                name="expiryType"
+                value={formData.expiryType}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-white/10 rounded bg-[#0D0D0D] text-white focus:outline-none focus:border-[#C9A86C]"
+              >
+                <option value="NONE">No Expiry (Always Active)</option>
+                <option value="TIME">TIME (Valid for X Hours)</option>
+                <option value="DAY">DAY (Valid for X Days)</option>
+                <option value="DATE">DATE (Specific Expiry Date)</option>
+                <option value="USED">USED (Limit Total Redemptions)</option>
+              </select>
+            </div>
 
-          <div>
-            <label className="block font-semibold text-gray-300 mb-1">Min Purchase Amount (₹)</label>
-            <input
-              type="number"
-              name="minPurchase"
-              value={formData.minPurchase}
-              onChange={handleChange}
-              min="0"
-              placeholder="999"
-              className="w-full px-3 py-2 border border-white/10 rounded bg-[#0D0D0D] text-white focus:outline-none focus:border-[#C9A86C]"
-            />
-          </div>
+            <div>
+              {formData.expiryType === 'TIME' && (
+                <div>
+                  <label className="block font-semibold text-gray-300 mb-1">Validity (Hours)</label>
+                  <input
+                    type="number"
+                    name="expiryValue"
+                    value={formData.expiryValue}
+                    onChange={handleChange}
+                    placeholder="e.g. 24"
+                    required
+                    className="w-full px-3 py-2 border border-white/10 rounded bg-[#0D0D0D] text-white focus:outline-none focus:border-[#C9A86C]"
+                  />
+                </div>
+              )}
 
-          <button
-            type="submit"
-            disabled={submitting}
-            className="bg-[#C9A86C] text-black py-2.5 rounded font-bold uppercase text-xs hover:bg-[#b8975b] transition flex items-center justify-center gap-1.5 shadow"
-          >
-            <Plus className="w-4 h-4" /> {submitting ? 'Creating...' : 'Create Coupon'}
-          </button>
+              {formData.expiryType === 'DAY' && (
+                <div>
+                  <label className="block font-semibold text-gray-300 mb-1">Validity (Days)</label>
+                  <input
+                    type="number"
+                    name="expiryValue"
+                    value={formData.expiryValue}
+                    onChange={handleChange}
+                    placeholder="e.g. 7"
+                    required
+                    className="w-full px-3 py-2 border border-white/10 rounded bg-[#0D0D0D] text-white focus:outline-none focus:border-[#C9A86C]"
+                  />
+                </div>
+              )}
+
+              {formData.expiryType === 'DATE' && (
+                <div>
+                  <label className="block font-semibold text-gray-300 mb-1">Expiry Date</label>
+                  <input
+                    type="date"
+                    name="expiryValue"
+                    value={formData.expiryValue}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-3 py-2 border border-white/10 rounded bg-[#0D0D0D] text-white focus:outline-none focus:border-[#C9A86C]"
+                  />
+                </div>
+              )}
+
+              {formData.expiryType === 'USED' && (
+                <div>
+                  <label className="block font-semibold text-gray-300 mb-1">Max Times Usable</label>
+                  <input
+                    type="number"
+                    name="expiryValue"
+                    value={formData.expiryValue}
+                    onChange={handleChange}
+                    placeholder="e.g. 50"
+                    required
+                    className="w-full px-3 py-2 border border-white/10 rounded bg-[#0D0D0D] text-white focus:outline-none focus:border-[#C9A86C]"
+                  />
+                </div>
+              )}
+            </div>
+
+            <button
+              type="submit"
+              disabled={submitting}
+              className="bg-[#C9A86C] text-black py-2.5 rounded font-bold uppercase text-xs hover:bg-[#b8975b] transition flex items-center justify-center gap-1.5 shadow"
+            >
+              <Plus className="w-4 h-4" /> {submitting ? 'Creating...' : 'Create Coupon'}
+            </button>
+          </div>
         </form>
       </div>
 
@@ -147,6 +230,7 @@ const AdminCoupons = () => {
                   <th className="px-4 py-3">Code</th>
                   <th className="px-4 py-3">Discount</th>
                   <th className="px-4 py-3">Min Purchase</th>
+                  <th className="px-4 py-3">Expiry Rule</th>
                   <th className="px-4 py-3">Status</th>
                   <th className="px-4 py-3 text-center">Actions</th>
                 </tr>
@@ -162,6 +246,10 @@ const AdminCoupons = () => {
                     </td>
                     <td className="px-4 py-3 text-gray-300">
                       {c.minPurchase > 0 ? `₹${c.minPurchase}` : 'No Minimum'}
+                    </td>
+                    <td className="px-4 py-3 text-gray-300 font-mono">
+                      {c.expiryType === 'USED' ? `Max ${c.maxUses} uses (${c.usedCount} used)` :
+                       c.expiresAt ? new Date(c.expiresAt).toLocaleDateString() : 'Never Expires'}
                     </td>
                     <td className="px-4 py-3">
                       <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">

@@ -53,16 +53,16 @@ const Home = () => {
 
   // Necklaces: max 6 products
   const necklacesList = products
-    .filter(p => 
-      p.category?.toLowerCase() === 'necklace' || 
+    .filter(p =>
+      p.category?.toLowerCase() === 'necklace' ||
       p.category?.toLowerCase() === 'necklaces'
     )
     .slice(-6);
 
   // Earrings: max 5 products
   const earringsList = products
-    .filter(p => 
-      p.category?.toLowerCase() === 'earring' || 
+    .filter(p =>
+      p.category?.toLowerCase() === 'earring' ||
       p.category?.toLowerCase() === 'earrings'
     )
     .slice(-5);
@@ -534,26 +534,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* NEWSLETTER */}
-      <section className="py-16 border-t border-white/10 bg-[#0A0A0A]">
-        <div className="container mx-auto px-4">
-          <div className="max-w-xl mx-auto text-center">
-            <h3 className="text-2xl font-playfair font-bold text-white mb-2">Stay Connected</h3>
-            <p className="text-gray-400 text-xs mb-6">Subscribe to receive early access to signature collection releases and private sales.</p>
-            <form onSubmit={(e) => { e.preventDefault(); alert('Subscribed to ZAKHIRA newsletter!'); }} className="flex flex-col sm:flex-row gap-2">
-              <input 
-                type="email" 
-                required
-                placeholder="Enter your email address" 
-                className="flex-1 px-4 py-3 bg-[#141414] border border-[#C9A86C]/30 text-white rounded-md focus:outline-none focus:border-[#C9A86C] text-sm"
-              />
-              <button type="submit" className="bg-[#C9A86C] text-black hover:bg-[#b8975b] px-8 py-3 rounded-md transition text-xs font-semibold tracking-wider uppercase whitespace-nowrap">
-                Subscribe
-              </button>
-            </form>
-          </div>
-        </div>
-      </section>
     </div>
   );
 };
