@@ -34,12 +34,23 @@ const Shop = () => {
       if (maxPrice) params.maxPrice = maxPrice;
 
       const res = await productService.getProducts(params);
-      if (res.success && res.data) {
-        setProducts(res.data);
+      console.log("📦 API Response:", res);
+
+      // ✅ Fix: Handle different response structures
+      let productList = [];
+      if (res.success && Array.isArray(res.data)) {
+        productList = res.data;
+      } else if (Array.isArray(res)) {
+        productList = res;
+      } else if (res.data && Array.isArray(res.data.data)) {
+        productList = res.data.data;
       } else {
-        setProducts(filterLocalProducts());
+        productList = filterLocalProducts();
       }
+
+      setProducts(productList);
     } catch (err) {
+      console.error("❌ Error fetching products:", err);
       setProducts(filterLocalProducts());
     } finally {
       setLoading(false);
