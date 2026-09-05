@@ -3,6 +3,8 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import helmet from 'helmet';
+import compression from 'compression';
 
 // ===== CRON JOB IMPORT =====
 import cronJob from './cron.js';
@@ -26,6 +28,8 @@ const PORT = process.env.PORT || 5000;
 dns.setServers(["1.1.1.1", "8.8.8.8"]);
 
 // Middleware
+app.use(helmet({ crossOriginResourcePolicy: false }));
+app.use(compression());
 app.use(cors({
   origin: process.env.CLIENT_URL || 'http://localhost:5173',
   credentials: true
@@ -48,7 +52,7 @@ app.use('/api/payment', paymentRoutes);
 app.get('/', (req, res) => {
   res.json({
     success: true,
-    message: '✨ ZAKHIRA API is running!',
+    message: 'ZAKHIRA API is running!',
     database: mongoose.connection.readyState === 1 ? 'Connected ✅' : 'Disconnected ❌'
   });
 });
@@ -120,7 +124,9 @@ app.get('/api', (req, res) => {
 const connectDB = async () => {
   try {
     if (process.env.MONGO_URI) {
-      await mongoose.connect(process.env.MONGO_URI);
+      await mongoose.connect(process.env.MONGO_URI, {
+        dbName: process.env.DB_NAME || 'zakhira_db'
+      });
       console.log('✅ MongoDB Connected Successfully!');
       console.log(`📊 Database: ${mongoose.connection.name}`);
     } else {
@@ -153,7 +159,7 @@ app.use((err, req, res, next) => {
 // ========== START SERVER + CRON JOB ==========
 app.listen(PORT, () => {
   console.log('='.repeat(50));
-  console.log(`✨ ZAKHIRA Jewellery API`);
+  console.log(`ZAKHIRA Jewellery API`);
   console.log(`🚀 Server running on: http://localhost:${PORT}`);
   console.log(`📡 Test: http://localhost:${PORT}`);
   console.log(`📚 Docs: http://localhost:${PORT}/api`);

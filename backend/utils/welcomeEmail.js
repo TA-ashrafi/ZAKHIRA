@@ -175,7 +175,7 @@ const getWelcomeEmailHTML = (name, email) => {
         <div class="container">
           <!-- Header -->
           <div class="header">
-            <h1>✨ ZAKHIRA</h1>
+            <h1>ZAKHIRA</h1>
             <p>Timeless Jewellery • Royal Atelier</p>
           </div>
 

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import api from '../../services/api';
 import { 
   Globe, 
   Share2, 
@@ -32,17 +33,12 @@ const Footer = () => {
               const emailVal = input.value.trim();
               if (!emailVal) return;
               try {
-                const res = await fetch('http://localhost:5000/api/subscribers', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ email: emailVal }),
-                });
-                const data = await res.json();
-                if (data.success) {
-                  alert(data.message || 'Thank you for subscribing us!');
+                const res = await api.post('/subscribers', { email: emailVal });
+                if (res.data.success) {
+                  alert(res.data.message || 'Thank you for subscribing us!');
                   input.value = '';
                 } else {
-                  alert(data.message || 'Subscription failed');
+                  alert(res.data.message || 'Subscription failed');
                 }
               } catch (err) {
                 alert('Thank you for subscribing us!');
