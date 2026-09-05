@@ -1,5 +1,5 @@
 import Subscriber from '../models/Subscriber.js';
-import sendEmail from '../utils/sendEmail.js';
+import { sendEmail } from '../utils/sendEmail.js';
 
 export const subscribe = async (req, res) => {
   try {
