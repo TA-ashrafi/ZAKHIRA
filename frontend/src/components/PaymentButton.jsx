@@ -3,6 +3,20 @@ import { CreditCard, ShieldCheck } from 'lucide-react';
 import paymentService from '../services/payment.service';
 import toast from 'react-hot-toast';
 
+const loadRazorpayScript = () => {
+  return new Promise((resolve) => {
+    if (window.Razorpay) {
+      resolve(true);
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
+};
+
 const PaymentButton = ({ amount, userDetails, onSuccess, disabled }) => {
   const [loading, setLoading] = useState(false);
 
@@ -14,6 +28,13 @@ const PaymentButton = ({ amount, userDetails, onSuccess, disabled }) => {
     }
 
     setLoading(true);
+
+    const isLoaded = await loadRazorpayScript();
+    if (!isLoaded || !window.Razorpay) {
+      toast.error('Unable to load Razorpay SDK. Please check your network connection.');
+      setLoading(false);
+      return;
+    }
 
     try {
       // 1. Get Razorpay key
@@ -80,13 +101,8 @@ const PaymentButton = ({ amount, userDetails, onSuccess, disabled }) => {
       };
 
       // 4. Open Razorpay Popup
-      if (window.Razorpay) {
-        const rzp = new window.Razorpay(options);
-        rzp.open();
-      } else {
-        toast.error('Razorpay SDK failed to load. Please check your internet connection.');
-        setLoading(false);
-      }
+      const rzp = new window.Razorpay(options);
+      rzp.open();
     } catch (err) {
       toast.error(err.response?.data?.message || 'Payment processing failed');
       setLoading(false);

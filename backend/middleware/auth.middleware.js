@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 
+// ===== PROTECT MIDDLEWARE =====
 export const protect = async (req, res, next) => {
   let token;
 
@@ -31,6 +32,18 @@ export const protect = async (req, res, next) => {
     res.status(401).json({
       success: false,
       message: 'Not authorized, invalid token'
+    });
+  }
+};
+
+// ===== ADMIN MIDDLEWARE =====
+export const admin = async (req, res, next) => {
+  if (req.user && req.user.role === 'admin') {
+    next();
+  } else {
+    res.status(403).json({
+      success: false,
+      message: 'Access denied. Admin only.'
     });
   }
 };
