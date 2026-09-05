@@ -53,6 +53,21 @@ const AdminAnalytics = () => {
   const totalOrders = orders.length;
   const avgOrderValue = totalOrders > 0 ? Math.round(totalRevenue / totalOrders) : 0;
 
+  // Top Customer / Spender Computation
+  const customerSpends = orders.reduce((acc, order) => {
+    const name = order.shippingAddress?.fullName || order.user?.name || order.user?.email || 'Anonymous Patron';
+    const amount = order.totalAmount || order.totalPrice || 0;
+    if (!acc[name]) {
+      acc[name] = { name, totalSpent: 0, orderCount: 0 };
+    }
+    acc[name].totalSpent += amount;
+    acc[name].orderCount += 1;
+    return acc;
+  }, {});
+
+  const topCustomers = Object.values(customerSpends).sort((a, b) => b.totalSpent - a.totalSpent);
+  const topCustomer = topCustomers[0] || { name: 'No Orders Yet', totalSpent: 0, orderCount: 0 };
+
   // Category breakdown
   const categoryStats = products.reduce((acc, p) => {
     const cat = p.category || 'Uncategorized';
@@ -135,15 +150,15 @@ const AdminAnalytics = () => {
         <div className="bg-[#141414] p-6 rounded-2xl border border-[#C9A86C]/20 shadow-xl relative overflow-hidden">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider">Catalog Inventory Worth</p>
-              <h3 className="text-2xl font-playfair font-bold text-white mt-2">₹{totalCatalogValue.toLocaleString()}</h3>
+              <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider">Top Spender / Best Patron</p>
+              <h3 className="text-xl font-playfair font-bold text-[#C9A86C] mt-2 truncate max-w-[160px]">{topCustomer.name}</h3>
             </div>
-            <div className="p-3 bg-purple-500/10 rounded-xl text-purple-400 border border-purple-500/30">
-              <PieChart className="w-6 h-6" />
+            <div className="p-3 bg-amber-500/10 rounded-xl text-amber-300 border border-amber-500/30">
+              <Crown className="w-6 h-6" />
             </div>
           </div>
-          <p className="text-[11px] text-gray-400 mt-4 font-medium">
-            Total Items in Vault: <span className="text-white font-bold">{products.length}</span>
+          <p className="text-[11px] text-gray-300 mt-4 font-medium">
+            Spent: <span className="text-[#C9A86C] font-bold">₹{topCustomer.totalSpent.toLocaleString()}</span> ({topCustomer.orderCount} Orders)
           </p>
         </div>
 

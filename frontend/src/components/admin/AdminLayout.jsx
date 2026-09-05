@@ -38,6 +38,7 @@ const AdminLayout = () => {
     { name: 'Orders', path: '/admin/orders', icon: ShoppingBag },
     { name: 'Users', path: '/admin/users', icon: Users },
     { name: 'Coupons', path: '/admin/coupons', icon: Tag },
+    { name: 'Subscribers', path: '/admin/subscribers', icon: Users },
   ];
 
   // Fetch real-time alerts for orders and stock

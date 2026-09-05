@@ -9,6 +9,9 @@ const AdminProducts = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('ALL');
+
+  const categoriesList = ['ALL', 'Necklace', 'Earring', 'Ring', 'Bracelet', 'Pendant', 'Anklet'];
 
   const fetchProducts = async () => {
     setLoading(true);
@@ -44,11 +47,13 @@ const AdminProducts = () => {
     }
   };
 
-  const filteredProducts = products.filter(
-    (p) =>
+  const filteredProducts = products.filter((p) => {
+    const matchesSearch =
       p.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      p.category?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+      p.category?.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = selectedCategory === 'ALL' || p.category?.toLowerCase() === selectedCategory.toLowerCase();
+    return matchesSearch && matchesCategory;
+  });
 
   return (
     <div className="space-y-6">
@@ -67,16 +72,46 @@ const AdminProducts = () => {
         </Link>
       </div>
 
-      {/* Search Bar */}
-      <div className="bg-[#141414] p-4 rounded-xl border border-[#C9A86C]/20 shadow-sm flex items-center gap-3 max-w-md">
-        <Search className="w-4 h-4 text-[#C9A86C]" />
-        <input
-          type="text"
-          placeholder="Search product name or category..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full text-xs focus:outline-none bg-transparent text-white placeholder-gray-500 font-medium"
-        />
+      {/* Search & Category Filter Tabs */}
+      <div className="space-y-4">
+        <div className="bg-[#141414] p-4 rounded-xl border border-[#C9A86C]/20 shadow-sm flex items-center gap-3 max-w-md">
+          <Search className="w-4 h-4 text-[#C9A86C]" />
+          <input
+            type="text"
+            placeholder="Search product name or category..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full text-xs focus:outline-none bg-transparent text-white placeholder-gray-500 font-medium"
+          />
+        </div>
+
+        {/* Category Group Tabs */}
+        <div className="flex flex-wrap gap-2 pt-1">
+          {categoriesList.map((cat) => {
+            const count = cat === 'ALL'
+              ? products.length
+              : products.filter(p => p.category?.toLowerCase() === cat.toLowerCase()).length;
+            const isActive = selectedCategory === cat;
+            return (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition flex items-center gap-2 cursor-pointer ${
+                  isActive
+                    ? 'bg-[#C9A86C] text-black shadow-lg scale-105'
+                    : 'bg-[#141414] text-gray-300 border border-white/10 hover:border-[#C9A86C]/50 hover:text-white'
+                }`}
+              >
+                <span>{cat === 'ALL' ? 'All Products' : `${cat}s`}</span>
+                <span className={`px-2 py-0.5 rounded-full text-[10px] font-extrabold ${
+                  isActive ? 'bg-black text-[#C9A86C]' : 'bg-white/10 text-gray-400'
+                }`}>
+                  {count}
+                </span>
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {/* Product Table */}

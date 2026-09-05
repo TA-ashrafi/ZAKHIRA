@@ -92,7 +92,7 @@ const Navbar = () => {
 
               <Link 
                 to={isAuthenticated ? "/profile" : "/login"} 
-                className="hover:text-zakhira-gold transition font-semibold text-zakhira-gold border border-zakhira-gold/40 px-2.5 py-0.5 rounded-full hover:bg-zakhira-gold hover:text-black"
+                className="transition font-semibold text-zakhira-gold border border-zakhira-gold/40 px-2.5 py-0.5 rounded-full hover:bg-zakhira-gold hover:text-black cursor-pointer"
               >
                 {isAuthenticated ? "MY ACCOUNT" : "LOGIN / REGISTER"}
               </Link>

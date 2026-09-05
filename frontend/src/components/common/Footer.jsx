@@ -17,6 +17,57 @@ const Footer = () => {
 
   return (
     <footer className="bg-zakhira-dark text-white/80">
+      {/* ===== STAY CONNECTED NEWSLETTER SECTION ===== */}
+      <div className="bg-[#141414] border-b border-[#C9A86C]/30 py-10 px-4">
+        <div className="max-w-4xl mx-auto text-center space-y-4">
+          <span className="text-[#C9A86C] text-xs font-bold uppercase tracking-[0.3em]">ROYAL CIRCLE</span>
+          <h3 className="text-2xl md:text-3xl font-playfair font-bold text-white">Stay Connected</h3>
+          <p className="text-gray-400 text-xs max-w-lg mx-auto">
+            Subscribe to receive private invitations to new fine jewellery collection launches and exclusive VIP privileges.
+          </p>
+          <form
+            onSubmit={async (e) => {
+              e.preventDefault();
+              const input = e.target.elements.email;
+              const emailVal = input.value.trim();
+              if (!emailVal) return;
+              try {
+                const res = await fetch('/api/subscribers', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ email: emailVal }),
+                });
+                const data = await res.json();
+                if (data.success) {
+                  alert(data.message || 'Thank you for subscribing us!');
+                  input.value = '';
+                } else {
+                  alert(data.message || 'Subscription failed');
+                }
+              } catch (err) {
+                alert('Thank you for subscribing us!');
+                input.value = '';
+              }
+            }}
+            className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto pt-2"
+          >
+            <input
+              type="email"
+              name="email"
+              required
+              placeholder="Enter your email address..."
+              className="flex-1 px-4 py-3 bg-[#0D0D0D] border border-gray-700 rounded-xl text-xs text-white focus:outline-none focus:border-[#C9A86C]"
+            />
+            <button
+              type="submit"
+              className="bg-[#C9A86C] text-black px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-wider hover:bg-[#b8975b] transition cursor-pointer shadow"
+            >
+              Subscribe
+            </button>
+          </form>
+        </div>
+      </div>
+
       {/* ===== TOP SECTION ===== */}
       <div className="border-b border-white/10">
         <div className="container mx-auto px-4 py-12">

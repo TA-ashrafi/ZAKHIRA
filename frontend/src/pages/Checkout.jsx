@@ -5,6 +5,7 @@ import useCart from '../hooks/useCart';
 import useAuth from '../hooks/useAuth';
 import orderService from '../services/order.service';
 import couponService from '../services/coupon.service';
+import PaymentButton from '../components/PaymentButton';
 import toast from 'react-hot-toast';
 
 const Checkout = () => {
@@ -99,11 +100,42 @@ const Checkout = () => {
     }
   };
 
+  const handlePaymentSuccess = async (paymentId) => {
+    try {
+      setLoading(true);
+      const orderPayload = {
+        shippingAddress: {
+          street: formData.street,
+          city: formData.city,
+          state: formData.state,
+          pincode: formData.pincode,
+          country: formData.country,
+        },
+        paymentMethod: 'Razorpay Online',
+        paymentStatus: 'Paid',
+        paymentId,
+      };
+
+      const res = await orderService.placeOrder(orderPayload);
+      if (res.success) {
+        toast.success('🎉 Order Placed Successfully via Razorpay!');
+        clearCart();
+        navigate('/profile');
+      } else {
+        toast.error(res.message || 'Failed to complete order placement');
+      }
+    } catch (err) {
+      toast.error('Order recording error');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   if (cartItems.length === 0) {
     return (
-      <div className="container mx-auto px-4 py-20 text-center">
-        <h2 className="text-2xl font-playfair font-bold text-gray-800 mb-2">No Items to Checkout</h2>
-        <button onClick={() => navigate('/shop')} className="mt-4 bg-zakhira-gold text-white px-6 py-2.5 rounded text-xs uppercase font-semibold">
+      <div className="bg-[#0D0D0D] text-white min-h-[70vh] flex flex-col items-center justify-center p-8 text-center">
+        <h2 className="text-2xl font-playfair font-bold text-white mb-2">No Items to Checkout</h2>
+        <button onClick={() => navigate('/shop')} className="mt-4 bg-[#C9A86C] text-black px-6 py-2.5 rounded font-bold text-xs uppercase">
           Return to Shop
         </button>
       </div>
@@ -111,9 +143,9 @@ const Checkout = () => {
   }
 
   return (
-    <div className="bg-gray-50/30 min-h-screen py-12">
+    <div className="bg-[#0D0D0D] text-white min-h-screen py-12">
       <div className="container mx-auto px-4 max-w-6xl">
-        <h1 className="text-3xl font-playfair font-bold text-zakhira-dark mb-8 text-center">
+        <h1 className="text-3xl font-playfair font-bold text-white mb-8 text-center">
           Secure Checkout
         </h1>
 
@@ -363,13 +395,26 @@ const Checkout = () => {
                 </div>
               </div>
 
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full bg-zakhira-gold text-white py-3.5 rounded font-semibold text-xs tracking-widest uppercase hover:bg-opacity-90 transition shadow-md disabled:opacity-50"
-              >
-                {loading ? 'Processing Order...' : 'Place Order'}
-              </button>
+              <div className="space-y-3">
+                <PaymentButton
+                  amount={grandTotal}
+                  userDetails={{
+                    name: formData.name,
+                    email: formData.email,
+                    phone: formData.phone,
+                  }}
+                  onSuccess={handlePaymentSuccess}
+                  disabled={loading || !formData.street || !formData.city || !formData.pincode}
+                />
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-[#1A1A1A] border border-[#C9A86C]/40 text-[#C9A86C] py-3 rounded-xl font-bold text-xs tracking-widest uppercase hover:bg-white/5 transition cursor-pointer"
+                >
+                  {loading ? 'Processing Order...' : 'Place Order via Cash on Delivery'}
+                </button>
+              </div>
 
               <div className="mt-4 flex items-center justify-center gap-2 text-[11px] text-gray-400">
                 <ShieldCheck className="w-4 h-4 text-zakhira-gold" />
