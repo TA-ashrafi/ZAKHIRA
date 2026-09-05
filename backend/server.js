@@ -4,6 +4,9 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
 
+// ===== CRON JOB IMPORT =====
+import cronJob from './cron.js';
+
 // Routes
 import authRoutes from './routes/auth.routes.js';
 import productRoutes from './routes/product.routes.js';
@@ -144,4 +147,8 @@ app.listen(PORT, () => {
   console.log(`📡 Test: http://localhost:${PORT}`);
   console.log(`📚 Docs: http://localhost:${PORT}/api`);
   console.log('='.repeat(50));
+  
+  // ===== START CRON JOB =====
+  cronJob.start();
+  console.log('⏰ Auto-ping cron job started (every 14 minutes)');
 });
